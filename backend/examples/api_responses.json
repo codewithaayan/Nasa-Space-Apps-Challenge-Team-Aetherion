@@ -1,0 +1,3204 @@
+{
+  "/health": {
+    "query": {},
+    "response": {
+      "status": "ok"
+    }
+  },
+  "/variables": {
+    "query": {},
+    "response": [
+      {
+        "id": "power_t2m_sample",
+        "name": "NASA POWER 2-m temperature: 70N, 20E sample",
+        "units": "C",
+        "provenance": "observations",
+        "source": "NASA POWER monthly API; MERRA-2 assimilation/reanalysis, not direct satellite observations",
+        "field": "T2M",
+        "annual_aggregation": "mean",
+        "dataset_id": "NASA POWER monthly point / MERRA2",
+        "version": "v2.10.0",
+        "source_url": "https://power.larc.nasa.gov/api/temporal/monthly/point?parameters=T2M&community=RE&longitude=20&latitude=70&format=JSON&start=2000&end=2019",
+        "scientific_name": "Temperature at 2 Meters (T2M)",
+        "variable_type": "state",
+        "data_kind": "reanalysis",
+        "temporal_coverage": [
+          "2000-01-01",
+          "2019-12-01"
+        ],
+        "spatial_resolution": {
+          "latitude_degrees": 0.5,
+          "longitude_degrees": 0.625
+        },
+        "spatial_support": "Single requested POWER point at 70N,20E; native meteorology resolution 0.5 x 0.625 degrees",
+        "limitations": [
+          "Single-point sample is not an Arctic regional assessment.",
+          "version records the POWER API version, not a granule revision.",
+          "Legacy provenance observations means genuine source data; data_kind specifies reanalysis."
+        ]
+      }
+    ]
+  },
+  "/timeseries": {
+    "query": {
+      "var": "power_t2m_sample",
+      "bbox": "19.9,69.9,20.1,70.1",
+      "start": "2000-01-01",
+      "end": "2000-12-31"
+    },
+    "response": {
+      "variable": {
+        "id": "power_t2m_sample",
+        "name": "NASA POWER 2-m temperature: 70N, 20E sample",
+        "units": "C",
+        "provenance": "observations",
+        "source": "NASA POWER monthly API; MERRA-2 assimilation/reanalysis, not direct satellite observations",
+        "field": "T2M",
+        "annual_aggregation": "mean",
+        "dataset_id": "NASA POWER monthly point / MERRA2",
+        "version": "v2.10.0",
+        "source_url": "https://power.larc.nasa.gov/api/temporal/monthly/point?parameters=T2M&community=RE&longitude=20&latitude=70&format=JSON&start=2000&end=2019",
+        "scientific_name": "Temperature at 2 Meters (T2M)",
+        "variable_type": "state",
+        "data_kind": "reanalysis",
+        "temporal_coverage": [
+          "2000-01-01",
+          "2000-12-01"
+        ],
+        "spatial_resolution": {
+          "latitude_degrees": 0.5,
+          "longitude_degrees": 0.625
+        },
+        "spatial_support": "Single requested POWER point at 70N,20E; native meteorology resolution 0.5 x 0.625 degrees",
+        "limitations": [
+          "Single-point sample is not an Arctic regional assessment.",
+          "version records the POWER API version, not a granule revision.",
+          "Legacy provenance observations means genuine source data; data_kind specifies reanalysis."
+        ]
+      },
+      "bbox": [
+        19.9,
+        69.9,
+        20.1,
+        70.1
+      ],
+      "spatial_method": "cos(latitude) weighted mean of finite cell centers",
+      "series": [
+        {
+          "time": "2000-01",
+          "value": -2.84
+        },
+        {
+          "time": "2000-02",
+          "value": -4.34
+        },
+        {
+          "time": "2000-03",
+          "value": -3.12
+        },
+        {
+          "time": "2000-04",
+          "value": -0.9900000000000001
+        },
+        {
+          "time": "2000-05",
+          "value": 3.26
+        },
+        {
+          "time": "2000-06",
+          "value": 7.119999999999999
+        },
+        {
+          "time": "2000-07",
+          "value": 11.04
+        },
+        {
+          "time": "2000-08",
+          "value": 9.8
+        },
+        {
+          "time": "2000-09",
+          "value": 7.26
+        },
+        {
+          "time": "2000-10",
+          "value": 5.11
+        },
+        {
+          "time": "2000-11",
+          "value": -1.03
+        },
+        {
+          "time": "2000-12",
+          "value": -3.38
+        }
+      ],
+      "warnings": [
+        "Monthly spatial support may vary; no interpolation.",
+        "Single-point sample is not an Arctic regional assessment.",
+        "version records the POWER API version, not a granule revision.",
+        "Legacy provenance observations means genuine source data; data_kind specifies reanalysis.",
+        "Chart analysis unavailable: Need at least 60 finite months and 80% monthly coverage"
+      ],
+      "deseasonalized": [],
+      "trend_line": [],
+      "analysis_available": false,
+      "coverage": {
+        "start": "2000-01",
+        "end": "2000-12",
+        "finite_months": 12,
+        "monthly_fraction": 1.0,
+        "latitude_cells": 1,
+        "longitude_cells": 1
+      }
+    }
+  },
+  "/trend": {
+    "query": {
+      "var": "power_t2m_sample",
+      "bbox": "19.9,69.9,20.1,70.1"
+    },
+    "response": {
+      "variable": {
+        "id": "power_t2m_sample",
+        "name": "NASA POWER 2-m temperature: 70N, 20E sample",
+        "units": "C",
+        "provenance": "observations",
+        "source": "NASA POWER monthly API; MERRA-2 assimilation/reanalysis, not direct satellite observations",
+        "field": "T2M",
+        "annual_aggregation": "mean",
+        "dataset_id": "NASA POWER monthly point / MERRA2",
+        "version": "v2.10.0",
+        "source_url": "https://power.larc.nasa.gov/api/temporal/monthly/point?parameters=T2M&community=RE&longitude=20&latitude=70&format=JSON&start=2000&end=2019",
+        "scientific_name": "Temperature at 2 Meters (T2M)",
+        "variable_type": "state",
+        "data_kind": "reanalysis",
+        "temporal_coverage": [
+          "2000-01-01",
+          "2019-12-01"
+        ],
+        "spatial_resolution": {
+          "latitude_degrees": 0.5,
+          "longitude_degrees": 0.625
+        },
+        "spatial_support": "Single requested POWER point at 70N,20E; native meteorology resolution 0.5 x 0.625 degrees",
+        "limitations": [
+          "Single-point sample is not an Arctic regional assessment.",
+          "version records the POWER API version, not a granule revision.",
+          "Legacy provenance observations means genuine source data; data_kind specifies reanalysis."
+        ]
+      },
+      "bbox": [
+        19.9,
+        69.9,
+        20.1,
+        70.1
+      ],
+      "result": {
+        "direction": "no_significant_trend",
+        "significant": false,
+        "p_value": 0.8203382164336168,
+        "slope": -0.08362864800476588,
+        "ci_low": -0.36585573679421257,
+        "ci_high": 0.2498634850599855,
+        "slope_units": "C per decade",
+        "years": 20.0,
+        "samples": 240,
+        "coverage": 1.0,
+        "raw": [
+          {
+            "time": "2000-01",
+            "value": -2.84
+          },
+          {
+            "time": "2000-02",
+            "value": -4.34
+          },
+          {
+            "time": "2000-03",
+            "value": -3.12
+          },
+          {
+            "time": "2000-04",
+            "value": -0.9900000000000001
+          },
+          {
+            "time": "2000-05",
+            "value": 3.26
+          },
+          {
+            "time": "2000-06",
+            "value": 7.119999999999999
+          },
+          {
+            "time": "2000-07",
+            "value": 11.04
+          },
+          {
+            "time": "2000-08",
+            "value": 9.8
+          },
+          {
+            "time": "2000-09",
+            "value": 7.26
+          },
+          {
+            "time": "2000-10",
+            "value": 5.11
+          },
+          {
+            "time": "2000-11",
+            "value": -1.03
+          },
+          {
+            "time": "2000-12",
+            "value": -3.38
+          },
+          {
+            "time": "2001-01",
+            "value": -2.57
+          },
+          {
+            "time": "2001-02",
+            "value": -6.51
+          },
+          {
+            "time": "2001-03",
+            "value": -5.1
+          },
+          {
+            "time": "2001-04",
+            "value": -1.43
+          },
+          {
+            "time": "2001-05",
+            "value": 3.24
+          },
+          {
+            "time": "2001-06",
+            "value": 9.47
+          },
+          {
+            "time": "2001-07",
+            "value": 10.0
+          },
+          {
+            "time": "2001-08",
+            "value": 10.15
+          },
+          {
+            "time": "2001-09",
+            "value": 8.47
+          },
+          {
+            "time": "2001-10",
+            "value": 2.34
+          },
+          {
+            "time": "2001-11",
+            "value": -1.4
+          },
+          {
+            "time": "2001-12",
+            "value": -3.1899999999999995
+          },
+          {
+            "time": "2002-01",
+            "value": -3.38
+          },
+          {
+            "time": "2002-02",
+            "value": -4.45
+          },
+          {
+            "time": "2002-03",
+            "value": -2.59
+          },
+          {
+            "time": "2002-04",
+            "value": 1.82
+          },
+          {
+            "time": "2002-05",
+            "value": 5.41
+          },
+          {
+            "time": "2002-06",
+            "value": 9.3
+          },
+          {
+            "time": "2002-07",
+            "value": 12.090000000000002
+          },
+          {
+            "time": "2002-08",
+            "value": 11.849999999999998
+          },
+          {
+            "time": "2002-09",
+            "value": 6.489999999999999
+          },
+          {
+            "time": "2002-10",
+            "value": 0.11
+          },
+          {
+            "time": "2002-11",
+            "value": -3.44
+          },
+          {
+            "time": "2002-12",
+            "value": -4.51
+          },
+          {
+            "time": "2003-01",
+            "value": -7.009999999999999
+          },
+          {
+            "time": "2003-02",
+            "value": -1.14
+          },
+          {
+            "time": "2003-03",
+            "value": -1.06
+          },
+          {
+            "time": "2003-04",
+            "value": 0.34
+          },
+          {
+            "time": "2003-05",
+            "value": 4.47
+          },
+          {
+            "time": "2003-06",
+            "value": 7.56
+          },
+          {
+            "time": "2003-07",
+            "value": 12.97
+          },
+          {
+            "time": "2003-08",
+            "value": 10.75
+          },
+          {
+            "time": "2003-09",
+            "value": 6.329999999999999
+          },
+          {
+            "time": "2003-10",
+            "value": 2.04
+          },
+          {
+            "time": "2003-11",
+            "value": 0.5
+          },
+          {
+            "time": "2003-12",
+            "value": -3.4299999999999997
+          },
+          {
+            "time": "2004-01",
+            "value": -5.51
+          },
+          {
+            "time": "2004-02",
+            "value": -3.74
+          },
+          {
+            "time": "2004-03",
+            "value": -2.06
+          },
+          {
+            "time": "2004-04",
+            "value": 1.38
+          },
+          {
+            "time": "2004-05",
+            "value": 4.11
+          },
+          {
+            "time": "2004-06",
+            "value": 7.119999999999999
+          },
+          {
+            "time": "2004-07",
+            "value": 13.640000000000002
+          },
+          {
+            "time": "2004-08",
+            "value": 11.25
+          },
+          {
+            "time": "2004-09",
+            "value": 6.799999999999999
+          },
+          {
+            "time": "2004-10",
+            "value": 2.26
+          },
+          {
+            "time": "2004-11",
+            "value": -0.51
+          },
+          {
+            "time": "2004-12",
+            "value": -1.69
+          },
+          {
+            "time": "2005-01",
+            "value": -3.4799999999999995
+          },
+          {
+            "time": "2005-02",
+            "value": -2.6
+          },
+          {
+            "time": "2005-03",
+            "value": -2.73
+          },
+          {
+            "time": "2005-04",
+            "value": 1.08
+          },
+          {
+            "time": "2005-05",
+            "value": 2.88
+          },
+          {
+            "time": "2005-06",
+            "value": 8.73
+          },
+          {
+            "time": "2005-07",
+            "value": 11.88
+          },
+          {
+            "time": "2005-08",
+            "value": 10.8
+          },
+          {
+            "time": "2005-09",
+            "value": 6.279999999999999
+          },
+          {
+            "time": "2005-10",
+            "value": 4.03
+          },
+          {
+            "time": "2005-11",
+            "value": 0.82
+          },
+          {
+            "time": "2005-12",
+            "value": -3.6
+          },
+          {
+            "time": "2006-01",
+            "value": -2.12
+          },
+          {
+            "time": "2006-02",
+            "value": -4.09
+          },
+          {
+            "time": "2006-03",
+            "value": -4.6
+          },
+          {
+            "time": "2006-04",
+            "value": 0.41
+          },
+          {
+            "time": "2006-05",
+            "value": 4.96
+          },
+          {
+            "time": "2006-06",
+            "value": 8.19
+          },
+          {
+            "time": "2006-07",
+            "value": 9.96
+          },
+          {
+            "time": "2006-08",
+            "value": 11.32
+          },
+          {
+            "time": "2006-09",
+            "value": 7.269999999999999
+          },
+          {
+            "time": "2006-10",
+            "value": 1.35
+          },
+          {
+            "time": "2006-11",
+            "value": -1.24
+          },
+          {
+            "time": "2006-12",
+            "value": -0.49
+          },
+          {
+            "time": "2007-01",
+            "value": -3.92
+          },
+          {
+            "time": "2007-02",
+            "value": -7.48
+          },
+          {
+            "time": "2007-03",
+            "value": -0.84
+          },
+          {
+            "time": "2007-04",
+            "value": 0.39
+          },
+          {
+            "time": "2007-05",
+            "value": 4.0
+          },
+          {
+            "time": "2007-06",
+            "value": 8.05
+          },
+          {
+            "time": "2007-07",
+            "value": 12.239999999999998
+          },
+          {
+            "time": "2007-08",
+            "value": 10.44
+          },
+          {
+            "time": "2007-09",
+            "value": 6.04
+          },
+          {
+            "time": "2007-10",
+            "value": 4.92
+          },
+          {
+            "time": "2007-11",
+            "value": -0.93
+          },
+          {
+            "time": "2007-12",
+            "value": -0.44
+          },
+          {
+            "time": "2008-01",
+            "value": -3.7000000000000006
+          },
+          {
+            "time": "2008-02",
+            "value": -3.4900000000000007
+          },
+          {
+            "time": "2008-03",
+            "value": -4.32
+          },
+          {
+            "time": "2008-04",
+            "value": -1.52
+          },
+          {
+            "time": "2008-05",
+            "value": 2.81
+          },
+          {
+            "time": "2008-06",
+            "value": 6.920000000000001
+          },
+          {
+            "time": "2008-07",
+            "value": 10.06
+          },
+          {
+            "time": "2008-08",
+            "value": 9.08
+          },
+          {
+            "time": "2008-09",
+            "value": 6.72
+          },
+          {
+            "time": "2008-10",
+            "value": 2.79
+          },
+          {
+            "time": "2008-11",
+            "value": -1.2
+          },
+          {
+            "time": "2008-12",
+            "value": -1.54
+          },
+          {
+            "time": "2009-01",
+            "value": -4.05
+          },
+          {
+            "time": "2009-02",
+            "value": -5.68
+          },
+          {
+            "time": "2009-03",
+            "value": -3.5599999999999996
+          },
+          {
+            "time": "2009-04",
+            "value": -0.81
+          },
+          {
+            "time": "2009-05",
+            "value": 5.22
+          },
+          {
+            "time": "2009-06",
+            "value": 6.34
+          },
+          {
+            "time": "2009-07",
+            "value": 10.7
+          },
+          {
+            "time": "2009-08",
+            "value": 11.920000000000002
+          },
+          {
+            "time": "2009-09",
+            "value": 7.44
+          },
+          {
+            "time": "2009-10",
+            "value": 1.5299999999999998
+          },
+          {
+            "time": "2009-11",
+            "value": -1.22
+          },
+          {
+            "time": "2009-12",
+            "value": -5.76
+          },
+          {
+            "time": "2010-01",
+            "value": -4.72
+          },
+          {
+            "time": "2010-02",
+            "value": -8.3
+          },
+          {
+            "time": "2010-03",
+            "value": -4.21
+          },
+          {
+            "time": "2010-04",
+            "value": 0.03
+          },
+          {
+            "time": "2010-05",
+            "value": 5.0
+          },
+          {
+            "time": "2010-06",
+            "value": 5.65
+          },
+          {
+            "time": "2010-07",
+            "value": 10.82
+          },
+          {
+            "time": "2010-08",
+            "value": 9.01
+          },
+          {
+            "time": "2010-09",
+            "value": 7.42
+          },
+          {
+            "time": "2010-10",
+            "value": 2.75
+          },
+          {
+            "time": "2010-11",
+            "value": -2.92
+          },
+          {
+            "time": "2010-12",
+            "value": -4.58
+          },
+          {
+            "time": "2011-01",
+            "value": -4.66
+          },
+          {
+            "time": "2011-02",
+            "value": -6.94
+          },
+          {
+            "time": "2011-03",
+            "value": -2.37
+          },
+          {
+            "time": "2011-04",
+            "value": 1.58
+          },
+          {
+            "time": "2011-05",
+            "value": 4.49
+          },
+          {
+            "time": "2011-06",
+            "value": 9.6
+          },
+          {
+            "time": "2011-07",
+            "value": 10.62
+          },
+          {
+            "time": "2011-08",
+            "value": 10.71
+          },
+          {
+            "time": "2011-09",
+            "value": 9.22
+          },
+          {
+            "time": "2011-10",
+            "value": 4.66
+          },
+          {
+            "time": "2011-11",
+            "value": 2.35
+          },
+          {
+            "time": "2011-12",
+            "value": -2.29
+          },
+          {
+            "time": "2012-01",
+            "value": -6.15
+          },
+          {
+            "time": "2012-02",
+            "value": -4.51
+          },
+          {
+            "time": "2012-03",
+            "value": -1.51
+          },
+          {
+            "time": "2012-04",
+            "value": -1.25
+          },
+          {
+            "time": "2012-05",
+            "value": 2.81
+          },
+          {
+            "time": "2012-06",
+            "value": 6.69
+          },
+          {
+            "time": "2012-07",
+            "value": 9.88
+          },
+          {
+            "time": "2012-08",
+            "value": 8.94
+          },
+          {
+            "time": "2012-09",
+            "value": 6.34
+          },
+          {
+            "time": "2012-10",
+            "value": 2.08
+          },
+          {
+            "time": "2012-11",
+            "value": -1.13
+          },
+          {
+            "time": "2012-12",
+            "value": -5.43
+          },
+          {
+            "time": "2013-01",
+            "value": -2.91
+          },
+          {
+            "time": "2013-02",
+            "value": -4.66
+          },
+          {
+            "time": "2013-03",
+            "value": -5.19
+          },
+          {
+            "time": "2013-04",
+            "value": -0.7
+          },
+          {
+            "time": "2013-05",
+            "value": 6.32
+          },
+          {
+            "time": "2013-06",
+            "value": 10.51
+          },
+          {
+            "time": "2013-07",
+            "value": 11.26
+          },
+          {
+            "time": "2013-08",
+            "value": 11.25
+          },
+          {
+            "time": "2013-09",
+            "value": 8.81
+          },
+          {
+            "time": "2013-10",
+            "value": 2.1
+          },
+          {
+            "time": "2013-11",
+            "value": -1.5699999999999998
+          },
+          {
+            "time": "2013-12",
+            "value": -2.49
+          },
+          {
+            "time": "2014-01",
+            "value": -7.450000000000001
+          },
+          {
+            "time": "2014-02",
+            "value": -3.21
+          },
+          {
+            "time": "2014-03",
+            "value": -1.89
+          },
+          {
+            "time": "2014-04",
+            "value": -0.14
+          },
+          {
+            "time": "2014-05",
+            "value": 2.83
+          },
+          {
+            "time": "2014-06",
+            "value": 7.059999999999999
+          },
+          {
+            "time": "2014-07",
+            "value": 14.23
+          },
+          {
+            "time": "2014-08",
+            "value": 10.71
+          },
+          {
+            "time": "2014-09",
+            "value": 6.6499999999999995
+          },
+          {
+            "time": "2014-10",
+            "value": 2.05
+          },
+          {
+            "time": "2014-11",
+            "value": -0.91
+          },
+          {
+            "time": "2014-12",
+            "value": -2.53
+          },
+          {
+            "time": "2015-01",
+            "value": -6.25
+          },
+          {
+            "time": "2015-02",
+            "value": -3.64
+          },
+          {
+            "time": "2015-03",
+            "value": -0.73
+          },
+          {
+            "time": "2015-04",
+            "value": 0.61
+          },
+          {
+            "time": "2015-05",
+            "value": 3.94
+          },
+          {
+            "time": "2015-06",
+            "value": 5.94
+          },
+          {
+            "time": "2015-07",
+            "value": 9.92
+          },
+          {
+            "time": "2015-08",
+            "value": 11.9
+          },
+          {
+            "time": "2015-09",
+            "value": 8.6
+          },
+          {
+            "time": "2015-10",
+            "value": 3.21
+          },
+          {
+            "time": "2015-11",
+            "value": -0.1
+          },
+          {
+            "time": "2015-12",
+            "value": -1.6099999999999999
+          },
+          {
+            "time": "2016-01",
+            "value": -6.6499999999999995
+          },
+          {
+            "time": "2016-02",
+            "value": -3.5
+          },
+          {
+            "time": "2016-03",
+            "value": -2.12
+          },
+          {
+            "time": "2016-04",
+            "value": 0.61
+          },
+          {
+            "time": "2016-05",
+            "value": 5.960000000000001
+          },
+          {
+            "time": "2016-06",
+            "value": 7.219999999999999
+          },
+          {
+            "time": "2016-07",
+            "value": 11.58
+          },
+          {
+            "time": "2016-08",
+            "value": 9.57
+          },
+          {
+            "time": "2016-09",
+            "value": 8.81
+          },
+          {
+            "time": "2016-10",
+            "value": 3.85
+          },
+          {
+            "time": "2016-11",
+            "value": -1.19
+          },
+          {
+            "time": "2016-12",
+            "value": 0.09
+          },
+          {
+            "time": "2017-01",
+            "value": -3.17
+          },
+          {
+            "time": "2017-02",
+            "value": -4.17
+          },
+          {
+            "time": "2017-03",
+            "value": -3.1399999999999997
+          },
+          {
+            "time": "2017-04",
+            "value": -1.64
+          },
+          {
+            "time": "2017-05",
+            "value": 1.5299999999999998
+          },
+          {
+            "time": "2017-06",
+            "value": 7.390000000000001
+          },
+          {
+            "time": "2017-07",
+            "value": 10.57
+          },
+          {
+            "time": "2017-08",
+            "value": 9.95
+          },
+          {
+            "time": "2017-09",
+            "value": 8.33
+          },
+          {
+            "time": "2017-10",
+            "value": 3.3300000000000005
+          },
+          {
+            "time": "2017-11",
+            "value": -1.37
+          },
+          {
+            "time": "2017-12",
+            "value": -2.56
+          },
+          {
+            "time": "2018-01",
+            "value": -5.97
+          },
+          {
+            "time": "2018-02",
+            "value": -7.32
+          },
+          {
+            "time": "2018-03",
+            "value": -5.65
+          },
+          {
+            "time": "2018-04",
+            "value": -0.01
+          },
+          {
+            "time": "2018-05",
+            "value": 5.83
+          },
+          {
+            "time": "2018-06",
+            "value": 6.29
+          },
+          {
+            "time": "2018-07",
+            "value": 13.44
+          },
+          {
+            "time": "2018-08",
+            "value": 10.77
+          },
+          {
+            "time": "2018-09",
+            "value": 7.85
+          },
+          {
+            "time": "2018-10",
+            "value": 3.0300000000000002
+          },
+          {
+            "time": "2018-11",
+            "value": 2.43
+          },
+          {
+            "time": "2018-12",
+            "value": -1.83
+          },
+          {
+            "time": "2019-01",
+            "value": -5.1
+          },
+          {
+            "time": "2019-02",
+            "value": -4.56
+          },
+          {
+            "time": "2019-03",
+            "value": -3.4600000000000004
+          },
+          {
+            "time": "2019-04",
+            "value": 0.9900000000000001
+          },
+          {
+            "time": "2019-05",
+            "value": 3.2699999999999996
+          },
+          {
+            "time": "2019-06",
+            "value": 7.25
+          },
+          {
+            "time": "2019-07",
+            "value": 11.11
+          },
+          {
+            "time": "2019-08",
+            "value": 10.64
+          },
+          {
+            "time": "2019-09",
+            "value": 7.14
+          },
+          {
+            "time": "2019-10",
+            "value": 0.48
+          },
+          {
+            "time": "2019-11",
+            "value": -2.85
+          },
+          {
+            "time": "2019-12",
+            "value": -2.28
+          }
+        ],
+        "deseasonalized": [
+          {
+            "time": "2000-01",
+            "value": 3.826666666666668
+          },
+          {
+            "time": "2000-02",
+            "value": 2.4258333333333333
+          },
+          {
+            "time": "2000-03",
+            "value": 2.1149999999999993
+          },
+          {
+            "time": "2000-04",
+            "value": 1.149166666666667
+          },
+          {
+            "time": "2000-05",
+            "value": 1.5483333333333333
+          },
+          {
+            "time": "2000-06",
+            "value": 2.1174999999999997
+          },
+          {
+            "time": "2000-07",
+            "value": 2.2766666666666655
+          },
+          {
+            "time": "2000-08",
+            "value": 1.3808333333333334
+          },
+          {
+            "time": "2000-09",
+            "value": 2.335000000000001
+          },
+          {
+            "time": "2000-10",
+            "value": 4.914166666666667
+          },
+          {
+            "time": "2000-11",
+            "value": 2.4033333333333333
+          },
+          {
+            "time": "2000-12",
+            "value": 1.3975
+          },
+          {
+            "time": "2001-01",
+            "value": 4.096666666666668
+          },
+          {
+            "time": "2001-02",
+            "value": 0.25583333333333336
+          },
+          {
+            "time": "2001-03",
+            "value": 0.1349999999999998
+          },
+          {
+            "time": "2001-04",
+            "value": 0.7091666666666672
+          },
+          {
+            "time": "2001-05",
+            "value": 1.5283333333333338
+          },
+          {
+            "time": "2001-06",
+            "value": 4.467500000000001
+          },
+          {
+            "time": "2001-07",
+            "value": 1.2366666666666664
+          },
+          {
+            "time": "2001-08",
+            "value": 1.730833333333333
+          },
+          {
+            "time": "2001-09",
+            "value": 3.5450000000000017
+          },
+          {
+            "time": "2001-10",
+            "value": 2.1441666666666666
+          },
+          {
+            "time": "2001-11",
+            "value": 2.0333333333333337
+          },
+          {
+            "time": "2001-12",
+            "value": 1.5875000000000004
+          },
+          {
+            "time": "2002-01",
+            "value": 3.286666666666668
+          },
+          {
+            "time": "2002-02",
+            "value": 2.315833333333333
+          },
+          {
+            "time": "2002-03",
+            "value": 2.6449999999999996
+          },
+          {
+            "time": "2002-04",
+            "value": 3.9591666666666674
+          },
+          {
+            "time": "2002-05",
+            "value": 3.6983333333333337
+          },
+          {
+            "time": "2002-06",
+            "value": 4.297500000000001
+          },
+          {
+            "time": "2002-07",
+            "value": 3.326666666666668
+          },
+          {
+            "time": "2002-08",
+            "value": 3.4308333333333305
+          },
+          {
+            "time": "2002-09",
+            "value": 1.5650000000000004
+          },
+          {
+            "time": "2002-10",
+            "value": -0.0858333333333333
+          },
+          {
+            "time": "2002-11",
+            "value": -0.0066666666666663765
+          },
+          {
+            "time": "2002-12",
+            "value": 0.26750000000000007
+          },
+          {
+            "time": "2003-01",
+            "value": -0.34333333333333105
+          },
+          {
+            "time": "2003-02",
+            "value": 5.6258333333333335
+          },
+          {
+            "time": "2003-03",
+            "value": 4.174999999999999
+          },
+          {
+            "time": "2003-04",
+            "value": 2.479166666666667
+          },
+          {
+            "time": "2003-05",
+            "value": 2.7583333333333333
+          },
+          {
+            "time": "2003-06",
+            "value": 2.5575
+          },
+          {
+            "time": "2003-07",
+            "value": 4.206666666666667
+          },
+          {
+            "time": "2003-08",
+            "value": 2.3308333333333326
+          },
+          {
+            "time": "2003-09",
+            "value": 1.4050000000000002
+          },
+          {
+            "time": "2003-10",
+            "value": 1.8441666666666667
+          },
+          {
+            "time": "2003-11",
+            "value": 3.9333333333333336
+          },
+          {
+            "time": "2003-12",
+            "value": 1.3475000000000001
+          },
+          {
+            "time": "2004-01",
+            "value": 1.156666666666668
+          },
+          {
+            "time": "2004-02",
+            "value": 3.025833333333333
+          },
+          {
+            "time": "2004-03",
+            "value": 3.1749999999999994
+          },
+          {
+            "time": "2004-04",
+            "value": 3.519166666666667
+          },
+          {
+            "time": "2004-05",
+            "value": 2.398333333333334
+          },
+          {
+            "time": "2004-06",
+            "value": 2.1174999999999997
+          },
+          {
+            "time": "2004-07",
+            "value": 4.876666666666669
+          },
+          {
+            "time": "2004-08",
+            "value": 2.8308333333333326
+          },
+          {
+            "time": "2004-09",
+            "value": 1.875
+          },
+          {
+            "time": "2004-10",
+            "value": 2.0641666666666665
+          },
+          {
+            "time": "2004-11",
+            "value": 2.923333333333334
+          },
+          {
+            "time": "2004-12",
+            "value": 3.0875
+          },
+          {
+            "time": "2005-01",
+            "value": 3.1866666666666683
+          },
+          {
+            "time": "2005-02",
+            "value": 4.1658333333333335
+          },
+          {
+            "time": "2005-03",
+            "value": 2.5049999999999994
+          },
+          {
+            "time": "2005-04",
+            "value": 3.219166666666667
+          },
+          {
+            "time": "2005-05",
+            "value": 1.1683333333333334
+          },
+          {
+            "time": "2005-06",
+            "value": 3.727500000000001
+          },
+          {
+            "time": "2005-07",
+            "value": 3.116666666666667
+          },
+          {
+            "time": "2005-08",
+            "value": 2.3808333333333334
+          },
+          {
+            "time": "2005-09",
+            "value": 1.3550000000000004
+          },
+          {
+            "time": "2005-10",
+            "value": 3.834166666666667
+          },
+          {
+            "time": "2005-11",
+            "value": 4.253333333333334
+          },
+          {
+            "time": "2005-12",
+            "value": 1.1774999999999998
+          },
+          {
+            "time": "2006-01",
+            "value": 4.546666666666668
+          },
+          {
+            "time": "2006-02",
+            "value": 2.6758333333333333
+          },
+          {
+            "time": "2006-03",
+            "value": 0.6349999999999998
+          },
+          {
+            "time": "2006-04",
+            "value": 2.5491666666666672
+          },
+          {
+            "time": "2006-05",
+            "value": 3.2483333333333335
+          },
+          {
+            "time": "2006-06",
+            "value": 3.1875
+          },
+          {
+            "time": "2006-07",
+            "value": 1.1966666666666672
+          },
+          {
+            "time": "2006-08",
+            "value": 2.900833333333333
+          },
+          {
+            "time": "2006-09",
+            "value": 2.3449999999999998
+          },
+          {
+            "time": "2006-10",
+            "value": 1.1541666666666668
+          },
+          {
+            "time": "2006-11",
+            "value": 2.1933333333333334
+          },
+          {
+            "time": "2006-12",
+            "value": 4.2875
+          },
+          {
+            "time": "2007-01",
+            "value": 2.746666666666668
+          },
+          {
+            "time": "2007-02",
+            "value": -0.7141666666666673
+          },
+          {
+            "time": "2007-03",
+            "value": 4.395
+          },
+          {
+            "time": "2007-04",
+            "value": 2.5291666666666672
+          },
+          {
+            "time": "2007-05",
+            "value": 2.2883333333333336
+          },
+          {
+            "time": "2007-06",
+            "value": 3.047500000000001
+          },
+          {
+            "time": "2007-07",
+            "value": 3.476666666666665
+          },
+          {
+            "time": "2007-08",
+            "value": 2.020833333333332
+          },
+          {
+            "time": "2007-09",
+            "value": 1.115000000000001
+          },
+          {
+            "time": "2007-10",
+            "value": 4.724166666666667
+          },
+          {
+            "time": "2007-11",
+            "value": 2.5033333333333334
+          },
+          {
+            "time": "2007-12",
+            "value": 4.3374999999999995
+          },
+          {
+            "time": "2008-01",
+            "value": 2.9666666666666672
+          },
+          {
+            "time": "2008-02",
+            "value": 3.2758333333333325
+          },
+          {
+            "time": "2008-03",
+            "value": 0.9149999999999991
+          },
+          {
+            "time": "2008-04",
+            "value": 0.6191666666666671
+          },
+          {
+            "time": "2008-05",
+            "value": 1.0983333333333336
+          },
+          {
+            "time": "2008-06",
+            "value": 1.9175000000000013
+          },
+          {
+            "time": "2008-07",
+            "value": 1.2966666666666669
+          },
+          {
+            "time": "2008-08",
+            "value": 0.6608333333333327
+          },
+          {
+            "time": "2008-09",
+            "value": 1.7950000000000008
+          },
+          {
+            "time": "2008-10",
+            "value": 2.5941666666666667
+          },
+          {
+            "time": "2008-11",
+            "value": 2.2333333333333334
+          },
+          {
+            "time": "2008-12",
+            "value": 3.2375
+          },
+          {
+            "time": "2009-01",
+            "value": 2.616666666666668
+          },
+          {
+            "time": "2009-02",
+            "value": 1.0858333333333334
+          },
+          {
+            "time": "2009-03",
+            "value": 1.6749999999999998
+          },
+          {
+            "time": "2009-04",
+            "value": 1.329166666666667
+          },
+          {
+            "time": "2009-05",
+            "value": 3.5083333333333333
+          },
+          {
+            "time": "2009-06",
+            "value": 1.3375000000000004
+          },
+          {
+            "time": "2009-07",
+            "value": 1.9366666666666656
+          },
+          {
+            "time": "2009-08",
+            "value": 3.5008333333333344
+          },
+          {
+            "time": "2009-09",
+            "value": 2.5150000000000015
+          },
+          {
+            "time": "2009-10",
+            "value": 1.3341666666666665
+          },
+          {
+            "time": "2009-11",
+            "value": 2.213333333333334
+          },
+          {
+            "time": "2009-12",
+            "value": -0.9824999999999999
+          },
+          {
+            "time": "2010-01",
+            "value": 1.946666666666668
+          },
+          {
+            "time": "2010-02",
+            "value": -1.5341666666666676
+          },
+          {
+            "time": "2010-03",
+            "value": 1.0249999999999995
+          },
+          {
+            "time": "2010-04",
+            "value": 2.169166666666667
+          },
+          {
+            "time": "2010-05",
+            "value": 3.2883333333333336
+          },
+          {
+            "time": "2010-06",
+            "value": 0.6475000000000009
+          },
+          {
+            "time": "2010-07",
+            "value": 2.0566666666666666
+          },
+          {
+            "time": "2010-08",
+            "value": 0.5908333333333324
+          },
+          {
+            "time": "2010-09",
+            "value": 2.495000000000001
+          },
+          {
+            "time": "2010-10",
+            "value": 2.5541666666666667
+          },
+          {
+            "time": "2010-11",
+            "value": 0.5133333333333336
+          },
+          {
+            "time": "2010-12",
+            "value": 0.1974999999999998
+          },
+          {
+            "time": "2011-01",
+            "value": 2.0066666666666677
+          },
+          {
+            "time": "2011-02",
+            "value": -0.17416666666666725
+          },
+          {
+            "time": "2011-03",
+            "value": 2.8649999999999993
+          },
+          {
+            "time": "2011-04",
+            "value": 3.719166666666667
+          },
+          {
+            "time": "2011-05",
+            "value": 2.7783333333333338
+          },
+          {
+            "time": "2011-06",
+            "value": 4.5975
+          },
+          {
+            "time": "2011-07",
+            "value": 1.8566666666666656
+          },
+          {
+            "time": "2011-08",
+            "value": 2.2908333333333335
+          },
+          {
+            "time": "2011-09",
+            "value": 4.295000000000002
+          },
+          {
+            "time": "2011-10",
+            "value": 4.464166666666667
+          },
+          {
+            "time": "2011-11",
+            "value": 5.783333333333333
+          },
+          {
+            "time": "2011-12",
+            "value": 2.4875
+          },
+          {
+            "time": "2012-01",
+            "value": 0.5166666666666675
+          },
+          {
+            "time": "2012-02",
+            "value": 2.2558333333333334
+          },
+          {
+            "time": "2012-03",
+            "value": 3.7249999999999996
+          },
+          {
+            "time": "2012-04",
+            "value": 0.8891666666666671
+          },
+          {
+            "time": "2012-05",
+            "value": 1.0983333333333336
+          },
+          {
+            "time": "2012-06",
+            "value": 1.6875000000000009
+          },
+          {
+            "time": "2012-07",
+            "value": 1.1166666666666671
+          },
+          {
+            "time": "2012-08",
+            "value": 0.5208333333333321
+          },
+          {
+            "time": "2012-09",
+            "value": 1.415000000000001
+          },
+          {
+            "time": "2012-10",
+            "value": 1.8841666666666668
+          },
+          {
+            "time": "2012-11",
+            "value": 2.3033333333333337
+          },
+          {
+            "time": "2012-12",
+            "value": -0.6524999999999999
+          },
+          {
+            "time": "2013-01",
+            "value": 3.7566666666666677
+          },
+          {
+            "time": "2013-02",
+            "value": 2.105833333333333
+          },
+          {
+            "time": "2013-03",
+            "value": 0.04499999999999904
+          },
+          {
+            "time": "2013-04",
+            "value": 1.4391666666666671
+          },
+          {
+            "time": "2013-05",
+            "value": 4.608333333333334
+          },
+          {
+            "time": "2013-06",
+            "value": 5.5075
+          },
+          {
+            "time": "2013-07",
+            "value": 2.496666666666666
+          },
+          {
+            "time": "2013-08",
+            "value": 2.8308333333333326
+          },
+          {
+            "time": "2013-09",
+            "value": 3.8850000000000016
+          },
+          {
+            "time": "2013-10",
+            "value": 1.9041666666666668
+          },
+          {
+            "time": "2013-11",
+            "value": 1.8633333333333337
+          },
+          {
+            "time": "2013-12",
+            "value": 2.2874999999999996
+          },
+          {
+            "time": "2014-01",
+            "value": -0.7833333333333332
+          },
+          {
+            "time": "2014-02",
+            "value": 3.555833333333333
+          },
+          {
+            "time": "2014-03",
+            "value": 3.3449999999999998
+          },
+          {
+            "time": "2014-04",
+            "value": 1.999166666666667
+          },
+          {
+            "time": "2014-05",
+            "value": 1.1183333333333336
+          },
+          {
+            "time": "2014-06",
+            "value": 2.057499999999999
+          },
+          {
+            "time": "2014-07",
+            "value": 5.466666666666667
+          },
+          {
+            "time": "2014-08",
+            "value": 2.2908333333333335
+          },
+          {
+            "time": "2014-09",
+            "value": 1.7250000000000005
+          },
+          {
+            "time": "2014-10",
+            "value": 1.8541666666666665
+          },
+          {
+            "time": "2014-11",
+            "value": 2.5233333333333334
+          },
+          {
+            "time": "2014-12",
+            "value": 2.2475
+          },
+          {
+            "time": "2015-01",
+            "value": 0.41666666666666785
+          },
+          {
+            "time": "2015-02",
+            "value": 3.125833333333333
+          },
+          {
+            "time": "2015-03",
+            "value": 4.504999999999999
+          },
+          {
+            "time": "2015-04",
+            "value": 2.749166666666667
+          },
+          {
+            "time": "2015-05",
+            "value": 2.2283333333333335
+          },
+          {
+            "time": "2015-06",
+            "value": 0.9375000000000009
+          },
+          {
+            "time": "2015-07",
+            "value": 1.1566666666666663
+          },
+          {
+            "time": "2015-08",
+            "value": 3.480833333333333
+          },
+          {
+            "time": "2015-09",
+            "value": 3.6750000000000007
+          },
+          {
+            "time": "2015-10",
+            "value": 3.0141666666666667
+          },
+          {
+            "time": "2015-11",
+            "value": 3.3333333333333335
+          },
+          {
+            "time": "2015-12",
+            "value": 3.1675
+          },
+          {
+            "time": "2016-01",
+            "value": 0.016666666666668384
+          },
+          {
+            "time": "2016-02",
+            "value": 3.265833333333333
+          },
+          {
+            "time": "2016-03",
+            "value": 3.1149999999999993
+          },
+          {
+            "time": "2016-04",
+            "value": 2.749166666666667
+          },
+          {
+            "time": "2016-05",
+            "value": 4.248333333333335
+          },
+          {
+            "time": "2016-06",
+            "value": 2.2174999999999994
+          },
+          {
+            "time": "2016-07",
+            "value": 2.8166666666666664
+          },
+          {
+            "time": "2016-08",
+            "value": 1.150833333333333
+          },
+          {
+            "time": "2016-09",
+            "value": 3.8850000000000016
+          },
+          {
+            "time": "2016-10",
+            "value": 3.654166666666667
+          },
+          {
+            "time": "2016-11",
+            "value": 2.2433333333333336
+          },
+          {
+            "time": "2016-12",
+            "value": 4.8675
+          },
+          {
+            "time": "2017-01",
+            "value": 3.496666666666668
+          },
+          {
+            "time": "2017-02",
+            "value": 2.595833333333333
+          },
+          {
+            "time": "2017-03",
+            "value": 2.0949999999999998
+          },
+          {
+            "time": "2017-04",
+            "value": 0.4991666666666672
+          },
+          {
+            "time": "2017-05",
+            "value": -0.18166666666666664
+          },
+          {
+            "time": "2017-06",
+            "value": 2.387500000000001
+          },
+          {
+            "time": "2017-07",
+            "value": 1.8066666666666666
+          },
+          {
+            "time": "2017-08",
+            "value": 1.530833333333332
+          },
+          {
+            "time": "2017-09",
+            "value": 3.405000000000001
+          },
+          {
+            "time": "2017-10",
+            "value": 3.134166666666667
+          },
+          {
+            "time": "2017-11",
+            "value": 2.0633333333333335
+          },
+          {
+            "time": "2017-12",
+            "value": 2.2175
+          },
+          {
+            "time": "2018-01",
+            "value": 0.6966666666666681
+          },
+          {
+            "time": "2018-02",
+            "value": -0.5541666666666671
+          },
+          {
+            "time": "2018-03",
+            "value": -0.4150000000000009
+          },
+          {
+            "time": "2018-04",
+            "value": 2.1291666666666673
+          },
+          {
+            "time": "2018-05",
+            "value": 4.118333333333334
+          },
+          {
+            "time": "2018-06",
+            "value": 1.2875000000000005
+          },
+          {
+            "time": "2018-07",
+            "value": 4.676666666666666
+          },
+          {
+            "time": "2018-08",
+            "value": 2.350833333333332
+          },
+          {
+            "time": "2018-09",
+            "value": 2.9250000000000007
+          },
+          {
+            "time": "2018-10",
+            "value": 2.834166666666667
+          },
+          {
+            "time": "2018-11",
+            "value": 5.863333333333333
+          },
+          {
+            "time": "2018-12",
+            "value": 2.9475
+          },
+          {
+            "time": "2019-01",
+            "value": 1.5666666666666682
+          },
+          {
+            "time": "2019-02",
+            "value": 2.2058333333333335
+          },
+          {
+            "time": "2019-03",
+            "value": 1.774999999999999
+          },
+          {
+            "time": "2019-04",
+            "value": 3.1291666666666673
+          },
+          {
+            "time": "2019-05",
+            "value": 1.5583333333333331
+          },
+          {
+            "time": "2019-06",
+            "value": 2.2475000000000005
+          },
+          {
+            "time": "2019-07",
+            "value": 2.346666666666666
+          },
+          {
+            "time": "2019-08",
+            "value": 2.220833333333333
+          },
+          {
+            "time": "2019-09",
+            "value": 2.2150000000000007
+          },
+          {
+            "time": "2019-10",
+            "value": 0.2841666666666667
+          },
+          {
+            "time": "2019-11",
+            "value": 0.5833333333333335
+          },
+          {
+            "time": "2019-12",
+            "value": 2.4975
+          }
+        ],
+        "trend_line": [
+          {
+            "time": "2000-01",
+            "value": 2.3861546431407605
+          },
+          {
+            "time": "2000-02",
+            "value": 2.3854577377407207
+          },
+          {
+            "time": "2000-03",
+            "value": 2.3847608323406813
+          },
+          {
+            "time": "2000-04",
+            "value": 2.3840639269406414
+          },
+          {
+            "time": "2000-05",
+            "value": 2.3833670215406015
+          },
+          {
+            "time": "2000-06",
+            "value": 2.382670116140562
+          },
+          {
+            "time": "2000-07",
+            "value": 2.3819732107405223
+          },
+          {
+            "time": "2000-08",
+            "value": 2.3812763053404824
+          },
+          {
+            "time": "2000-09",
+            "value": 2.380579399940443
+          },
+          {
+            "time": "2000-10",
+            "value": 2.379882494540403
+          },
+          {
+            "time": "2000-11",
+            "value": 2.3791855891403633
+          },
+          {
+            "time": "2000-12",
+            "value": 2.378488683740324
+          },
+          {
+            "time": "2001-01",
+            "value": 2.377791778340284
+          },
+          {
+            "time": "2001-02",
+            "value": 2.377094872940244
+          },
+          {
+            "time": "2001-03",
+            "value": 2.3763979675402047
+          },
+          {
+            "time": "2001-04",
+            "value": 2.375701062140165
+          },
+          {
+            "time": "2001-05",
+            "value": 2.375004156740125
+          },
+          {
+            "time": "2001-06",
+            "value": 2.3743072513400856
+          },
+          {
+            "time": "2001-07",
+            "value": 2.3736103459400457
+          },
+          {
+            "time": "2001-08",
+            "value": 2.372913440540006
+          },
+          {
+            "time": "2001-09",
+            "value": 2.372216535139966
+          },
+          {
+            "time": "2001-10",
+            "value": 2.3715196297399266
+          },
+          {
+            "time": "2001-11",
+            "value": 2.3708227243398867
+          },
+          {
+            "time": "2001-12",
+            "value": 2.370125818939847
+          },
+          {
+            "time": "2002-01",
+            "value": 2.3694289135398074
+          },
+          {
+            "time": "2002-02",
+            "value": 2.3687320081397676
+          },
+          {
+            "time": "2002-03",
+            "value": 2.3680351027397277
+          },
+          {
+            "time": "2002-04",
+            "value": 2.3673381973396883
+          },
+          {
+            "time": "2002-05",
+            "value": 2.3666412919396485
+          },
+          {
+            "time": "2002-06",
+            "value": 2.3659443865396086
+          },
+          {
+            "time": "2002-07",
+            "value": 2.365247481139569
+          },
+          {
+            "time": "2002-08",
+            "value": 2.3645505757395293
+          },
+          {
+            "time": "2002-09",
+            "value": 2.3638536703394895
+          },
+          {
+            "time": "2002-10",
+            "value": 2.36315676493945
+          },
+          {
+            "time": "2002-11",
+            "value": 2.36245985953941
+          },
+          {
+            "time": "2002-12",
+            "value": 2.3617629541393703
+          },
+          {
+            "time": "2003-01",
+            "value": 2.361066048739331
+          },
+          {
+            "time": "2003-02",
+            "value": 2.360369143339291
+          },
+          {
+            "time": "2003-03",
+            "value": 2.359672237939251
+          },
+          {
+            "time": "2003-04",
+            "value": 2.3589753325392118
+          },
+          {
+            "time": "2003-05",
+            "value": 2.358278427139172
+          },
+          {
+            "time": "2003-06",
+            "value": 2.357581521739132
+          },
+          {
+            "time": "2003-07",
+            "value": 2.3568846163390926
+          },
+          {
+            "time": "2003-08",
+            "value": 2.3561877109390528
+          },
+          {
+            "time": "2003-09",
+            "value": 2.355490805539013
+          },
+          {
+            "time": "2003-10",
+            "value": 2.3547939001389735
+          },
+          {
+            "time": "2003-11",
+            "value": 2.3540969947389336
+          },
+          {
+            "time": "2003-12",
+            "value": 2.3534000893388938
+          },
+          {
+            "time": "2004-01",
+            "value": 2.3527031839388544
+          },
+          {
+            "time": "2004-02",
+            "value": 2.3520062785388145
+          },
+          {
+            "time": "2004-03",
+            "value": 2.3513093731387746
+          },
+          {
+            "time": "2004-04",
+            "value": 2.3506124677387352
+          },
+          {
+            "time": "2004-05",
+            "value": 2.3499155623386954
+          },
+          {
+            "time": "2004-06",
+            "value": 2.3492186569386555
+          },
+          {
+            "time": "2004-07",
+            "value": 2.348521751538616
+          },
+          {
+            "time": "2004-08",
+            "value": 2.3478248461385762
+          },
+          {
+            "time": "2004-09",
+            "value": 2.3471279407385364
+          },
+          {
+            "time": "2004-10",
+            "value": 2.346431035338497
+          },
+          {
+            "time": "2004-11",
+            "value": 2.345734129938457
+          },
+          {
+            "time": "2004-12",
+            "value": 2.3450372245384172
+          },
+          {
+            "time": "2005-01",
+            "value": 2.344340319138378
+          },
+          {
+            "time": "2005-02",
+            "value": 2.343643413738338
+          },
+          {
+            "time": "2005-03",
+            "value": 2.342946508338298
+          },
+          {
+            "time": "2005-04",
+            "value": 2.3422496029382582
+          },
+          {
+            "time": "2005-05",
+            "value": 2.341552697538219
+          },
+          {
+            "time": "2005-06",
+            "value": 2.340855792138179
+          },
+          {
+            "time": "2005-07",
+            "value": 2.340158886738139
+          },
+          {
+            "time": "2005-08",
+            "value": 2.3394619813380997
+          },
+          {
+            "time": "2005-09",
+            "value": 2.33876507593806
+          },
+          {
+            "time": "2005-10",
+            "value": 2.33806817053802
+          },
+          {
+            "time": "2005-11",
+            "value": 2.3373712651379805
+          },
+          {
+            "time": "2005-12",
+            "value": 2.3366743597379407
+          },
+          {
+            "time": "2006-01",
+            "value": 2.335977454337901
+          },
+          {
+            "time": "2006-02",
+            "value": 2.3352805489378614
+          },
+          {
+            "time": "2006-03",
+            "value": 2.3345836435378216
+          },
+          {
+            "time": "2006-04",
+            "value": 2.3338867381377817
+          },
+          {
+            "time": "2006-05",
+            "value": 2.3331898327377423
+          },
+          {
+            "time": "2006-06",
+            "value": 2.3324929273377024
+          },
+          {
+            "time": "2006-07",
+            "value": 2.3317960219376626
+          },
+          {
+            "time": "2006-08",
+            "value": 2.331099116537623
+          },
+          {
+            "time": "2006-09",
+            "value": 2.3304022111375833
+          },
+          {
+            "time": "2006-10",
+            "value": 2.3297053057375434
+          },
+          {
+            "time": "2006-11",
+            "value": 2.329008400337504
+          },
+          {
+            "time": "2006-12",
+            "value": 2.328311494937464
+          },
+          {
+            "time": "2007-01",
+            "value": 2.3276145895374243
+          },
+          {
+            "time": "2007-02",
+            "value": 2.326917684137385
+          },
+          {
+            "time": "2007-03",
+            "value": 2.326220778737345
+          },
+          {
+            "time": "2007-04",
+            "value": 2.325523873337305
+          },
+          {
+            "time": "2007-05",
+            "value": 2.3248269679372657
+          },
+          {
+            "time": "2007-06",
+            "value": 2.324130062537226
+          },
+          {
+            "time": "2007-07",
+            "value": 2.323433157137186
+          },
+          {
+            "time": "2007-08",
+            "value": 2.3227362517371466
+          },
+          {
+            "time": "2007-09",
+            "value": 2.3220393463371067
+          },
+          {
+            "time": "2007-10",
+            "value": 2.321342440937067
+          },
+          {
+            "time": "2007-11",
+            "value": 2.3206455355370275
+          },
+          {
+            "time": "2007-12",
+            "value": 2.3199486301369876
+          },
+          {
+            "time": "2008-01",
+            "value": 2.3192517247369477
+          },
+          {
+            "time": "2008-02",
+            "value": 2.3185548193369083
+          },
+          {
+            "time": "2008-03",
+            "value": 2.3178579139368685
+          },
+          {
+            "time": "2008-04",
+            "value": 2.3171610085368286
+          },
+          {
+            "time": "2008-05",
+            "value": 2.3164641031367887
+          },
+          {
+            "time": "2008-06",
+            "value": 2.3157671977367493
+          },
+          {
+            "time": "2008-07",
+            "value": 2.3150702923367095
+          },
+          {
+            "time": "2008-08",
+            "value": 2.3143733869366696
+          },
+          {
+            "time": "2008-09",
+            "value": 2.31367648153663
+          },
+          {
+            "time": "2008-10",
+            "value": 2.3129795761365903
+          },
+          {
+            "time": "2008-11",
+            "value": 2.3122826707365505
+          },
+          {
+            "time": "2008-12",
+            "value": 2.311585765336511
+          },
+          {
+            "time": "2009-01",
+            "value": 2.310888859936471
+          },
+          {
+            "time": "2009-02",
+            "value": 2.3101919545364313
+          },
+          {
+            "time": "2009-03",
+            "value": 2.309495049136392
+          },
+          {
+            "time": "2009-04",
+            "value": 2.308798143736352
+          },
+          {
+            "time": "2009-05",
+            "value": 2.308101238336312
+          },
+          {
+            "time": "2009-06",
+            "value": 2.307404332936273
+          },
+          {
+            "time": "2009-07",
+            "value": 2.306707427536233
+          },
+          {
+            "time": "2009-08",
+            "value": 2.306010522136193
+          },
+          {
+            "time": "2009-09",
+            "value": 2.3053136167361536
+          },
+          {
+            "time": "2009-10",
+            "value": 2.304616711336114
+          },
+          {
+            "time": "2009-11",
+            "value": 2.303919805936074
+          },
+          {
+            "time": "2009-12",
+            "value": 2.3032229005360345
+          },
+          {
+            "time": "2010-01",
+            "value": 2.3025259951359947
+          },
+          {
+            "time": "2010-02",
+            "value": 2.301829089735955
+          },
+          {
+            "time": "2010-03",
+            "value": 2.3011321843359154
+          },
+          {
+            "time": "2010-04",
+            "value": 2.3004352789358755
+          },
+          {
+            "time": "2010-05",
+            "value": 2.2997383735358357
+          },
+          {
+            "time": "2010-06",
+            "value": 2.2990414681357962
+          },
+          {
+            "time": "2010-07",
+            "value": 2.2983445627357564
+          },
+          {
+            "time": "2010-08",
+            "value": 2.2976476573357165
+          },
+          {
+            "time": "2010-09",
+            "value": 2.296950751935677
+          },
+          {
+            "time": "2010-10",
+            "value": 2.2962538465356372
+          },
+          {
+            "time": "2010-11",
+            "value": 2.2955569411355974
+          },
+          {
+            "time": "2010-12",
+            "value": 2.294860035735558
+          },
+          {
+            "time": "2011-01",
+            "value": 2.294163130335518
+          },
+          {
+            "time": "2011-02",
+            "value": 2.2934662249354782
+          },
+          {
+            "time": "2011-03",
+            "value": 2.292769319535439
+          },
+          {
+            "time": "2011-04",
+            "value": 2.292072414135399
+          },
+          {
+            "time": "2011-05",
+            "value": 2.291375508735359
+          },
+          {
+            "time": "2011-06",
+            "value": 2.2906786033353197
+          },
+          {
+            "time": "2011-07",
+            "value": 2.28998169793528
+          },
+          {
+            "time": "2011-08",
+            "value": 2.28928479253524
+          },
+          {
+            "time": "2011-09",
+            "value": 2.2885878871352006
+          },
+          {
+            "time": "2011-10",
+            "value": 2.2878909817351607
+          },
+          {
+            "time": "2011-11",
+            "value": 2.287194076335121
+          },
+          {
+            "time": "2011-12",
+            "value": 2.286497170935081
+          },
+          {
+            "time": "2012-01",
+            "value": 2.2858002655350416
+          },
+          {
+            "time": "2012-02",
+            "value": 2.2851033601350017
+          },
+          {
+            "time": "2012-03",
+            "value": 2.284406454734962
+          },
+          {
+            "time": "2012-04",
+            "value": 2.2837095493349224
+          },
+          {
+            "time": "2012-05",
+            "value": 2.2830126439348826
+          },
+          {
+            "time": "2012-06",
+            "value": 2.2823157385348427
+          },
+          {
+            "time": "2012-07",
+            "value": 2.2816188331348033
+          },
+          {
+            "time": "2012-08",
+            "value": 2.2809219277347634
+          },
+          {
+            "time": "2012-09",
+            "value": 2.2802250223347236
+          },
+          {
+            "time": "2012-10",
+            "value": 2.279528116934684
+          },
+          {
+            "time": "2012-11",
+            "value": 2.2788312115346443
+          },
+          {
+            "time": "2012-12",
+            "value": 2.2781343061346044
+          },
+          {
+            "time": "2013-01",
+            "value": 2.277437400734565
+          },
+          {
+            "time": "2013-02",
+            "value": 2.276740495334525
+          },
+          {
+            "time": "2013-03",
+            "value": 2.2760435899344853
+          },
+          {
+            "time": "2013-04",
+            "value": 2.275346684534446
+          },
+          {
+            "time": "2013-05",
+            "value": 2.274649779134406
+          },
+          {
+            "time": "2013-06",
+            "value": 2.273952873734366
+          },
+          {
+            "time": "2013-07",
+            "value": 2.2732559683343267
+          },
+          {
+            "time": "2013-08",
+            "value": 2.272559062934287
+          },
+          {
+            "time": "2013-09",
+            "value": 2.271862157534247
+          },
+          {
+            "time": "2013-10",
+            "value": 2.2711652521342076
+          },
+          {
+            "time": "2013-11",
+            "value": 2.2704683467341678
+          },
+          {
+            "time": "2013-12",
+            "value": 2.269771441334128
+          },
+          {
+            "time": "2014-01",
+            "value": 2.2690745359340885
+          },
+          {
+            "time": "2014-02",
+            "value": 2.2683776305340486
+          },
+          {
+            "time": "2014-03",
+            "value": 2.2676807251340088
+          },
+          {
+            "time": "2014-04",
+            "value": 2.2669838197339693
+          },
+          {
+            "time": "2014-05",
+            "value": 2.2662869143339295
+          },
+          {
+            "time": "2014-06",
+            "value": 2.2655900089338896
+          },
+          {
+            "time": "2014-07",
+            "value": 2.26489310353385
+          },
+          {
+            "time": "2014-08",
+            "value": 2.2641961981338103
+          },
+          {
+            "time": "2014-09",
+            "value": 2.2634992927337705
+          },
+          {
+            "time": "2014-10",
+            "value": 2.262802387333731
+          },
+          {
+            "time": "2014-11",
+            "value": 2.262105481933691
+          },
+          {
+            "time": "2014-12",
+            "value": 2.2614085765336513
+          },
+          {
+            "time": "2015-01",
+            "value": 2.2607116711336115
+          },
+          {
+            "time": "2015-02",
+            "value": 2.260014765733572
+          },
+          {
+            "time": "2015-03",
+            "value": 2.259317860333532
+          },
+          {
+            "time": "2015-04",
+            "value": 2.2586209549334924
+          },
+          {
+            "time": "2015-05",
+            "value": 2.257924049533453
+          },
+          {
+            "time": "2015-06",
+            "value": 2.257227144133413
+          },
+          {
+            "time": "2015-07",
+            "value": 2.256530238733373
+          },
+          {
+            "time": "2015-08",
+            "value": 2.255833333333334
+          },
+          {
+            "time": "2015-09",
+            "value": 2.255136427933294
+          },
+          {
+            "time": "2015-10",
+            "value": 2.254439522533254
+          },
+          {
+            "time": "2015-11",
+            "value": 2.2537426171332147
+          },
+          {
+            "time": "2015-12",
+            "value": 2.253045711733175
+          },
+          {
+            "time": "2016-01",
+            "value": 2.252348806333135
+          },
+          {
+            "time": "2016-02",
+            "value": 2.2516519009330955
+          },
+          {
+            "time": "2016-03",
+            "value": 2.2509549955330557
+          },
+          {
+            "time": "2016-04",
+            "value": 2.250258090133016
+          },
+          {
+            "time": "2016-05",
+            "value": 2.2495611847329764
+          },
+          {
+            "time": "2016-06",
+            "value": 2.2488642793329365
+          },
+          {
+            "time": "2016-07",
+            "value": 2.2481673739328967
+          },
+          {
+            "time": "2016-08",
+            "value": 2.2474704685328573
+          },
+          {
+            "time": "2016-09",
+            "value": 2.2467735631328174
+          },
+          {
+            "time": "2016-10",
+            "value": 2.2460766577327775
+          },
+          {
+            "time": "2016-11",
+            "value": 2.245379752332738
+          },
+          {
+            "time": "2016-12",
+            "value": 2.2446828469326983
+          },
+          {
+            "time": "2017-01",
+            "value": 2.2439859415326584
+          },
+          {
+            "time": "2017-02",
+            "value": 2.243289036132619
+          },
+          {
+            "time": "2017-03",
+            "value": 2.242592130732579
+          },
+          {
+            "time": "2017-04",
+            "value": 2.2418952253325393
+          },
+          {
+            "time": "2017-05",
+            "value": 2.2411983199325
+          },
+          {
+            "time": "2017-06",
+            "value": 2.24050141453246
+          },
+          {
+            "time": "2017-07",
+            "value": 2.23980450913242
+          },
+          {
+            "time": "2017-08",
+            "value": 2.2391076037323807
+          },
+          {
+            "time": "2017-09",
+            "value": 2.238410698332341
+          },
+          {
+            "time": "2017-10",
+            "value": 2.237713792932301
+          },
+          {
+            "time": "2017-11",
+            "value": 2.2370168875322616
+          },
+          {
+            "time": "2017-12",
+            "value": 2.2363199821322217
+          },
+          {
+            "time": "2018-01",
+            "value": 2.235623076732182
+          },
+          {
+            "time": "2018-02",
+            "value": 2.234926171332142
+          },
+          {
+            "time": "2018-03",
+            "value": 2.2342292659321026
+          },
+          {
+            "time": "2018-04",
+            "value": 2.2335323605320627
+          },
+          {
+            "time": "2018-05",
+            "value": 2.2328354551320233
+          },
+          {
+            "time": "2018-06",
+            "value": 2.2321385497319834
+          },
+          {
+            "time": "2018-07",
+            "value": 2.2314416443319436
+          },
+          {
+            "time": "2018-08",
+            "value": 2.2307447389319037
+          },
+          {
+            "time": "2018-09",
+            "value": 2.2300478335318643
+          },
+          {
+            "time": "2018-10",
+            "value": 2.2293509281318244
+          },
+          {
+            "time": "2018-11",
+            "value": 2.2286540227317846
+          },
+          {
+            "time": "2018-12",
+            "value": 2.227957117331745
+          },
+          {
+            "time": "2019-01",
+            "value": 2.2272602119317053
+          },
+          {
+            "time": "2019-02",
+            "value": 2.2265633065316655
+          },
+          {
+            "time": "2019-03",
+            "value": 2.225866401131626
+          },
+          {
+            "time": "2019-04",
+            "value": 2.225169495731586
+          },
+          {
+            "time": "2019-05",
+            "value": 2.2244725903315463
+          },
+          {
+            "time": "2019-06",
+            "value": 2.223775684931507
+          },
+          {
+            "time": "2019-07",
+            "value": 2.223078779531467
+          },
+          {
+            "time": "2019-08",
+            "value": 2.222381874131427
+          },
+          {
+            "time": "2019-09",
+            "value": 2.2216849687313878
+          },
+          {
+            "time": "2019-10",
+            "value": 2.220988063331348
+          },
+          {
+            "time": "2019-11",
+            "value": 2.220291157931308
+          },
+          {
+            "time": "2019-12",
+            "value": 2.2195942525312686
+          }
+        ],
+        "methods": {
+          "slope": "Theil-Sen against elapsed calendar months / 12",
+          "seasonality": "Calendar-month medians after preliminary seasonal Sen detrending; centered climatology",
+          "ci": "199 circular residual block bootstraps, block=12 months, seed=2026",
+          "significance": "Hamed-Rao modified Mann-Kendall on complete annual deseasonalized means; lags 1..3; alpha=.05"
+        },
+        "warnings": [
+          "Exploratory association only; trends do not establish causation.",
+          "Regional means can vary with the set of finite cells each month.",
+          "Single-point sample is not an Arctic regional assessment.",
+          "version records the POWER API version, not a granule revision.",
+          "Legacy provenance observations means genuine source data; data_kind specifies reanalysis."
+        ]
+      }
+    }
+  },
+  "/paradox": {
+    "query": {
+      "var": "power_t2m_sample",
+      "bbox": "19.9,69.9,20.1,70.1"
+    },
+    "response": {
+      "variable": {
+        "id": "power_t2m_sample",
+        "name": "NASA POWER 2-m temperature: 70N, 20E sample",
+        "units": "C",
+        "provenance": "observations",
+        "source": "NASA POWER monthly API; MERRA-2 assimilation/reanalysis, not direct satellite observations",
+        "field": "T2M",
+        "annual_aggregation": "mean",
+        "dataset_id": "NASA POWER monthly point / MERRA2",
+        "version": "v2.10.0",
+        "source_url": "https://power.larc.nasa.gov/api/temporal/monthly/point?parameters=T2M&community=RE&longitude=20&latitude=70&format=JSON&start=2000&end=2019",
+        "scientific_name": "Temperature at 2 Meters (T2M)",
+        "variable_type": "state",
+        "data_kind": "reanalysis",
+        "temporal_coverage": [
+          "2000-01-01",
+          "2019-12-01"
+        ],
+        "spatial_resolution": {
+          "latitude_degrees": 0.5,
+          "longitude_degrees": 0.625
+        },
+        "spatial_support": "Single requested POWER point at 70N,20E; native meteorology resolution 0.5 x 0.625 degrees",
+        "limitations": [
+          "Single-point sample is not an Arctic regional assessment.",
+          "version records the POWER API version, not a granule revision.",
+          "Legacy provenance observations means genuine source data; data_kind specifies reanalysis."
+        ]
+      },
+      "bbox": [
+        19.9,
+        69.9,
+        20.1,
+        70.1
+      ],
+      "cells": [
+        {
+          "latitude": 70.0,
+          "longitude": 20.0,
+          "label": 0,
+          "slope": -0.05486111111111118,
+          "p_value": 0.8203382164336168,
+          "significant": false,
+          "valid_years": 20,
+          "warning": null
+        }
+      ],
+      "opposing_trends": false,
+      "increasing_proportion": 0.0,
+      "decreasing_proportion": 0.0,
+      "valid_cells": 1,
+      "slope_units": "C per decade",
+      "methods": {
+        "annual": "12 finite months required; mean; incomplete years discarded",
+        "slope": "Theil-Sen against actual calendar year",
+        "significance": "Hamed-Rao annual Mann-Kendall; lags 1..3; >=10 consecutive years",
+        "multiple_testing": "Benjamini-Yekutieli FDR q=.05 over testable cells",
+        "paradox": "At least 10% of testable cells in each FDR-supported direction",
+        "proportions": "Unweighted cell counts divided by testable cells; not land-area fractions"
+      },
+      "warnings": [
+        "Exploratory screening, not causal inference; no spatial clustering requirement.",
+        "Annual sum is supported only for additive monthly amounts."
+      ],
+      "latitudes": [
+        70.0
+      ],
+      "longitudes": [
+        20.0
+      ],
+      "labels": [
+        [
+          0
+        ]
+      ],
+      "slopes": [
+        [
+          -0.05486111111111118
+        ]
+      ],
+      "p_values": [
+        [
+          0.8203382164336168
+        ]
+      ],
+      "minimum_opposing_share": 0.1
+    }
+  }
+}

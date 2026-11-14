@@ -1,0 +1,201 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Prepared Earth-system data catalog",
+  "type": "object",
+  "required": [
+    "variables"
+  ],
+  "properties": {
+    "variables": {
+      "type": "array",
+      "items": {
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "units": {
+            "minLength": 1,
+            "title": "Units",
+            "type": "string"
+          },
+          "provenance": {
+            "enum": [
+              "observations",
+              "mock"
+            ],
+            "title": "Provenance",
+            "type": "string"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          },
+          "path": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Path"
+          },
+          "field": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Field"
+          },
+          "annual_aggregation": {
+            "default": "mean",
+            "enum": [
+              "mean",
+              "sum"
+            ],
+            "title": "Annual Aggregation",
+            "type": "string"
+          },
+          "dataset_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Dataset Id"
+          },
+          "version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Version"
+          },
+          "source_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Source Url"
+          },
+          "scientific_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Scientific Name"
+          },
+          "variable_type": {
+            "default": "state",
+            "enum": [
+              "state",
+              "monthly_amount",
+              "rate"
+            ],
+            "title": "Variable Type",
+            "type": "string"
+          },
+          "data_kind": {
+            "anyOf": [
+              {
+                "enum": [
+                  "observation",
+                  "reanalysis",
+                  "synthetic"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Data Kind"
+          },
+          "temporal_coverage": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Temporal Coverage"
+          },
+          "spatial_resolution": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "number"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Spatial Resolution"
+          },
+          "spatial_support": {
+            "default": "rectilinear grid-cell centers",
+            "title": "Spatial Support",
+            "type": "string"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Limitations",
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "units",
+          "provenance",
+          "source"
+        ],
+        "title": "Variable",
+        "type": "object"
+      }
+    }
+  }
+}
