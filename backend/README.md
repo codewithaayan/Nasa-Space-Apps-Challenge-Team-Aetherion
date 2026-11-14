@@ -1,5 +1,22 @@
 # Trend Detective: Case Files backend
 
+## Karachi CSV integration
+
+Six supplied CSV exports are readable directly from repository `Data/Karachi`.
+Set `CSV_DATA_ROOT` for an alternate directory with a `manifest.json`.
+`GET /datasets` discovers actual coverage and provenance; optional `location`
+filters the catalog. `GET /datasets/{id}/analysis` accepts optional ISO `start`
+and `end` dates, returning source values, a nullable trend, deterministic summary,
+and warnings. Short selections still return source values. Out-of-coverage or
+reversed dates are invalid. The existing gridded API below remains unchanged.
+
+No CSV is treated as a spatial grid. Units remain native, including precipitation
+rates in inch/day and temperature in K. Source conflicts and unverified NDVI
+geolocation remain visible. See [CSV provenance and limitations](../Data/Karachi/README.md)
+and the [future collection backlog](../Data/FUTURE_DATA_REQUIREMENTS.md).
+`python -m scripts.verify_csv_pipeline` checks a running local backend, with an
+optional `--base-url`. Offline tests include all six real source-export pipelines.
+
 Python 3.11–3.13 recommended. FastAPI serves synchronous scientific requests;
 Bulk NASA ingestion, AI, frontend and deployment remain teammate-owned.
 No team build guide was present in the checkout.

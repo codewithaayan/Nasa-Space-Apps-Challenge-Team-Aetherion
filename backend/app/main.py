@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from app.api.routes import router
+from app.api.csv_datasets import router as csv_router
 from app.services.data import DataUnavailable, NotFound
 
 app = FastAPI(title='Trend Detective: Case Files', version='0.1.0')
@@ -37,3 +38,4 @@ def health():
 
 
 app.include_router(router)
+app.include_router(csv_router)

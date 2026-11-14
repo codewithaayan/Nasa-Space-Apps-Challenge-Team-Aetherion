@@ -28,7 +28,7 @@ export function Layout({ children }) {
           ))}
           <Link className="nav-compare" to="/compare" onClick={() => setMenuOpen(false)}>City comparison <span>↗</span></Link>
         </nav>
-        <div className="demo-badge"><span /> DEMO MODE</div>
+        <div className="demo-badge"><span /> EXPLORATORY</div>
       </header>
       <main>{children}</main>
       <footer className="site-footer">

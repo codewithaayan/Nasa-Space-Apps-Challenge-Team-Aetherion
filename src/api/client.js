@@ -3,10 +3,12 @@ import axios from "axios";
 const client = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:8000",
   headers: { "Content-Type": "application/json" },
-  timeout: 15000,
+  timeout: 60000,
 });
 
 export const api = {
+  getDatasets: () => client.get('/datasets'),
+  getDatasetAnalysis: (id, params, signal) => client.get(`/datasets/${encodeURIComponent(id)}/analysis`, { params, signal }),
   getVariables: () => client.get("/variables"),
   getTimeseries: (params) => client.get("/timeseries", { params }),
   getTrend: (params) => client.get("/trend", { params }),

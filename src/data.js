@@ -4,11 +4,11 @@ export const locations = [
 ];
 
 export const variables = [
-  { id: "precipitation", name: "Precipitation", group: "WATER", unit: "mm", description: "Rain and snowfall accumulated over time.", icon: "droplets" },
+  { id: "precipitation", name: "Precipitation", group: "WATER", unit: "mm", description: "Precipitation rate or amount, as defined by the source.", icon: "droplets" },
   { id: "soil_moisture", name: "Soil moisture", group: "WATER", unit: "m³/m³", description: "Water held in the soil near the surface.", icon: "waves" },
-  { id: "evaporation", name: "Evaporation", group: "WATER", unit: "mm", description: "Water moving from land and water into the air.", icon: "sun" },
+  { id: "evaporation", name: "Evaporation", group: "WATER", unit: "mm", description: "Evaporation and plant transpiration, as defined by the source.", icon: "sun" },
   { id: "ndvi", name: "Vegetation greenness (NDVI)", group: "PLANTS", unit: "index", description: "A satellite-derived indicator of green vegetation.", icon: "sprout" },
-  { id: "aerosols", name: "Aerosols / dust", group: "AIR", unit: "index", description: "Tiny particles suspended in the atmosphere.", icon: "wind" },
+  { id: "aerosols", name: "Aerosols / dust", group: "AIR", unit: "index", description: "Investigate the selected aerosol measure; units depend on the source.", icon: "wind" },
   { id: "temperature", name: "Air temperature", group: "HEAT", unit: "°C", description: "Near-surface air temperature over time.", icon: "thermometer" },
 ];
 
