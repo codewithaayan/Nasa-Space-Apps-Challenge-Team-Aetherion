@@ -1,10 +1,8 @@
-<<<<<<< HEAD
 node_modules/
 dist/
 .env
 .env.*
 !.env.example
-=======
 __pycache__/
 *.py[cod]
 .venv/
@@ -25,4 +23,4 @@ dist/
 .DS_Store
 Thumbs.db
 backend/data/
->>>>>>> 2b09c71f6ecf3f933f739345f2aabaefdd75e10c
+work/

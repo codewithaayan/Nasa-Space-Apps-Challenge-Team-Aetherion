@@ -1,0 +1,58 @@
+{
+  "datasets": [
+    {
+      "id": "karachi_temperature", "location_id": "karachi", "topic": "temperature",
+      "file": "Air_Temp_Karachi.csv", "time_column": "time", "value_column": "mean_M2IMNXASM_5_12_4_T2M",
+      "name": "2-metre air temperature", "units": "K", "dataset_id": "M2IMNXASM", "version": "5.12.4",
+      "source": "Supplied NASA Giovanni export of MERRA-2 monthly air temperature", "data_kind": "reanalysis",
+      "documentation_url": "https://gmao.gsfc.nasa.gov/pubs/docs/Bosilovich785.pdf",
+      "spatial_support": "Giovanni area-average export; contributing centre is 25N, 66.875E (one native cell).",
+      "limitations": ["Temperature is retained in kelvin, without conversion to Celsius.", "Reanalysis is not a direct satellite temperature measurement."]
+    },
+    {
+      "id": "karachi_precipitation", "location_id": "karachi", "topic": "precipitation",
+      "file": "Precipitation.2006-2025.csv", "time_column": "time", "value_column": "mean_GPM_3IMERGM_07_precipitation",
+      "name": "Precipitation rate", "units": "inch/day", "dataset_id": "GPM_3IMERGM", "version": "07",
+      "source": "Supplied NASA Giovanni export of IMERG Final satellite-gauge precipitation", "data_kind": "satellite_estimate",
+      "documentation_url": "https://gpm.nasa.gov/data/imerg",
+      "spatial_support": "Giovanni area-averaged monthly series; individual grid-cell histories are absent.",
+      "limitations": ["Units follow the export request: inches/day. Each monthly row is a rate, not a monthly rainfall total.", "No conversion or annual summation of rates is performed.", "Coverage ends in January 2025; the remainder of 2025 is not supplied."]
+    },
+    {
+      "id": "karachi_evaporation", "location_id": "karachi", "topic": "evaporation",
+      "file": "Evaporation.csv", "time_column": "time", "value_column": "mean_GLDAS_NOAH025_M_2_1_Evap_tavg",
+      "name": "Evapotranspiration rate", "units": "kg m-2 s-1", "dataset_id": "GLDAS_NOAH025_M", "version": "2.1",
+      "source": "Supplied NASA Giovanni export of GLDAS Noah monthly evapotranspiration", "data_kind": "model",
+      "documentation_url": "https://docserver.gesdisc.eosdis.nasa.gov/public/project/hydrology/README_GLDAS2.pdf",
+      "spatial_support": "Giovanni area-averaged monthly series; individual grid-cell histories are absent.",
+      "limitations": ["Model-derived evapotranspiration includes evaporation and transpiration.", "The native mass-flux unit is retained; this is not a monthly accumulated depth."]
+    },
+    {
+      "id": "karachi_soil_moisture", "location_id": "karachi", "topic": "soil_moisture",
+      "file": "Soil_Moisture.csv", "time_column": "time", "value_column": "mean_GLDAS_NOAH025_M_2_1_SoilMoi0_10cm_inst",
+      "name": "Soil moisture content (0–10 cm)", "units": "kg m-2", "dataset_id": "GLDAS_NOAH025_M", "version": "2.1",
+      "source": "Supplied NASA Giovanni export of GLDAS Noah monthly soil moisture", "data_kind": "model",
+      "documentation_url": "https://docserver.gesdisc.eosdis.nasa.gov/public/project/hydrology/README_GLDAS2.pdf",
+      "spatial_support": "Giovanni area-averaged monthly series; individual grid-cell histories are absent.",
+      "limitations": ["Model-derived mass of water per unit area in the top 10 cm; not volumetric m3/m3."]
+    },
+    {
+      "id": "karachi_ndvi", "location_id": "karachi", "topic": "ndvi",
+      "file": "Vegetation_NDVI-Statistics.csv", "time_column": "Date", "value_column": "Mean",
+      "name": "Vegetation greenness (NDVI)", "units": "dimensionless", "dataset_id": "MOD13A3", "version": "061",
+      "source": "Supplied MOD13A3 monthly NDVI statistics export, grouped in the Karachi source folder", "data_kind": "satellite_estimate",
+      "documentation_url": "https://modis.gsfc.nasa.gov/data/dataprod/mod13.php",
+      "spatial_support": "One contributing pixel per monthly record; pixel coordinates are not included in this export.",
+      "limitations": ["Karachi is the supplied folder association; the pixel location is unverified. Do not interpret this as a city-wide NDVI result.", "Quality flags and extraction metadata are not supplied.", "Exported decimal NDVI values are retained without additional scaling."]
+    },
+    {
+      "id": "karachi_aerosols", "location_id": "karachi", "topic": "aerosols",
+      "file": "Aerosol.csv", "time_column": "time", "value_column": "mean_M2TMNXAER_5_12_4_TOTEXTTAU",
+      "name": "Aerosol optical thickness (550 nm)", "units": "dimensionless", "dataset_id": "M2TMNXAER", "version": "5.12.4",
+      "source": "Supplied NASA Giovanni export of MERRA-2 total aerosol extinction optical thickness", "data_kind": "reanalysis",
+      "documentation_url": "https://gmao.gsfc.nasa.gov/pubs/docs/Bosilovich785.pdf",
+      "spatial_support": "Giovanni area-average export; contributing centre is 25N, 66.875E (one native cell).",
+      "limitations": ["Optical thickness is not ground-level PM2.5 concentration or an air quality index.", "MERRA-2 aerosol reanalysis is not a direct measurement of local exposure."]
+    }
+  ]
+}
