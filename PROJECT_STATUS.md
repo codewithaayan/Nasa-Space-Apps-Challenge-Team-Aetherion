@@ -1,3 +1,27 @@
+# Shared frontend and backend integration milestone 2026-11-14
+
+The canonical frontend and existing backend now share CSV and NetCDF/Zarr dataset
+contracts under /api. Structured wizard validation, URL-persistent selections,
+charts, native-cell trend maps, Paradox Finder, backend-checked city comparisons,
+prepared regional cases, deterministic verdicts, source limitations and printable
+reports are connected. One command starts both development services; the built
+app can run through FastAPI on one local origin.
+
+Verification: 72 backend tests passed; all 8 Playwright browser tests passed using
+isolated local servers. Browser checks covered the supplied Karachi exports and
+explicitly labeled synthetic grid/comparison fixtures. They also checked direct
+case links, date persistence, missing-data states, retries, mobile layout and PDF
+printing. Synthetic fixtures are confined to ignored work/e2e and are never used
+by ordinary startup. No source CSV values were changed.
+
+Real Lahore data and regional grids remain collection prerequisites. No external
+AI provider or validated future-significance model is configured; the API and UI
+disclose these states, returning null estimates rather than inventing results.
+Scientific review is separate from software checks. No push, merge, deployment
+or pull request was performed. Current contracts are in backend/docs/INTEGRATION.md.
+
+## Earlier backend milestones
+
 # Trend Detective: Case Files — backend milestone
 
 ## Current integration milestone (2026-11-14)

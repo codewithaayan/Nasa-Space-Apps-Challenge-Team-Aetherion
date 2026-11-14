@@ -105,6 +105,8 @@ class CsvDataSource:
                 'No per-cell monthly grid is included; regional trend mapping and Paradox Finder are unavailable.',
                 'The annual significance test uses equal-month annual means; rate values are not annual accumulated totals.',
             ] + record.get('limitations', [])
+            if record.get('provenance') == 'mock':
+                warnings.append('Synthetic fixture, NOT NASA observations.')
             requested = metadata.get('User Bounding Box')
             data_box = metadata.get('Data Bounding Box')
             url = metadata.get('URL to Reproduce Results')
@@ -119,6 +121,7 @@ class CsvDataSource:
                 source_url=url or record.get('source_url'), documentation_url=record.get('documentation_url'),
                 source_file=path.name, source_sha256=hashlib.sha256(raw).hexdigest(),
                 dataset_id=record['dataset_id'], version=record['version'], data_kind=record['data_kind'],
+                provenance=record.get('provenance', 'source_export'),
                 temporal_coverage=[str(series.index[0].date()), str(series.index[-1].date())],
                 finite_months=int(series.notna().sum()), monthly_slots=len(series),
                 requested_bbox=[float(v) for v in requested.split(',')] if requested else None,

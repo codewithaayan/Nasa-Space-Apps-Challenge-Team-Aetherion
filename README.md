@@ -6,6 +6,23 @@ date selection, monthly charts, seasonal adjustment, trend statistics and printa
 case reports. Statistics run in the backend; source files are read without changes.
 Results are exploratory and scientifically unreviewed.
 
+The frontend now shares a dataset contract across CSV and NetCDF/Zarr providers.
+Gridded selections can populate the native-cell trend map and Paradox Finder;
+CSV averages retain explicit spatial limitations. City comparison is checked by
+the backend for product/version, units, source kind and overlapping dates.
+Prepared Sahel/Amazon/Arctic artifacts are discoverable from the case archive.
+
+## Start both services
+
+After the Python environment and root npm dependencies are installed as below,
+run `npm run dev:all` from the repository root. It starts FastAPI on port 8000 and
+Vite on port 5173. `BACKEND_PORT` and `FRONTEND_PORT` select alternate local ports.
+The development proxy forwards `/api` to the backend.
+
+For one-origin local production: run `npm run build`, then `npm start`. Open
+`http://127.0.0.1:8000`. FastAPI serves the built interface, assets, API and direct
+report/case URLs. It does not require a separate static server.
+
 ## Run locally
 
 Use Python 3.11–3.13 for the backend. From the repository root:
@@ -25,8 +42,11 @@ copy .env.example .env
 npm run dev
 ```
 
-The default API origin is `http://localhost:8000`. Set `VITE_API_BASE_URL` in
-the frontend environment when using a different origin. The backend's
+The default frontend API base is `/api`. Keep that setting for the development
+proxy and the one-origin production server. `BACKEND_URL` selects the development
+proxy target; `dev:all` sets it to the chosen backend port. An old `.env` with an
+absolute `VITE_API_BASE_URL` overrides this default; update it when switching to
+the proxy. Set an absolute API origin only for separate hosting. The backend's
 `ALLOWED_ORIGINS` must include the actual frontend origin; defaults are
 `http://localhost:5173` and `http://127.0.0.1:5173`.
 
@@ -55,11 +75,15 @@ No positive trend or statistical significance is guaranteed.
 
 ## API and checks
 
-The CSV integration uses `GET /datasets` (optional `location=karachi`) and
-`GET /datasets/{id}/analysis?start=2006-01-01&end=2025-12-01`.
+The shared integration uses `GET /api/datasets` (optional `location=karachi`) and
+`GET /api/datasets/{id}/analysis?start=2006-01-01&end=2025-12-01`.
 Available dates depend on the dataset: precipitation ends in January 2025.
 Out-of-coverage and reversed dates are rejected. Short periods return source
-values with inference unavailable. Existing gridded endpoints remain unchanged.
+values with inference unavailable. Grids accept `bbox=west,south,east,north`.
+CSV averages cannot be spatially subset. Responses include the actual analysis,
+source metadata, verdict, per-feature availability and explicit null estimates
+when a validated future-significance model is absent. Original root API routes
+remain compatible. See [integration contracts](backend/docs/INTEGRATION.md).
 
 From `backend/`:
 
@@ -71,6 +95,21 @@ From `backend/`:
 The second command requires the backend to be running; `--base-url` selects
 another local port. Tests use local source exports and deterministic fixtures,
 without NASA downloads. Passing software checks is separate from scientific review.
+
+For browser integration tests, install Chromium with `npx playwright install chromium`,
+then run `npm run test:e2e`. An installed Edge browser can be used on Windows:
+
+```powershell
+$env:PLAYWRIGHT_CHANNEL = 'msedge'
+npm run test:e2e
+```
+
+The suite starts two isolated localhost servers, blocks external requests, tests
+the supplied Karachi data, and exercises future grid/comparison contracts using
+explicitly labeled synthetic fixtures. Fixtures and screenshots/PDFs stay under
+ignored `work/e2e/`; normal startup never enables them. Browser checks cover the
+wizard, charts, source units, date persistence, reports/printing, grid maps,
+prepared cases, comparisons, retry behavior and mobile layout.
 
 ## Build
 

@@ -35,6 +35,30 @@
             "title": "Source",
             "type": "string"
           },
+          "location_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Location Id"
+          },
+          "topic": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Topic"
+          },
           "path": {
             "anyOf": [
               {
@@ -132,7 +156,9 @@
                 "enum": [
                   "observation",
                   "reanalysis",
-                  "synthetic"
+                  "synthetic",
+                  "model",
+                  "satellite_estimate"
                 ],
                 "type": "string"
               },

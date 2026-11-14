@@ -33,7 +33,7 @@ export function Layout({ children }) {
       <main>{children}</main>
       <footer className="site-footer">
         <Link to="/" className="footer-brand">TREND DETECTIVE <span>·</span> CASE FILES</Link>
-        <span>NASA Earth science data · Analysis is unavailable in this demo</span>
+        <span>Source data · Exploratory analysis · Scientific review pending</span>
         <Link to="/about">About the science <span>↗</span></Link>
       </footer>
     </div>

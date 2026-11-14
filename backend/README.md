@@ -2,6 +2,11 @@
 
 ## Karachi CSV integration
 
+The frontend now uses a shared CSV/grid contract under `/api`. See the
+[complete integration contract](docs/INTEGRATION.md) for wizard, verdict,
+comparison, cell maps, prepared cases, same-origin hosting and browser tests.
+Root-level data routes remain available for existing clients.
+
 Six supplied CSV exports are readable directly from repository `Data/Karachi`.
 Set `CSV_DATA_ROOT` for an alternate directory with a `manifest.json`.
 `GET /datasets` discovers actual coverage and provenance; optional `location`
@@ -198,20 +203,18 @@ cases require a validator name; unreviewed precomputes set validated=false.
 Include product/version/citation and case rationale in source
 and message. Files are checked against schemas; no invented case outputs are shipped.
 
-## Waseel: proposed AI contracts (not implemented)
+## Waseel extension points
 
-These contracts are proposals requiring team agreement; no AI routes are registered:
+Structured wizard validation, deterministic verdicts, compatibility-checked
+comparisons and typed unavailable future-significance estimates are registered.
+The current request/response contracts are in [INTEGRATION.md](docs/INTEGRATION.md).
+Natural-language AI assistance, an external AI verdict provider and an explicit
+validated future effect/noise model remain extension points. Client-provided
+statistics must never override authoritative calculations. Unsupported estimates
+remain null, with assumptions and limitations disclosed.
 
-- `POST /verdict`: request `{analysis: TrendResponse, question?: string}`;
-  response `{verdict: string, caveats: string[], provenance: string}`. Preserve
-  statistical warnings and provenance; do not assert causes or fabricate significance.
-- `POST /wizard`: request `{question: string, available_variables: Variable[]}`;
-  response `{var: string, bbox: number[4], start: string|null, end: string|null,
-  explanation: string, warnings: string[]}`. Validate against the catalog before use.
-- Years-to-significance remains Waseel-owned; no extrapolation is implemented.
-
-Next integration step: obtain one real, coarse NASA variable from Rhido, validate
-the adapter and trends with Waseel, and have Ayesha approve a demonstration case.
+Further real-data work includes compatible Lahore datasets and monthly spatial
+grids; source and scientific case review remain necessary.
 
 ## Earlier verification history
 

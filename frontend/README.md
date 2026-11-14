@@ -12,14 +12,16 @@ npm run dev
 ```
 
 Follow the [root run instructions](../README.md) to start the FastAPI backend.
-The default API origin is http://localhost:8000. Configure VITE_API_BASE_URL when
-using a different backend, and ALLOWED_ORIGINS for the actual frontend origin.
+The default API base is /api. The Vite development proxy uses BACKEND_URL,
+and the local production server serves the built interface and API together.
+Run npm run dev:all from the root to start both development services. Configure
+VITE_API_BASE_URL and ALLOWED_ORIGINS only when using separate origins.
 No credentials belong in frontend source or environment variables.
 
 After installing root dependencies, this directory's npm run dev and npm run build
 commands remain supported too. Its Vite configuration permits the shared source
 outside this directory. New interface changes belong in the root src/ directory.
 
-Karachi exports support exploratory time-series analysis. Lahore data, spatial
-grids, an AI verdict implementation and a validated years-to-significance model
-remain planned. Scientific review is separate from software verification.
+Karachi exports support exploratory time-series analysis. Grid maps, prepared cases and comparison contracts are connected; real Lahore
+data and spatial grids remain collection tasks. An AI provider and a validated
+years-to-significance model remain unconfigured. Scientific review is separate from software verification.
