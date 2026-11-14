@@ -11,10 +11,10 @@ export function TrendChart({ variableName = "Selected variable", unit = "unit" }
           data={[]}
           layout={{
             autosize: true, height: 280, paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)",
-            font: { color: "#9cafc2", family: "Inter, sans-serif", size: 11 },
+            font: { color: "#B8C8BD", family: "Inter, sans-serif", size: 11 },
             margin: { l: 52, r: 16, t: 10, b: 42 },
-            xaxis: { title: "Date", gridcolor: "rgba(151,173,195,.08)", zeroline: false, showline: true, linecolor: "rgba(151,173,195,.15)" },
-            yaxis: { title: `${variableName} (${unit})`, gridcolor: "rgba(151,173,195,.08)", zeroline: false, showline: true, linecolor: "rgba(151,173,195,.15)" },
+            xaxis: { title: "Date", gridcolor: "rgba(217,199,167,.08)", zeroline: false, showline: true, linecolor: "rgba(217,199,167,.18)" },
+            yaxis: { title: `${variableName} (${unit})`, gridcolor: "rgba(217,199,167,.08)", zeroline: false, showline: true, linecolor: "rgba(217,199,167,.18)" },
             showlegend: true, legend: { orientation: "h", x: 0, y: -0.28 },
           }}
           config={{ responsive: true, displayModeBar: false }}
