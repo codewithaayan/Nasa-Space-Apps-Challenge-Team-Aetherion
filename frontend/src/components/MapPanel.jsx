@@ -23,7 +23,7 @@ export function MapPanel({ activeLocation = "karachi", height = "100%", compact 
         />
         {locations.map((location) => (
           <CircleMarker key={location.id} center={[location.lat, location.lng]} radius={location.id === selected.id ? 8 : 6}
-            pathOptions={{ color: location.id === selected.id ? "#f59e0b" : "#8095a8", fillColor: location.id === selected.id ? "#f59e0b" : "#8095a8", fillOpacity: 0.9 }}>
+            pathOptions={{ color: location.id === selected.id ? "#D9C7A7" : "#6A9A6B", fillColor: location.id === selected.id ? "#D9C7A7" : "#6A9A6B", fillOpacity: 0.95 }}>
             <Tooltip>{location.name} · {location.province}, Pakistan</Tooltip>
           </CircleMarker>
         ))}
