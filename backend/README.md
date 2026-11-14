@@ -1,5 +1,10 @@
 # Trend Detective: Case Files backend
 
+For the verified external 24-year rainfall package, use [Sahel setup and frontend
+requests](docs/SAHEL.md). This selects the package as DATA_ROOT without modifying
+its catalog or Rhido's shared data. It is NASA POWER / MERRA-2 reanalysis; this
+subset did not show statistically supported opposing trends.
+
 Python 3.11–3.13 recommended. FastAPI serves synchronous scientific requests;
 Bulk NASA ingestion, AI, frontend and deployment remain teammate-owned.
 No team build guide was present in the checkout.

@@ -1,0 +1,56 @@
+{
+  "data_label": "NASA POWER / MERRA-2 reanalysis",
+  "http_status": {
+    "variables": 200,
+    "timeseries": 200,
+    "trend": 200,
+    "paradox": 200
+  },
+  "timings_seconds": {
+    "variables": 0.026692,
+    "timeseries": 4.854088,
+    "trend": 0.200546,
+    "paradox": 2.009497
+  },
+  "months": 288,
+  "cells": 99,
+  "complete_years_per_cell": 24,
+  "valid_cells": 97,
+  "label_counts": {
+    "-1": 0,
+    "0": 61,
+    "1": 36,
+    "None": 2
+  },
+  "opposing_trends": false,
+  "trend": {
+    "slope": 1.1044769814296662,
+    "slope_units": "mm per decade",
+    "ci_low": 0.21955189342168824,
+    "ci_high": 2.065597433847005,
+    "p_value": 0.005064575627610424,
+    "direction": "increasing"
+  },
+  "annual_slope_units": "mm per decade",
+  "cell_warnings": [
+    {
+      "latitude": 13.5,
+      "longitude": -5.968558980384842e-13,
+      "warning": "Unstable autocorrelation variance correction: significance withheld"
+    },
+    {
+      "latitude": 14.0,
+      "longitude": -1.25,
+      "warning": "Unstable autocorrelation variance correction: significance withheld"
+    }
+  ],
+  "sha256": {
+    "nasa_power_original.nc": "ea25f4bea5ced35b325b4fcb6cb82cf0cda813fc4c98e5051f339504fae0c37b",
+    "sahel_monthly_2001_2024.nc": "26e73a1b9cf29884025c869f7e85e203db6247bafb2c5d1df63bb3c01933aade"
+  },
+  "limitations": [
+    "Monthly-amount slope is not annual-total slope.",
+    "This subset did not show statistically supported opposing trends."
+  ],
+  "package_unchanged": true
+}
