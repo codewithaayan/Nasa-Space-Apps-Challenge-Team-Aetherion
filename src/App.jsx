@@ -3,7 +3,7 @@ import { ArrowRight, Clock3, ClipboardList, Database, FlaskConical, Layers3, Mic
 import { locations } from "./data";
 import { Layout, Eyebrow, SectionHeading, StatusNotice } from "./components/Layout";
 import { EarthArtwork, LocationArtwork, PageArtwork } from "./components/Artwork";
-import { CatalogProvider, useCatalog, Wizard, Lab, CaseFiles, CaseFileDetails, Compare } from "./features/Investigations";
+import { CatalogProvider, useCatalog, Wizard, Lab, CaseFiles, CaseFileDetails, Compare, PreparedCase } from "./features/Investigations";
 
 function Home() {
   const { datasets } = useCatalog();
@@ -93,6 +93,7 @@ export default function App() {
     <Route path="/wizard" element={<Wizard />} />
     <Route path="/lab" element={<Lab />} />
     <Route path="/cases" element={<CaseFiles />} />
+    <Route path="/cases/demo/:caseId" element={<PreparedCase />} />
     <Route path="/cases/:caseId" element={<CaseFileDetails />} />
     <Route path="/about" element={<AboutScience />} />
     <Route path="/compare" element={<Compare />} />

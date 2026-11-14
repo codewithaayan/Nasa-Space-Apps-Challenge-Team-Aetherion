@@ -13,6 +13,8 @@ class Variable(ScientificModel):
     units: str = Field(min_length=1)
     provenance: Literal['observations', 'mock']
     source: str
+    location_id: str | None = None
+    topic: str | None = None
     path: str | None = Field(default=None, exclude=True)
     field: str | None = None
     annual_aggregation: Literal['mean', 'sum'] = 'mean'
@@ -21,7 +23,7 @@ class Variable(ScientificModel):
     source_url: str | None = None
     scientific_name: str | None = None
     variable_type: Literal['state', 'monthly_amount', 'rate'] = 'state'
-    data_kind: Literal['observation', 'reanalysis', 'synthetic'] | None = None
+    data_kind: Literal['observation', 'reanalysis', 'synthetic', 'model', 'satellite_estimate'] | None = None
     temporal_coverage: list[str] | None = None
     spatial_resolution: dict[str, float] | None = None
     spatial_support: str = 'rectilinear grid-cell centers'

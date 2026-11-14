@@ -1,5 +1,23 @@
 # Integration handoff
 
+## Shared frontend integration
+
+The root frontend now discovers both CSV and installed NetCDF/Zarr datasets
+through `/api/datasets`. Structured wizard selections, authoritative verdicts,
+comparison readiness/calculations, prepared regional cases and per-feature
+availability are connected. Grids can populate cell trend maps and Paradox Finder;
+CSV averages remain time series. Years-to-significance returns null while its
+validated model is absent. No external AI provider is configured. See
+[INTEGRATION.md](INTEGRATION.md) for the current contract and test instructions.
+
+Optional gridded catalog fields location_id/topic associate future data with a
+location and topic. Missing fields use a generic dataset region and original
+variable ID; no city is inferred. Future data collection remains documented in
+Data/FUTURE_DATA_REQUIREMENTS.md at the repository root. Original source exports
+and scientific limitations are retained.
+
+## Earlier NASA POWER handoff
+
 The backend now reads a genuine NASA POWER/MERRA-2 temperature sample through
 NetCDF and the public API. This is a technical integration check at one requested
 point (70N, 20E), not an Arctic-wide climate finding. The raw NASA response is
