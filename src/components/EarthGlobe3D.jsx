@@ -2,8 +2,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { Activity, Clock3, Compass, Database, Droplets, MapPin, Radio, ShieldCheck, Sprout, Sun, Thermometer, Waves } from "lucide-react";
 import { createRealisticEarthTexture, createRealisticCloudTexture } from "./earthTexture";
-<<<<<<< HEAD
 import { locations } from "../data";
+import { summarizeCity } from "./globeData";
 
 const locationsById = new Map(locations.map((location) => [location.id, location]));
 
@@ -33,27 +33,6 @@ function formatDms(value, positiveDirection, negativeDirection) {
   return `${adjustedDegrees}° ${String(adjustedMinutes).padStart(2, "0")}' ${String(seconds).padStart(2, "0")}" ${direction}`;
 }
 
-const plannedCity = (city) => ({
-  ...city,
-  dataAvailable: false,
-  elevation: "AWAITING SOURCE",
-  climateZone: "NOT VERIFIED",
-  temp: "Unavailable",
-  tempTrend: "NO VERIFIED RESULT",
-  precip: "Unavailable",
-  precipSeason: "NO VERIFIED RESULT",
-  veg: "Unavailable",
-  vegType: "NO VERIFIED RESULT",
-  feedSource: "No dataset registered",
-  feedVariable: "Awaiting compatible source",
-  feedStatusText: "No verified dataset connected · analysis unavailable",
-  pointSample: "No source footprint",
-  coverage: "Awaiting dataset",
-});
-=======
-import { summarizeCity } from "./globeData";
->>>>>>> 93f688cb801db268f9186185045dec3a3e86c161
-
 export const EARTH_CITIES = [
   {
     id: "karachi",
@@ -61,27 +40,6 @@ export const EARTH_CITIES = [
     province: "Sindh Province",
     country: "Pakistan",
     kind: "Coastal City Investigation",
-<<<<<<< HEAD
-    elevation: "4 M ASL",
-    climateZone: "SUBTROPICAL ARID",
-    temp: "28.4°C",
-    tempTrend: "+0.08°C / DECADE",
-    precip: "176.4 mm",
-    precipSeason: "SUMMER MONSOON",
-    veg: "0.182 NDVI",
-    vegType: "COASTAL / ARID SCRUB",
-    feedSource: "NASA POWER / MERRA-2",
-    feedVariable: "T2M (2M AIR TEMPERATURE)",
-    feedStatusText: "LOCAL SOURCE VALIDATED · OFFLINE STREAM READY",
-    pointSample: "0.5° × 0.625° POINT SAMPLE",
-    dataAvailable: true,
-    coverage: "2000 – 2019 (240 MONTHS)",
-=======
-    lat: 24.8607,
-    lon: 67.0011,
-    latDms: "24° 51' 36\" N",
-    lonDms: "67° 00' 36\" E",
->>>>>>> 93f688cb801db268f9186185045dec3a3e86c161
   },
   {
     id: "lahore",
@@ -89,100 +47,49 @@ export const EARTH_CITIES = [
     province: "Punjab Province",
     country: "Pakistan",
     kind: "Inland City Investigation",
-<<<<<<< HEAD
-  }),
-  plannedCity({
-=======
-    lat: 31.5204,
-    lon: 74.3587,
-    latDms: "31° 31' 13\" N",
-    lonDms: "74° 21' 31\" E",
   },
   {
->>>>>>> 93f688cb801db268f9186185045dec3a3e86c161
     id: "islamabad",
     name: "Islamabad",
     province: "Islamabad Capital Territory",
     country: "Pakistan",
     kind: "Capital City Investigation",
-<<<<<<< HEAD
-  }),
-  plannedCity({
-=======
-    lat: 33.6844,
-    lon: 73.0479,
-    latDms: "33° 41' 04\" N",
-    lonDms: "73° 02' 52\" E",
   },
   {
->>>>>>> 93f688cb801db268f9186185045dec3a3e86c161
     id: "quetta",
     name: "Quetta",
     province: "Balochistan",
     country: "Pakistan",
     kind: "Highland City Investigation",
-<<<<<<< HEAD
-  }),
-  plannedCity({
-=======
-    lat: 30.1798,
-    lon: 66.975,
-    latDms: "30° 10' 47\" N",
-    lonDms: "66° 58' 30\" E",
   },
   {
->>>>>>> 93f688cb801db268f9186185045dec3a3e86c161
     id: "peshawar",
     name: "Peshawar",
     province: "Khyber Pakhtunkhwa",
     country: "Pakistan",
     kind: "Northwestern City Investigation",
-<<<<<<< HEAD
-  }),
-  plannedCity({
-=======
-    lat: 34.0151,
-    lon: 71.5249,
-    latDms: "34° 00' 54\" N",
-    lonDms: "71° 31' 30\" E",
   },
   {
->>>>>>> 93f688cb801db268f9186185045dec3a3e86c161
     id: "gilgit",
     name: "Gilgit",
     province: "Gilgit-Baltistan",
     country: "Pakistan",
     kind: "Mountain City Investigation",
-<<<<<<< HEAD
-  }),
-=======
-    lat: 35.9208,
-    lon: 74.308,
-    latDms: "35° 55' 15\" N",
-    lonDms: "74° 18' 29\" E",
   },
->>>>>>> 93f688cb801db268f9186185045dec3a3e86c161
 ];
 
 export function EarthGlobe3D({ datasets = [], loading = false, error = "" }) {
   const mountRef = useRef(null);
   const [selectedCityId, setSelectedCityId] = useState("karachi");
-<<<<<<< HEAD
   const [cityScreens, setCityScreens] = useState([]);
 
   const currentCity = EARTH_CITIES.find((c) => c.id === selectedCityId) || EARTH_CITIES[0];
   const currentCoordinates = getCityCoordinates(currentCity.id);
-=======
-  const [cityScreen, setCityScreen] = useState({ x: 0, y: 0, visible: false });
-
-  const currentCity = EARTH_CITIES.find((c) => c.id === selectedCityId) || EARTH_CITIES[0];
   const summary = useMemo(() => summarizeCity(datasets, currentCity.id), [datasets, currentCity.id]);
   const dataAvailable = !error && summary.count > 0;
   const dataStatus = loading ? 'LOADING' : error ? 'SERVICE UNAVAILABLE' : dataAvailable ? 'DATA AVAILABLE' : 'NO RECORDS';
   const metricValue = reading => loading ? 'Loading…' : reading.value;
   const metricPeriod = reading => loading ? 'Reading latest month' : reading.period;
-
->>>>>>> 93f688cb801db268f9186185045dec3a3e86c161
 
   // Mutable ref so the Three.js loop always tracks current city
   const cityRef = useRef(currentCity);
