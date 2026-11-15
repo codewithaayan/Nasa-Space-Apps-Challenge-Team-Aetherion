@@ -2,7 +2,8 @@ import { Link, Route, Routes } from "react-router-dom";
 import { ArrowRight, Clock3, ClipboardList, Database, FlaskConical, Layers3, Microscope, Search, ShieldAlert } from "lucide-react";
 import { locations } from "./data";
 import { Layout, Eyebrow, SectionHeading, StatusNotice } from "./components/Layout";
-import { EarthArtwork, LocationArtwork, PageArtwork } from "./components/Artwork";
+import { LocationArtwork, PageArtwork } from "./components/Artwork";
+import { EarthGlobe3D } from "./components/EarthGlobe3D";
 import { CatalogProvider, useCatalog, Wizard, Lab, CaseFiles, CaseFileDetails, Compare, PreparedCase } from "./features/Investigations";
 
 function Home() {
@@ -17,12 +18,8 @@ function Home() {
           <div className="hero-actions"><Link to="/wizard" className="button button-primary">OPEN AN INVESTIGATION <ArrowRight size={16} /></Link><Link to="/cases" className="button button-secondary">EXPLORE DEMO CASES</Link></div>
           <div className="hero-proof"><span><b>02</b> INITIAL LOCATIONS</span><i /><span><b>NASA</b> EARTH SCIENCE</span><i /><span><b>01</b> MISSION: FIND THE TREND</span></div>
         </div>
-        <div className="hero-visual" aria-label="Illustrative Earth observation visualization">
-          <EarthArtwork />
-          <div className="visual-tag tag-top"><span className="signal" /> ORBITAL VIEW <b>01</b></div>
-          <div className="visual-tag tag-bottom"><span>DATA FEED</span><b>{datasets.length ? "SOURCE EXPORTS READY" : "AWAITING SOURCE"}</b></div>
-          <div className="visual-coordinates">24°51' N<br />67°00' E</div>
-          <div className="visual-note">ILLUSTRATIVE VECTOR · NOT LIVE NASA DATA</div>
+        <div className="hero-visual" aria-label="Interactive 3D Earth observation visualization">
+          <EarthGlobe3D />
         </div>
       </section>
       <section className="page-wrap home-section">
