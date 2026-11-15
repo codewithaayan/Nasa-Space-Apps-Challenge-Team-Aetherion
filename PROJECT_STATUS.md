@@ -1,3 +1,46 @@
+# Free deployment milestone 2026-11-15
+
+The app is live at https://trend-detective-aetherion.pages.dev using Cloudflare
+Pages and a Vercel Hobby FastAPI backend. Its public API is
+https://trend-detective-aetherion-api.vercel.app/api. Render required payment
+information even for the requested free service; the user chose the Vercel route.
+No card was added, paid plan selected, or Git push/merge/PR performed.
+
+The deployed application source is remote integration revision 40be667, preserving
+the team's newer frontend work. An isolated package includes the unchanged
+backend calculations and six real Karachi CSV exports. Local .env files now
+point to the live API; dev:all and offline tests explicitly select the local API.
+
+Verification: 72 backend tests and 8 browser integration tests passed. Live HTTP
+and browser checks passed for real-data analysis, charts, printable reports,
+mobile layout, source metadata and CORS. Local dev/preview origins were verified.
+Vercel CLI/plugin setup and MCP OAuth are configured; loading the new MCP tools
+requires a Codex reload. Details and a request-flow diagram: docs/DEPLOYMENT.md.
+
+## Shared frontend and backend integration milestone 2026-11-14
+
+The canonical frontend and existing backend now share CSV and NetCDF/Zarr dataset
+contracts under /api. Structured wizard validation, URL-persistent selections,
+charts, native-cell trend maps, Paradox Finder, backend-checked city comparisons,
+prepared regional cases, deterministic verdicts, source limitations and printable
+reports are connected. One command starts both development services; the built
+app can run through FastAPI on one local origin.
+
+Verification: 72 backend tests passed; all 8 Playwright browser tests passed using
+isolated local servers. Browser checks covered the supplied Karachi exports and
+explicitly labeled synthetic grid/comparison fixtures. They also checked direct
+case links, date persistence, missing-data states, retries, mobile layout and PDF
+printing. Synthetic fixtures are confined to ignored work/e2e and are never used
+by ordinary startup. No source CSV values were changed.
+
+Real Lahore data and regional grids remain collection prerequisites. No external
+AI provider or validated future-significance model is configured; the API and UI
+disclose these states, returning null estimates rather than inventing results.
+Scientific review is separate from software checks. No push, merge, deployment
+or pull request was performed. Current contracts are in backend/docs/INTEGRATION.md.
+
+## Earlier backend milestones
+
 # Trend Detective: Case Files — backend milestone
 
 ## Current integration milestone (2026-11-14)

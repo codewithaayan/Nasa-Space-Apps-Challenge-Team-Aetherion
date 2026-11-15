@@ -1,3 +1,8 @@
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
 __pycache__/
 *.py[cod]
 .venv/
@@ -18,3 +23,5 @@ dist/
 .DS_Store
 Thumbs.db
 backend/data/
+work/
+.wrangler/
