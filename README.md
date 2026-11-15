@@ -113,6 +113,11 @@ prepared cases, comparisons, retry behavior and mobile layout.
 
 ## Build
 
+For Cloudflare Pages and Render hosting, see the [deployment walkthrough](docs/DEPLOYMENT.md).
+It explains the request flow, service settings, approved branch publication and
+live verification. `npm run build:cloud` requires an explicit deployed HTTPS
+`VITE_API_BASE_URL` ending in `/api`; ordinary local builds keep `/api` by default.
+
 ```sh
 npm run build
 ```

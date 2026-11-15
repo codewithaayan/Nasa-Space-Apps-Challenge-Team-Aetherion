@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:cloud": "node scripts/build-cloud.mjs",
+    "verify:deployment": "node scripts/verify-deployment.mjs",
     "preview": "vite preview",
     "dev:all": "node scripts/serve.mjs --dev",
     "start": "node scripts/serve.mjs",

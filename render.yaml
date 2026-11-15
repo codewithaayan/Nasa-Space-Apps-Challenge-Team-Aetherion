@@ -1,0 +1,30 @@
+# Keep the service at the repository root: Data/Karachi is outside backend/.
+# The integration branch must be published only after Abdullah approves the push.
+services:
+  - type: web
+    name: trend-detective-aetherion-api
+    runtime: python
+    plan: free
+    region: singapore
+    branch: integration
+    autoDeployTrigger: "off"
+    buildCommand: python -m pip install -r backend/requirements.txt
+    startCommand: python -m uvicorn app.main:app --app-dir backend --host 0.0.0.0 --port $PORT --workers 1
+    healthCheckPath: /api/health
+    buildFilter:
+      paths:
+        - backend/**
+        - Data/Karachi/**
+        - .python-version
+        - render.yaml
+    envVars:
+      - key: ALLOWED_ORIGINS
+        sync: false
+      - key: MOCK_DATA
+        value: "false"
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: OPENBLAS_NUM_THREADS
+        value: "1"
+      - key: OMP_NUM_THREADS
+        value: "1"
