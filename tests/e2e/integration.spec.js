@@ -32,6 +32,15 @@ test('team branding, favicon and city-specific photography load across the homep
   })));
   expect(photoInfo.map(photo => photo.alt)).toEqual(names.map(name => `Photograph of ${name}, Pakistan`));
   expect(photoInfo.every(photo => photo.width >= 800)).toBe(true);
+  const gilgitMarker = page.getByRole('button',{name:'Focus globe on Gilgit'});
+  await expect(gilgitMarker).toBeVisible();
+  await expect(gilgitMarker).toBeEmpty();
+  await gilgitMarker.click();
+  await expect(page.locator('.hud-location-name')).toHaveText('Gilgit');
+  await expect(page.locator('.globe-target-label')).toContainText('Gilgit');
+  await expect(page.locator('.globe-target-label')).toContainText('35.9208° N · 74.3080° E');
+  await expect(gilgitMarker).toHaveAttribute('aria-pressed','true');
+  await expect(page.locator('.hud-case-chip')).toHaveCount(0);
   await page.goto('about:blank');
 });
 
