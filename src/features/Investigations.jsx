@@ -168,7 +168,7 @@ function Summary({ result }) {
 }
 function Provenance({ dataset }) {
   if (!dataset) return null;
-  return <div className="source-details"><Evidence label="SOURCE" value={dataset.source} /><Evidence label="PRODUCT / VERSION" value={`${dataset.dataset_id || 'Not supplied'} / ${dataset.version || 'Not supplied'}`} /><Evidence label="DATA TYPE" value={kindLabel(dataset.data_kind)} /><Evidence label="SOURCE FILE" value={dataset.source_file} /><Evidence label="PERIOD" value={dataset.temporal_coverage.map(month).join(' to ')} /><Evidence label="UNITS" value={dataset.units} /><Evidence label="SCIENTIFIC REVIEW" value="Unreviewed" /><p className="source-description">{dataset.spatial_support}</p>{dataset.source_url && <a className="text-link" href={dataset.source_url} target="_blank" rel="noreferrer">SOURCE REQUEST ↗</a>}{dataset.documentation_url && <a className="text-link source-link" href={dataset.documentation_url} target="_blank" rel="noreferrer">PRODUCT DOCUMENTATION ↗</a>}<details><summary>Source fingerprint</summary><code className="source-hash">{dataset.source_sha256 ? `SHA256 ${dataset.source_sha256}` : `File revision ${dataset.source_revision || 'Not supplied'}`}</code></details></div>;
+  return <div className="source-details"><Evidence label="SOURCE" value={dataset.source} /><Evidence label="PRODUCT / VERSION" value={`${dataset.dataset_id || 'Not supplied'} / ${dataset.version || 'Not supplied'}`} /><Evidence label="DATA TYPE" value={kindLabel(dataset.data_kind)} /><Evidence label="MEASURED FIELD" value={dataset.source_variable} /><Evidence label="SOURCE FILE" value={dataset.source_file} /><Evidence label="PERIOD" value={dataset.temporal_coverage.map(month).join(' to ')} /><Evidence label="UNITS" value={dataset.units} />{dataset.unit_conversion && <><Evidence label="ORIGINAL SOURCE UNITS" value={dataset.source_units} /><p className="source-description">{dataset.unit_conversion.method}</p></>}<Evidence label="SCIENTIFIC REVIEW" value="Unreviewed" /><p className="source-description">{dataset.spatial_support}</p>{dataset.source_url && <a className="text-link" href={dataset.source_url} target="_blank" rel="noreferrer">SOURCE REQUEST ↗</a>}{dataset.documentation_url && <a className="text-link source-link" href={dataset.documentation_url} target="_blank" rel="noreferrer">PRODUCT DOCUMENTATION ↗</a>}<details><summary>Source fingerprint</summary><code className="source-hash">{dataset.source_sha256 ? `SHA256 ${dataset.source_sha256}` : `File revision ${dataset.source_revision || 'Not supplied'}`}</code></details></div>;
 }
 
 export function Lab() {
@@ -249,8 +249,10 @@ export function CaseFileDetails() {
   </div>;
 }
 export function Compare() {
-  const { topics } = useCatalog();
+  const { topics, places } = useCatalog();
   const [topic,setTopic] = useState('temperature');
+  const [leftLocation,setLeftLocation] = useState('karachi');
+  const [rightLocation,setRightLocation] = useState('lahore');
   const [comparison,setComparison] = useState(null);
   const [loading,setLoading] = useState(false);
   const [error,setError] = useState('');
@@ -263,18 +265,18 @@ export function Compare() {
     const controller = new AbortController(); active.current.controller = controller;
     const sequence = ++active.current.sequence;
     setComparison(null); setError(''); setLoading(true);
-    api.compare({ topic },controller.signal).then(({ data }) => {
+    api.compare({ topic,left_location:leftLocation,right_location:rightLocation },controller.signal).then(({ data }) => {
       if (sequence === active.current.sequence) { setComparison(data); setStart(month(data.start)); setEnd(month(data.end)); }
     }).catch(e => { if (!controller.signal.aborted && sequence === active.current.sequence) setError(errorMessage(e)); }).finally(() => { if (sequence === active.current.sequence) setLoading(false); });
     return () => { controller.abort(); active.current.sequence++; };
-  }, [topic,retry]);
+  }, [topic,leftLocation,rightLocation,retry]);
   const run = async () => {
     active.current.controller?.abort();
     const controller = new AbortController(); active.current.controller = controller;
     const sequence = ++active.current.sequence;
     setError(''); setLoading(true);
     try {
-      const { data } = await api.compare({ topic,run:true,...dateParams(start,end) },controller.signal);
+      const { data } = await api.compare({ topic,left_location:leftLocation,right_location:rightLocation,run:true,...dateParams(start,end) },controller.signal);
       if (sequence === active.current.sequence) setComparison(data);
     } catch (e) { if (!controller.signal.aborted && sequence === active.current.sequence) setError(errorMessage(e)); }
     finally { if (sequence === active.current.sequence) setLoading(false); }
@@ -283,11 +285,15 @@ export function Compare() {
   const invalid = selectionError(shared,start,end);
   return <div className="page-wrap page-content"><div className="page-title-row"><div><Eyebrow>COMPARATIVE INVESTIGATION</Eyebrow><h1>City vs city.</h1><p>The backend checks product, version, units and shared coverage before comparison.</p></div><PageArtwork variant="compare" /></div><CatalogStatus />
     <label className="control-field"><span>VARIABLE</span><div className="select-wrap"><select aria-label="Comparison variable" value={topic} onChange={e => setTopic(e.target.value)}>{topics.map(v => <option key={v.id} value={v.id}>{v.name}</option>)}</select></div></label>
+    <div className="date-fields">
+      <label className="control-field"><span>LEFT LOCATION</span><div className="select-wrap"><select aria-label="Left comparison location" value={leftLocation} onChange={e => setLeftLocation(e.target.value)}>{places.map(place => <option key={place.id} value={place.id} disabled={place.id === rightLocation}>{place.name}</option>)}</select></div></label>
+      <label className="control-field"><span>RIGHT LOCATION</span><div className="select-wrap"><select aria-label="Right comparison location" value={rightLocation} onChange={e => setRightLocation(e.target.value)}>{places.map(place => <option key={place.id} value={place.id} disabled={place.id === leftLocation}>{place.name}</option>)}</select></div></label>
+    </div>
     {loading && <StatusNotice>Checking comparable sources and calculating requested results?</StatusNotice>}
     {error && <div className="inline-error" role="alert">{error}<button className="button button-secondary" onClick={() => setRetry(r => r + 1)}>RETRY</button></div>}
     {comparison && !comparison.available && <StatusNotice>{comparison.reason}</StatusNotice>}
     {shared && <div className="period-actions"><DateFields dataset={shared} start={start} end={end} onStart={value => { setStart(value); setComparison(c => ({...c,left:null,right:null})); }} onEnd={value => { setEnd(value); setComparison(c => ({...c,left:null,right:null})); }} /><button className="button button-primary" disabled={loading || !!invalid} onClick={run}>RUN COMPARISON</button>{invalid && <div role="alert">{invalid}</div>}</div>}
-    <div className="compare-grid">{[{name:'Karachi',dataset:comparison?.left_dataset,result:comparison?.left},{name:'Lahore',dataset:comparison?.right_dataset,result:comparison?.right}].map(item => <section className="panel compare-city" key={item.name}><h2>{item.name}</h2><p className="source-description">{item.dataset ? `${item.dataset.name} ? ${item.dataset.units}` : 'Awaiting dataset'}</p><TrendChart variableName={item.dataset?.name} unit={item.dataset?.units} analysis={item.result} />{item.result && <><p className="source-description">{item.result.summary}</p><Provenance dataset={item.result.dataset} /><Warnings items={item.result.warnings} /></>}</section>)}</div>
+    <div className="compare-grid">{[{location:leftLocation,dataset:comparison?.left_dataset,result:comparison?.left},{location:rightLocation,dataset:comparison?.right_dataset,result:comparison?.right}].map(item => <section className="panel compare-city" key={item.location}><h2>{places.find(place => place.id === item.location)?.name || item.location}</h2><p className="source-description">{item.dataset ? `${item.dataset.name} · ${item.dataset.units}` : 'Awaiting dataset'}</p><TrendChart variableName={item.dataset?.name} unit={item.dataset?.units} analysis={item.result} />{item.result && <><p className="source-description">{item.result.summary}</p><Provenance dataset={item.result.dataset} /><Warnings items={item.result.warnings} /></>}</section>)}</div>
   </div>;
 }
 

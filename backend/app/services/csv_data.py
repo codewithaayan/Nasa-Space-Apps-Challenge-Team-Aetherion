@@ -1,7 +1,8 @@
 """Read source-export time series without manufacturing spatial cells.
 
-Original CSV bytes are unchanged. Units are retained from product documentation
-and export requests. Existing gridded data adapters and statistics stay separate.
+Original CSV bytes are unchanged. Source units follow product documentation and
+export requests; any supported display-unit conversion is explicit in metadata.
+Existing gridded data adapters and statistics stay separate.
 """
 import csv
 import hashlib
@@ -14,12 +15,12 @@ from urllib.parse import parse_qs, urlparse
 import numpy as np
 import pandas as pd
 
-from app.models.csv_datasets import CsvDataset
+from app.models.csv_datasets import CsvDataset, UnitConversion
 from app.services.data import DataUnavailable, NotFound
 
 
 def csv_root() -> Path:
-    default = Path(__file__).resolve().parents[3] / 'Data' / 'Karachi'
+    default = Path(__file__).resolve().parents[3] / 'Data'
     return Path(os.getenv('CSV_DATA_ROOT', str(default))).resolve()
 
 
@@ -27,10 +28,21 @@ class CsvDataSource:
     def records(self):
         try:
             root = csv_root()
-            path = root / 'manifest.json'
-            if not path.exists():
-                return []
-            records = json.loads(path.read_text(encoding='utf-8'))['datasets']
+            # Explicit single-manifest roots remain supported for offline fixtures
+            # and installations that intentionally expose only one collection.
+            direct = root / 'manifest.json'
+            manifests = [direct] if direct.exists() else sorted(root.glob('*/manifest.json'))
+            records = []
+            for path in manifests:
+                folder = path.parent.resolve()
+                if not folder.is_relative_to(root) or not path.resolve().is_relative_to(root):
+                    raise ValueError('Manifest must stay inside CSV_DATA_ROOT')
+                for record in json.loads(path.read_text(encoding='utf-8'))['datasets']:
+                    relative = Path(record['file'])
+                    source = (folder / relative).resolve()
+                    if relative.is_absolute() or not source.is_relative_to(folder):
+                        raise ValueError('CSV must stay inside its manifest directory')
+                    records.append({**record, 'file': source.relative_to(root).as_posix()})
             if len({r['id'] for r in records}) != len(records):
                 raise ValueError('Duplicate IDs')
             return records
@@ -99,12 +111,24 @@ class CsvDataSource:
             if len(months) > 600:
                 raise ValueError('CSV exceeds 600 months')
             series = series.reindex(months)
+            source_units = record.get('source_units', record['units'])
+            conversion = None
+            if source_units != record['units']:
+                if record['topic'] != 'precipitation' or (source_units, record['units']) != ('inch/day', 'mm/hr'):
+                    raise ValueError('Unsupported source-unit conversion')
+                conversion = UnitConversion(source_units=source_units, target_units=record['units'],
+                    factor=25.4 / 24, method='mm/hr = inch/day × 25.4 ÷ 24 (1 inch = 25.4 mm; 1 day = 24 hours)')
+                # Convert before every calculation so values, slopes and intervals
+                # all use the declared response unit. Missing months remain missing.
+                series = series * conversion.factor
             warnings = [
                 'Exploratory analysis; scientific review has not been completed.',
                 'Source-export provenance is declared by the supplied files; it is not independently authenticated.',
                 'No per-cell monthly grid is included; regional trend mapping and Paradox Finder are unavailable.',
                 'The annual significance test uses equal-month annual means; rate values are not annual accumulated totals.',
             ] + record.get('limitations', [])
+            if conversion:
+                warnings.append('Precipitation rates converted from inch/day to mm/hr using 25.4 / 24; original CSV bytes are unchanged.')
             if record.get('provenance') == 'mock':
                 warnings.append('Synthetic fixture, NOT NASA observations.')
             requested = metadata.get('User Bounding Box')
@@ -118,9 +142,11 @@ class CsvDataSource:
             meta = CsvDataset(
                 id=record['id'], location_id=record['location_id'], topic=record['topic'],
                 name=record['name'], units=record['units'], source=record['source'],
+                source_units=source_units, unit_conversion=conversion,
                 source_url=url or record.get('source_url'), documentation_url=record.get('documentation_url'),
                 source_file=path.name, source_sha256=hashlib.sha256(raw).hexdigest(),
                 dataset_id=record['dataset_id'], version=record['version'], data_kind=record['data_kind'],
+                source_variable=record['value_column'].removeprefix('mean_'),
                 provenance=record.get('provenance', 'source_export'),
                 temporal_coverage=[str(series.index[0].date()), str(series.index[-1].date())],
                 finite_months=int(series.notna().sum()), monthly_slots=len(series),

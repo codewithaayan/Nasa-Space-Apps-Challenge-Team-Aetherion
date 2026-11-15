@@ -24,7 +24,9 @@ def test_catalog_preserves_units_coverage_and_provenance(csv_client):
     datasets = {d['topic']: d for d in response.json()}
     assert len(datasets) == 6
     assert datasets['temperature']['units'] == 'K'
-    assert datasets['precipitation']['units'] == 'inch/day'
+    assert datasets['precipitation']['units'] == 'mm/hr'
+    assert datasets['precipitation']['source_units'] == 'inch/day'
+    assert datasets['precipitation']['unit_conversion']['factor'] == pytest.approx(25.4 / 24)
     assert datasets['evaporation']['units'] == 'kg m-2 s-1'
     assert datasets['soil_moisture']['units'] == 'kg m-2'
     assert datasets['precipitation']['temporal_coverage'][-1] == '2025-01-01'
@@ -104,6 +106,52 @@ def test_missing_month_and_fill_flags_are_not_interpolated(csv_client, tmp_path,
     assert result['dataset']['finite_months'] == 238
     assert result['dataset']['monthly_slots'] == 240
     assert any('independence' in method for method in result['trend']['methods'].values())
+
+
+def test_precipitation_conversion_scales_values_trends_and_intervals(csv_client, tmp_path, monkeypatch):
+    params = {'start': '2006-01-01', 'end': '2015-12-01'}
+    normalized = csv_client.get('/datasets/karachi_precipitation/analysis', params=params).json()
+    root = copied_sources(tmp_path, monkeypatch)
+    path = root / 'manifest.json'
+    manifest = json.loads(path.read_text(encoding='utf-8'))
+    precipitation = next(record for record in manifest['datasets'] if record['topic'] == 'precipitation')
+    precipitation['units'] = precipitation.pop('source_units')
+    path.write_text(json.dumps(manifest), encoding='utf-8')
+    native = csv_client.get('/datasets/karachi_precipitation/analysis', params=params).json()
+    factor = 25.4 / 24
+    assert native['dataset']['unit_conversion'] is None
+    assert normalized['dataset']['unit_conversion']['source_units'] == native['dataset']['units'] == 'inch/day'
+    assert normalized['dataset']['units'] == 'mm/hr'
+    assert normalized['dataset']['source_sha256'] == native['dataset']['source_sha256']
+    for field in ['series']:
+        assert [p['value'] for p in normalized[field]] == pytest.approx([p['value'] * factor for p in native[field]])
+    for field in ['slope', 'ci_low', 'ci_high']:
+        assert normalized['trend'][field] == pytest.approx(native['trend'][field] * factor)
+    for field in ['deseasonalized', 'trend_line']:
+        assert [p['value'] for p in normalized['trend'][field]] == pytest.approx([p['value'] * factor for p in native['trend'][field]])
+    assert normalized['trend']['p_value'] == pytest.approx(native['trend']['p_value'])
+
+
+def test_conversion_keeps_missing_months_and_fill_values_missing(csv_client, tmp_path, monkeypatch):
+    root = copied_sources(tmp_path, monkeypatch)
+    path = root / 'Precipitation.2006-2025.csv'
+    lines = path.read_text(encoding='utf-8').splitlines()
+    lines = [line for line in lines if not line.startswith('2006-02-01 ')]
+    lines = [line.split(',')[0] + ',-9999.9' if line.startswith('2006-03-01 ') else line for line in lines]
+    path.write_text('\n'.join(lines), encoding='utf-8')
+    result = csv_client.get('/datasets/karachi_precipitation/analysis', params={'start': '2006-01-01', 'end': '2006-04-01'}).json()
+    assert result['series'][0]['value'] == pytest.approx(.000499147223 * 25.4 / 24)
+    assert result['series'][1]['value'] is None and result['series'][2]['value'] is None
+    assert result['dataset']['finite_months'] == 2
+
+
+def test_unsupported_unit_conversions_are_rejected(csv_client, tmp_path, monkeypatch):
+    root = copied_sources(tmp_path, monkeypatch)
+    path = root / 'manifest.json'
+    manifest = json.loads(path.read_text(encoding='utf-8'))
+    manifest['datasets'][0].update(source_units='K', units='mm/hr')
+    path.write_text(json.dumps(manifest), encoding='utf-8')
+    assert csv_client.get('/datasets/karachi_temperature/analysis').status_code == 503
 
 
 def test_duplicate_months_and_unsafe_paths_fail_safely(csv_client, tmp_path, monkeypatch):

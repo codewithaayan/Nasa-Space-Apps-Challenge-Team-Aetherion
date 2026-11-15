@@ -6,8 +6,8 @@ collection and implementation backlog; they do not remove the associated feature
 | Collection | Requirements | Enables |
 | --- | --- | --- |
 | Karachi geographic grids | Monthly histories for each cell, for temperature, precipitation, evapotranspiration, soil moisture, NDVI and aerosols where mapping is intended | Trend overlays, regional selection and Paradox Finder |
-| Lahore equivalents | Matching products, versions, variable definitions and units, with comparable dates | Lahore investigations and city comparisons |
-| Complete common baseline | Complete intended January 2006–December 2025 coverage, including February–December 2025 precipitation | Consistent period selection and complete annual calculations |
+| Cross-city harmonization | Lahore and four further cities are now registered. Precipitation is now normalized to mm/hr with recorded conversion. Align MERRA-2 collections, soil depths and evaporation components for currently incompatible pairs; preserve originals and record every transformation | Broader scientifically comparable city pairs |
+| Complete common baseline | Complete intended January 2006–December 2025 coverage, including February–December 2025 Karachi precipitation and October–December 2025 precipitation for the other five cities | Consistent period selection and complete annual calculations |
 | NDVI extraction evidence | Pixel coordinates or extraction polygon, source request, quality flags, scale/fill metadata | Correct location labels and quality filtering |
 | Longer reliable histories | Earlier records where supported; retain product changes and discontinuities | Longer investigations and statistical assessment |
 | Original demonstration regions | Sahel precipitation, Amazon vegetation/moisture and Arctic regional temperature | Backend-documented candidate demonstrations, subject to team case selection and review |

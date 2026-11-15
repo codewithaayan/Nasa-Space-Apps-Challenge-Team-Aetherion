@@ -12,7 +12,7 @@ is `/api/cases` only, so direct browser navigation to `/cases` serves the app.
 | `POST /api/wizard` | Validates structured dataset/location/topic/date selections against the installed catalog. Returns the canonical selection or an explicit missing-data state. |
 | `POST /api/verdict` | Recomputes authoritative backend statistics and returns a deterministic explanation with provenance/caveats. No client-supplied p-values or model prose override calculations. |
 | `POST /api/years-to-significance` | Returns a typed null estimate and a reason until an actual validated future effect/noise model is configured. |
-| `POST /api/comparison` | Checks locations, topic, product/version, units, provenance/kind and shared coverage. `run=false` checks readiness; `run=true` calculates both selections. |
+| `POST /api/comparison` | Checks distinct locations, topic, product/version, source variable, output units, provenance/kind and shared coverage. `run=false` checks readiness; `run=true` calculates both selections. |
 | `GET /api/cases` | Discovers the existing Sahel/Amazon/Arctic prepared-artifact states. Invalid artifacts remain unavailable. |
 | `GET /api/demo/{case}` | Reads the validated envelope of an offline prepared case, retaining original source and scientific-review status. |
 
@@ -51,7 +51,10 @@ dates and grid bbox can be linked and survive refresh. Changing a selection clea
 old results and aborts pending requests. The map uses native cell centres, raw
 p-values and FDR-screened direction labels. Cell shares are not geographic area.
 
-Source CSVs retain native units and source fingerprints. Grids carry their source
+Source CSV bytes and fingerprints are preserved. Precipitation is returned in
+mm/hr; Karachi is explicitly converted from inch/day using 25.4 / 24 before
+analysis. `source_units` and `unit_conversion` record this transformation. Other
+quantities retain native units. Grids carry their source
 revision and provenance. Mock fixtures remain labeled synthetic, NASA POWER retains
 data_kind=reanalysis, and missing NDVI location information is never invented.
 Catalog month counts for grids describe coordinate coverage; finite-data coverage
@@ -59,8 +62,10 @@ is calculated only for the selected series.
 
 ## Scientific prerequisites
 
-The full feature scope remains planned. Current Karachi averages cannot support
-regional opposing-trend maps. Real Lahore data still needs collection. The verdict
+The full feature scope remains planned. All six cities have registered CSV
+exports, but area-averaged series cannot support regional opposing-trend maps.
+Different soil layers, evaporation components and MERRA-2 collections still need
+harmonization before comparison. NDVI extraction geolocation remains unverified. The verdict
 is a computed explanation (`ai_generated=false`); no external AI provider is configured.
 Years-to-significance is connected as an explicit unavailable-model response. An
 unconfigured model must not produce a numeric estimate or a promise of significance.
