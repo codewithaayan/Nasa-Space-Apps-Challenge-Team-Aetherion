@@ -44,6 +44,7 @@ export function CatalogProvider({ children }) {
 export const useCatalog = () => useContext(Catalog);
 const month = date => date?.slice(0, 7) || '';
 const bounds = dataset => dataset ? dataset.temporal_coverage.map(month) : ['', ''];
+const preferredDataset = (datasets, place, topic) => datasets.find(d => d.location_id === place && d.topic === topic && d.spatial_analysis_available) || datasets.find(d => d.location_id === place && d.topic === topic);
 const dateParams = (start, end, bbox = '') => ({ ...(start ? { start: `${start}-01` } : {}), ...(end ? { end: `${end}-01` } : {}), ...(bbox ? { bbox } : {}) });
 const number = value => value == null ? 'Unavailable' : Number(value).toLocaleString(undefined, { maximumSignificantDigits: 5 });
 const kindLabel = kind => ({ reanalysis: 'Reanalysis', model: 'Model output', satellite_estimate: 'Satellite-derived estimate', observation: 'Observations', synthetic: 'Synthetic fixture' }[kind] || kind || 'Not specified');
@@ -79,7 +80,7 @@ export function Wizard() {
   const [start, setStart] = useState('');
   const [end, setEnd] = useState('');
   const [message, setMessage] = useState('');
-  const dataset = datasets.find(d => d.topic === topic && d.location_id === place);
+  const dataset = preferredDataset(datasets, place, topic);
   const selectedVariable = topics.find(v => v.id === topic);
   const selectedLocation = places.find(l => l.id === place);
   const [submitting, setSubmitting] = useState(false);
@@ -165,7 +166,9 @@ function PendingFeatures({ result, dataset = result?.dataset, loading = false })
     <section className="feature-result-panel"><div className="panel-heading"><h2><Layers3 size={17} /> Paradox Finder</h2><span className="status-chip">{mapStatus}</span></div>
       {spatial ? <><p>{spatial.opposing_trends ? 'Supported increases and decreases meet the regional screening rule.' : 'No statistically supported opposing trends found. Cell trends are still shown on the map.'}</p><Evidence label="MAPPED CELLS" value={spatial.cells.length} /><Evidence label="TESTABLE CELLS" value={spatial.valid_cells} /><Evidence label="INCREASING SHARE" value={`${number(spatial.increasing_proportion * 100)}%`} /><Evidence label="DECREASING SHARE" value={`${number(spatial.decreasing_proportion * 100)}%`} /><p className="source-description">Map slopes describe annual {spatial.variable.annual_aggregation === 'sum' ? 'totals' : 'means'}; the chart trend describes monthly values. Shares count testable cells, not geographic area. Cell significance includes Benjamini-Yekutieli FDR correction.</p></> : <p>{!dataset ? 'Choose a dataset to see whether local trend mapping is available.' : loading && supportsMap ? 'Calculating local trends for the selected region...' : mapReason}</p>}
     </section>
-    <section className="feature-result-panel"><div className="panel-heading"><h2><Clock3 size={17} /> Years to significance</h2><span className="status-chip">{years?.estimate_years != null ? 'MODEL ESTIMATE' : 'COMING SOON'}</span></div><p>{years?.estimate_years != null ? `${number(years.estimate_years)} years under the stated model assumptions.` : 'Estimates of how much additional data is needed are not available yet.'}</p>{years?.estimate_years != null && <><p className="source-description">{years.method}</p><Warnings items={[...years.assumptions,...years.warnings]} /></>}</section>
+    <section className="feature-result-panel"><div className="panel-heading"><h2><Clock3 size={17} /> Years to significance</h2><span className="status-chip">{years?.historical_prefixes?.length ? 'HISTORICAL EVIDENCE' : loading ? 'CALCULATING' : 'HISTORICAL CHECK'}</span></div>
+      {years?.historical_prefixes?.length ? <><p>{years.historical_years_to_significance == null ? 'No historical prefix supports a trend after correction for repeated testing.' : `The first supported historical prefix contains ${years.historical_years_to_significance} complete years.`}</p><Evidence label="COMPLETE YEARS AVAILABLE" value={years.observed_complete_years} /><p>This checks the recorded past, not future years. Repeated tests use a stricter correction than the main trend test.</p><details><summary>Evidence by record length</summary><p className="source-description">{years.method}</p><div className="historical-evidence-scroll"><table className="historical-evidence-table"><thead><tr><th>Period</th><th>Years</th><th>Raw p</th><th>Adjusted p</th><th>Evidence</th></tr></thead><tbody>{years.historical_prefixes.map(prefix => <tr key={prefix.complete_years}><td>{prefix.start_year}–{prefix.end_year}</td><td>{prefix.complete_years}</td><td>{number(prefix.p_value)}</td><td>{number(prefix.adjusted_p_value)}</td><td>{prefix.p_value == null ? 'Inference withheld' : prefix.significant ? 'Supported' : 'Not supported'}{prefix.warning && <small> · {prefix.warning}</small>}</td></tr>)}</tbody></table></div><Warnings items={[...years.assumptions,...years.warnings]} /></details></> : <p>{result?.feature_status?.years_to_significance?.reason || 'Run an investigation with at least 10 complete years to check historical evidence.'}</p>}
+    </section>
   </div>;
 }
 function Summary({ result }) {
@@ -185,14 +188,14 @@ export function Lab() {
   const selected = datasets.find(d => d.id === selectedId);
   const place = query.get('location') || selected?.location_id || initial?.place || 'karachi';
   const topic = query.get('topic') || selected?.topic || initial?.topic || 'temperature';
-  const dataset = selectedId ? selected : datasets.find(d => d.location_id === place && d.topic === topic);
+  const dataset = selectedId ? selected : preferredDataset(datasets, place, topic);
   const [first,last] = bounds(dataset);
   const start = query.has('start') ? query.get('start') : initial?.start || first;
   const end = query.has('end') ? query.get('end') : initial?.end || last;
   const spatial = dataset && dataset.storage_format !== 'csv';
   const bbox = spatial ? query.has('bbox') ? query.get('bbox') : dataset.requested_bbox?.join(',') || '' : '';
   const changeSelection = (nextPlace,nextTopic) => {
-    const next = datasets.find(d => d.location_id === nextPlace && d.topic === nextTopic);
+    const next = preferredDataset(datasets, nextPlace, nextTopic);
     setQuery({ location:nextPlace, topic:nextTopic, ...(next ? { dataset:next.id, start:bounds(next)[0], end:bounds(next)[1] } : {}) });
   };
   const changeField = (name,value) => {
@@ -213,6 +216,7 @@ export function Lab() {
     <div className="analysis-controls-panel"><div className="panel-title">INVESTIGATION PARAMETERS</div><div className="connected-controls">
       <label className="control-field"><span>LOCATION</span><div className="select-wrap"><select aria-label="Location" value={place} onChange={e => changeSelection(e.target.value,topic)}>{places.map(l => <option key={l.id} value={l.id}>{l.name}{datasets.some(d => d.location_id === l.id) ? '' : ' ? no data'}</option>)}</select></div></label>
       <label className="control-field"><span>VARIABLE</span><div className="select-wrap"><select aria-label="Variable" value={topic} onChange={e => changeSelection(place,e.target.value)}>{topics.map(v => <option key={v.id} value={v.id}>{datasets.find(d => d.topic === v.id && d.location_id === place)?.name || v.name}</option>)}</select></div></label>
+      <label className="control-field"><span>DATASET</span><div className="select-wrap"><select aria-label="Dataset" value={dataset?.id || ''} onChange={e => { const next = datasets.find(d => d.id === e.target.value); if (next) setQuery({dataset:next.id,start:bounds(next)[0],end:bounds(next)[1]}); }}>{datasets.filter(d => d.location_id === place && d.topic === topic).map(d => <option key={d.id} value={d.id}>{d.name} · {d.storage_format === 'csv' ? 'area average' : 'native grid'}</option>)}</select></div></label>
       <DateFields dataset={dataset} start={start} end={end} onStart={value => changeField('start',value)} onEnd={value => changeField('end',value)} />
       <button className="button button-primary" disabled={loading || !!invalid} onClick={run}><Play size={14} />{loading ? 'ANALYSING?' : 'RUN ANALYSIS'}</button>
     </div>{spatial && <label className="control-field bbox-field"><span>BOUNDING BOX: WEST, SOUTH, EAST, NORTH</span><input aria-label="Bounding box" value={bbox} onChange={e => changeField('bbox',e.target.value)} /><small>Selection uses native cell centres. Maximum 100 cells and 600 monthly slots.</small></label>}<div className="controls-bottom"><span>{dataset ? `${dataset.monthly_slots} monthly slots available; units: ${dataset.units}` : 'Awaiting a source dataset for this selection.'}</span></div>{invalid && dataset && <div className="inline-error" role="alert">{invalid}</div>}</div>
@@ -242,7 +246,7 @@ export function CaseFileDetails() {
   const [query,setQuery] = useSearchParams();
   const { datasets, places } = useCatalog();
   const options = datasets.filter(d => d.location_id === caseId);
-  const dataset = query.get('dataset') ? options.find(d => d.id === query.get('dataset')) : options.find(d => d.topic === 'temperature') || options[0];
+  const dataset = query.get('dataset') ? options.find(d => d.id === query.get('dataset')) : preferredDataset(options, caseId, 'temperature') || options[0];
   const [first,last] = bounds(dataset);
   const start = query.get('start') || first;
   const end = query.get('end') || last;

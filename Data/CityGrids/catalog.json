@@ -1,0 +1,418 @@
+{
+  "variables": [
+    {
+      "id": "power_karachi_temperature",
+      "location_id": "karachi",
+      "topic": "temperature",
+      "name": "Karachi region air temperature",
+      "units": "C",
+      "provenance": "observations",
+      "data_kind": "reanalysis",
+      "source": "NASA POWER / MERRA-2 regional monthly reanalysis",
+      "source_url": "https://power.larc.nasa.gov/api/temporal/monthly/regional?latitude-min=23.8607&latitude-max=25.8607&longitude-min=66.0011&longitude-max=68.0011&parameters=T2M&community=AG&start=1981&end=2025&format=NETCDF",
+      "dataset_id": "NASA POWER MERRA-2 T2M",
+      "version": "POWER Version 10.0.0",
+      "path": "karachi_temperature_1981_2025.nc",
+      "field": "temperature",
+      "annual_aggregation": "mean",
+      "variable_type": "state",
+      "scientific_name": "NASA monthly 2-metre air temperature, original Celsius values",
+      "temporal_coverage": [
+        "1981-01-01",
+        "2025-12-01"
+      ],
+      "spatial_resolution": {
+        "latitude_degrees": 0.5,
+        "longitude_degrees": 0.625
+      },
+      "spatial_support": "Karachi and surroundings; requested west/south/east/north [66.0011, 23.8607, 68.0011, 25.8607]; 12 native cell centres. Not city-only data.",
+      "limitations": [
+        "NASA POWER / MERRA-2 reanalysis, not direct city station measurements.",
+        "Two-degree city-and-surroundings window, not a municipal boundary or urban heat-island study.",
+        "Coarse native 0.5 latitude by 0.625 longitude degree cells; no artificial finer resolution.",
+        "No land mask; coastal windows can include sea and mountain windows mix elevations.",
+        "The selected time span and spatial support affect results; scientific review remains pending."
+      ]
+    },
+    {
+      "id": "power_karachi_precipitation",
+      "location_id": "karachi",
+      "topic": "precipitation",
+      "name": "Karachi region monthly rainfall",
+      "units": "mm",
+      "provenance": "observations",
+      "data_kind": "reanalysis",
+      "source": "NASA POWER / MERRA-2 regional monthly reanalysis",
+      "source_url": "https://power.larc.nasa.gov/api/temporal/monthly/regional?latitude-min=23.8607&latitude-max=25.8607&longitude-min=66.0011&longitude-max=68.0011&parameters=PRECTOTCORR&community=AG&start=1981&end=2025&format=NETCDF",
+      "dataset_id": "NASA POWER MERRA-2 PRECTOTCORR",
+      "version": "POWER Version 10.0.0",
+      "path": "karachi_precipitation_1981_2025.nc",
+      "field": "precipitation_amount",
+      "annual_aggregation": "sum",
+      "variable_type": "monthly_amount",
+      "scientific_name": "NASA mean daily rate multiplied by actual Gregorian days in each month",
+      "temporal_coverage": [
+        "1981-01-01",
+        "2025-12-01"
+      ],
+      "spatial_resolution": {
+        "latitude_degrees": 0.5,
+        "longitude_degrees": 0.625
+      },
+      "spatial_support": "Karachi and surroundings; requested west/south/east/north [66.0011, 23.8607, 68.0011, 25.8607]; 12 native cell centres. Not city-only data.",
+      "limitations": [
+        "NASA POWER / MERRA-2 reanalysis, not direct city station measurements.",
+        "Two-degree city-and-surroundings window, not a municipal boundary or urban heat-island study.",
+        "Coarse native 0.5 latitude by 0.625 longitude degree cells; no artificial finer resolution.",
+        "No land mask; coastal windows can include sea and mountain windows mix elevations.",
+        "The selected time span and spatial support affect results; scientific review remains pending.",
+        "Monthly amounts derive from rounded NASA mm/day rates and actual month lengths; map slopes use annual sums."
+      ]
+    },
+    {
+      "id": "power_lahore_temperature",
+      "location_id": "lahore",
+      "topic": "temperature",
+      "name": "Lahore region air temperature",
+      "units": "C",
+      "provenance": "observations",
+      "data_kind": "reanalysis",
+      "source": "NASA POWER / MERRA-2 regional monthly reanalysis",
+      "source_url": "https://power.larc.nasa.gov/api/temporal/monthly/regional?latitude-min=30.5204&latitude-max=32.5204&longitude-min=73.3587&longitude-max=75.3587&parameters=T2M&community=AG&start=1981&end=2025&format=NETCDF",
+      "dataset_id": "NASA POWER MERRA-2 T2M",
+      "version": "POWER Version 10.0.0",
+      "path": "lahore_temperature_1981_2025.nc",
+      "field": "temperature",
+      "annual_aggregation": "mean",
+      "variable_type": "state",
+      "scientific_name": "NASA monthly 2-metre air temperature, original Celsius values",
+      "temporal_coverage": [
+        "1981-01-01",
+        "2025-12-01"
+      ],
+      "spatial_resolution": {
+        "latitude_degrees": 0.5,
+        "longitude_degrees": 0.625
+      },
+      "spatial_support": "Lahore and surroundings; requested west/south/east/north [73.3587, 30.5204, 75.3587, 32.5204]; 12 native cell centres. Not city-only data.",
+      "limitations": [
+        "NASA POWER / MERRA-2 reanalysis, not direct city station measurements.",
+        "Two-degree city-and-surroundings window, not a municipal boundary or urban heat-island study.",
+        "Coarse native 0.5 latitude by 0.625 longitude degree cells; no artificial finer resolution.",
+        "No land mask; coastal windows can include sea and mountain windows mix elevations.",
+        "The selected time span and spatial support affect results; scientific review remains pending."
+      ]
+    },
+    {
+      "id": "power_lahore_precipitation",
+      "location_id": "lahore",
+      "topic": "precipitation",
+      "name": "Lahore region monthly rainfall",
+      "units": "mm",
+      "provenance": "observations",
+      "data_kind": "reanalysis",
+      "source": "NASA POWER / MERRA-2 regional monthly reanalysis",
+      "source_url": "https://power.larc.nasa.gov/api/temporal/monthly/regional?latitude-min=30.5204&latitude-max=32.5204&longitude-min=73.3587&longitude-max=75.3587&parameters=PRECTOTCORR&community=AG&start=1981&end=2025&format=NETCDF",
+      "dataset_id": "NASA POWER MERRA-2 PRECTOTCORR",
+      "version": "POWER Version 10.0.0",
+      "path": "lahore_precipitation_1981_2025.nc",
+      "field": "precipitation_amount",
+      "annual_aggregation": "sum",
+      "variable_type": "monthly_amount",
+      "scientific_name": "NASA mean daily rate multiplied by actual Gregorian days in each month",
+      "temporal_coverage": [
+        "1981-01-01",
+        "2025-12-01"
+      ],
+      "spatial_resolution": {
+        "latitude_degrees": 0.5,
+        "longitude_degrees": 0.625
+      },
+      "spatial_support": "Lahore and surroundings; requested west/south/east/north [73.3587, 30.5204, 75.3587, 32.5204]; 12 native cell centres. Not city-only data.",
+      "limitations": [
+        "NASA POWER / MERRA-2 reanalysis, not direct city station measurements.",
+        "Two-degree city-and-surroundings window, not a municipal boundary or urban heat-island study.",
+        "Coarse native 0.5 latitude by 0.625 longitude degree cells; no artificial finer resolution.",
+        "No land mask; coastal windows can include sea and mountain windows mix elevations.",
+        "The selected time span and spatial support affect results; scientific review remains pending.",
+        "Monthly amounts derive from rounded NASA mm/day rates and actual month lengths; map slopes use annual sums."
+      ]
+    },
+    {
+      "id": "power_islamabad_temperature",
+      "location_id": "islamabad",
+      "topic": "temperature",
+      "name": "Islamabad region air temperature",
+      "units": "C",
+      "provenance": "observations",
+      "data_kind": "reanalysis",
+      "source": "NASA POWER / MERRA-2 regional monthly reanalysis",
+      "source_url": "https://power.larc.nasa.gov/api/temporal/monthly/regional?latitude-min=32.6844&latitude-max=34.6844&longitude-min=72.0479&longitude-max=74.0479&parameters=T2M&community=AG&start=1981&end=2025&format=NETCDF",
+      "dataset_id": "NASA POWER MERRA-2 T2M",
+      "version": "POWER Version 10.0.0",
+      "path": "islamabad_temperature_1981_2025.nc",
+      "field": "temperature",
+      "annual_aggregation": "mean",
+      "variable_type": "state",
+      "scientific_name": "NASA monthly 2-metre air temperature, original Celsius values",
+      "temporal_coverage": [
+        "1981-01-01",
+        "2025-12-01"
+      ],
+      "spatial_resolution": {
+        "latitude_degrees": 0.5,
+        "longitude_degrees": 0.625
+      },
+      "spatial_support": "Islamabad and surroundings; requested west/south/east/north [72.0479, 32.6844, 74.0479, 34.6844]; 12 native cell centres. Not city-only data.",
+      "limitations": [
+        "NASA POWER / MERRA-2 reanalysis, not direct city station measurements.",
+        "Two-degree city-and-surroundings window, not a municipal boundary or urban heat-island study.",
+        "Coarse native 0.5 latitude by 0.625 longitude degree cells; no artificial finer resolution.",
+        "No land mask; coastal windows can include sea and mountain windows mix elevations.",
+        "The selected time span and spatial support affect results; scientific review remains pending."
+      ]
+    },
+    {
+      "id": "power_islamabad_precipitation",
+      "location_id": "islamabad",
+      "topic": "precipitation",
+      "name": "Islamabad region monthly rainfall",
+      "units": "mm",
+      "provenance": "observations",
+      "data_kind": "reanalysis",
+      "source": "NASA POWER / MERRA-2 regional monthly reanalysis",
+      "source_url": "https://power.larc.nasa.gov/api/temporal/monthly/regional?latitude-min=32.6844&latitude-max=34.6844&longitude-min=72.0479&longitude-max=74.0479&parameters=PRECTOTCORR&community=AG&start=1981&end=2025&format=NETCDF",
+      "dataset_id": "NASA POWER MERRA-2 PRECTOTCORR",
+      "version": "POWER Version 10.0.0",
+      "path": "islamabad_precipitation_1981_2025.nc",
+      "field": "precipitation_amount",
+      "annual_aggregation": "sum",
+      "variable_type": "monthly_amount",
+      "scientific_name": "NASA mean daily rate multiplied by actual Gregorian days in each month",
+      "temporal_coverage": [
+        "1981-01-01",
+        "2025-12-01"
+      ],
+      "spatial_resolution": {
+        "latitude_degrees": 0.5,
+        "longitude_degrees": 0.625
+      },
+      "spatial_support": "Islamabad and surroundings; requested west/south/east/north [72.0479, 32.6844, 74.0479, 34.6844]; 12 native cell centres. Not city-only data.",
+      "limitations": [
+        "NASA POWER / MERRA-2 reanalysis, not direct city station measurements.",
+        "Two-degree city-and-surroundings window, not a municipal boundary or urban heat-island study.",
+        "Coarse native 0.5 latitude by 0.625 longitude degree cells; no artificial finer resolution.",
+        "No land mask; coastal windows can include sea and mountain windows mix elevations.",
+        "The selected time span and spatial support affect results; scientific review remains pending.",
+        "Monthly amounts derive from rounded NASA mm/day rates and actual month lengths; map slopes use annual sums."
+      ]
+    },
+    {
+      "id": "power_quetta_temperature",
+      "location_id": "quetta",
+      "topic": "temperature",
+      "name": "Quetta region air temperature",
+      "units": "C",
+      "provenance": "observations",
+      "data_kind": "reanalysis",
+      "source": "NASA POWER / MERRA-2 regional monthly reanalysis",
+      "source_url": "https://power.larc.nasa.gov/api/temporal/monthly/regional?latitude-min=29.1798&latitude-max=31.1798&longitude-min=65.975&longitude-max=67.975&parameters=T2M&community=AG&start=1981&end=2025&format=NETCDF",
+      "dataset_id": "NASA POWER MERRA-2 T2M",
+      "version": "POWER Version 10.0.0",
+      "path": "quetta_temperature_1981_2025.nc",
+      "field": "temperature",
+      "annual_aggregation": "mean",
+      "variable_type": "state",
+      "scientific_name": "NASA monthly 2-metre air temperature, original Celsius values",
+      "temporal_coverage": [
+        "1981-01-01",
+        "2025-12-01"
+      ],
+      "spatial_resolution": {
+        "latitude_degrees": 0.5,
+        "longitude_degrees": 0.625
+      },
+      "spatial_support": "Quetta and surroundings; requested west/south/east/north [65.975, 29.1798, 67.975, 31.1798]; 12 native cell centres. Not city-only data.",
+      "limitations": [
+        "NASA POWER / MERRA-2 reanalysis, not direct city station measurements.",
+        "Two-degree city-and-surroundings window, not a municipal boundary or urban heat-island study.",
+        "Coarse native 0.5 latitude by 0.625 longitude degree cells; no artificial finer resolution.",
+        "No land mask; coastal windows can include sea and mountain windows mix elevations.",
+        "The selected time span and spatial support affect results; scientific review remains pending."
+      ]
+    },
+    {
+      "id": "power_quetta_precipitation",
+      "location_id": "quetta",
+      "topic": "precipitation",
+      "name": "Quetta region monthly rainfall",
+      "units": "mm",
+      "provenance": "observations",
+      "data_kind": "reanalysis",
+      "source": "NASA POWER / MERRA-2 regional monthly reanalysis",
+      "source_url": "https://power.larc.nasa.gov/api/temporal/monthly/regional?latitude-min=29.1798&latitude-max=31.1798&longitude-min=65.975&longitude-max=67.975&parameters=PRECTOTCORR&community=AG&start=1981&end=2025&format=NETCDF",
+      "dataset_id": "NASA POWER MERRA-2 PRECTOTCORR",
+      "version": "POWER Version 10.0.0",
+      "path": "quetta_precipitation_1981_2025.nc",
+      "field": "precipitation_amount",
+      "annual_aggregation": "sum",
+      "variable_type": "monthly_amount",
+      "scientific_name": "NASA mean daily rate multiplied by actual Gregorian days in each month",
+      "temporal_coverage": [
+        "1981-01-01",
+        "2025-12-01"
+      ],
+      "spatial_resolution": {
+        "latitude_degrees": 0.5,
+        "longitude_degrees": 0.625
+      },
+      "spatial_support": "Quetta and surroundings; requested west/south/east/north [65.975, 29.1798, 67.975, 31.1798]; 12 native cell centres. Not city-only data.",
+      "limitations": [
+        "NASA POWER / MERRA-2 reanalysis, not direct city station measurements.",
+        "Two-degree city-and-surroundings window, not a municipal boundary or urban heat-island study.",
+        "Coarse native 0.5 latitude by 0.625 longitude degree cells; no artificial finer resolution.",
+        "No land mask; coastal windows can include sea and mountain windows mix elevations.",
+        "The selected time span and spatial support affect results; scientific review remains pending.",
+        "Monthly amounts derive from rounded NASA mm/day rates and actual month lengths; map slopes use annual sums."
+      ]
+    },
+    {
+      "id": "power_peshawar_temperature",
+      "location_id": "peshawar",
+      "topic": "temperature",
+      "name": "Peshawar region air temperature",
+      "units": "C",
+      "provenance": "observations",
+      "data_kind": "reanalysis",
+      "source": "NASA POWER / MERRA-2 regional monthly reanalysis",
+      "source_url": "https://power.larc.nasa.gov/api/temporal/monthly/regional?latitude-min=33.0151&latitude-max=35.0151&longitude-min=70.5249&longitude-max=72.5249&parameters=T2M&community=AG&start=1981&end=2025&format=NETCDF",
+      "dataset_id": "NASA POWER MERRA-2 T2M",
+      "version": "POWER Version 10.0.0",
+      "path": "peshawar_temperature_1981_2025.nc",
+      "field": "temperature",
+      "annual_aggregation": "mean",
+      "variable_type": "state",
+      "scientific_name": "NASA monthly 2-metre air temperature, original Celsius values",
+      "temporal_coverage": [
+        "1981-01-01",
+        "2025-12-01"
+      ],
+      "spatial_resolution": {
+        "latitude_degrees": 0.5,
+        "longitude_degrees": 0.625
+      },
+      "spatial_support": "Peshawar and surroundings; requested west/south/east/north [70.5249, 33.0151, 72.5249, 35.0151]; 16 native cell centres. Not city-only data.",
+      "limitations": [
+        "NASA POWER / MERRA-2 reanalysis, not direct city station measurements.",
+        "Two-degree city-and-surroundings window, not a municipal boundary or urban heat-island study.",
+        "Coarse native 0.5 latitude by 0.625 longitude degree cells; no artificial finer resolution.",
+        "No land mask; coastal windows can include sea and mountain windows mix elevations.",
+        "The selected time span and spatial support affect results; scientific review remains pending."
+      ]
+    },
+    {
+      "id": "power_peshawar_precipitation",
+      "location_id": "peshawar",
+      "topic": "precipitation",
+      "name": "Peshawar region monthly rainfall",
+      "units": "mm",
+      "provenance": "observations",
+      "data_kind": "reanalysis",
+      "source": "NASA POWER / MERRA-2 regional monthly reanalysis",
+      "source_url": "https://power.larc.nasa.gov/api/temporal/monthly/regional?latitude-min=33.0151&latitude-max=35.0151&longitude-min=70.5249&longitude-max=72.5249&parameters=PRECTOTCORR&community=AG&start=1981&end=2025&format=NETCDF",
+      "dataset_id": "NASA POWER MERRA-2 PRECTOTCORR",
+      "version": "POWER Version 10.0.0",
+      "path": "peshawar_precipitation_1981_2025.nc",
+      "field": "precipitation_amount",
+      "annual_aggregation": "sum",
+      "variable_type": "monthly_amount",
+      "scientific_name": "NASA mean daily rate multiplied by actual Gregorian days in each month",
+      "temporal_coverage": [
+        "1981-01-01",
+        "2025-12-01"
+      ],
+      "spatial_resolution": {
+        "latitude_degrees": 0.5,
+        "longitude_degrees": 0.625
+      },
+      "spatial_support": "Peshawar and surroundings; requested west/south/east/north [70.5249, 33.0151, 72.5249, 35.0151]; 16 native cell centres. Not city-only data.",
+      "limitations": [
+        "NASA POWER / MERRA-2 reanalysis, not direct city station measurements.",
+        "Two-degree city-and-surroundings window, not a municipal boundary or urban heat-island study.",
+        "Coarse native 0.5 latitude by 0.625 longitude degree cells; no artificial finer resolution.",
+        "No land mask; coastal windows can include sea and mountain windows mix elevations.",
+        "The selected time span and spatial support affect results; scientific review remains pending.",
+        "Monthly amounts derive from rounded NASA mm/day rates and actual month lengths; map slopes use annual sums."
+      ]
+    },
+    {
+      "id": "power_gilgit_temperature",
+      "location_id": "gilgit",
+      "topic": "temperature",
+      "name": "Gilgit region air temperature",
+      "units": "C",
+      "provenance": "observations",
+      "data_kind": "reanalysis",
+      "source": "NASA POWER / MERRA-2 regional monthly reanalysis",
+      "source_url": "https://power.larc.nasa.gov/api/temporal/monthly/regional?latitude-min=34.9208&latitude-max=36.9208&longitude-min=73.308&longitude-max=75.308&parameters=T2M&community=AG&start=1981&end=2025&format=NETCDF",
+      "dataset_id": "NASA POWER MERRA-2 T2M",
+      "version": "POWER Version 10.0.0",
+      "path": "gilgit_temperature_1981_2025.nc",
+      "field": "temperature",
+      "annual_aggregation": "mean",
+      "variable_type": "state",
+      "scientific_name": "NASA monthly 2-metre air temperature, original Celsius values",
+      "temporal_coverage": [
+        "1981-01-01",
+        "2025-12-01"
+      ],
+      "spatial_resolution": {
+        "latitude_degrees": 0.5,
+        "longitude_degrees": 0.625
+      },
+      "spatial_support": "Gilgit and surroundings; requested west/south/east/north [73.308, 34.9208, 75.308, 36.9208]; 12 native cell centres. Not city-only data.",
+      "limitations": [
+        "NASA POWER / MERRA-2 reanalysis, not direct city station measurements.",
+        "Two-degree city-and-surroundings window, not a municipal boundary or urban heat-island study.",
+        "Coarse native 0.5 latitude by 0.625 longitude degree cells; no artificial finer resolution.",
+        "No land mask; coastal windows can include sea and mountain windows mix elevations.",
+        "The selected time span and spatial support affect results; scientific review remains pending."
+      ]
+    },
+    {
+      "id": "power_gilgit_precipitation",
+      "location_id": "gilgit",
+      "topic": "precipitation",
+      "name": "Gilgit region monthly rainfall",
+      "units": "mm",
+      "provenance": "observations",
+      "data_kind": "reanalysis",
+      "source": "NASA POWER / MERRA-2 regional monthly reanalysis",
+      "source_url": "https://power.larc.nasa.gov/api/temporal/monthly/regional?latitude-min=34.9208&latitude-max=36.9208&longitude-min=73.308&longitude-max=75.308&parameters=PRECTOTCORR&community=AG&start=1981&end=2025&format=NETCDF",
+      "dataset_id": "NASA POWER MERRA-2 PRECTOTCORR",
+      "version": "POWER Version 10.0.0",
+      "path": "gilgit_precipitation_1981_2025.nc",
+      "field": "precipitation_amount",
+      "annual_aggregation": "sum",
+      "variable_type": "monthly_amount",
+      "scientific_name": "NASA mean daily rate multiplied by actual Gregorian days in each month",
+      "temporal_coverage": [
+        "1981-01-01",
+        "2025-12-01"
+      ],
+      "spatial_resolution": {
+        "latitude_degrees": 0.5,
+        "longitude_degrees": 0.625
+      },
+      "spatial_support": "Gilgit and surroundings; requested west/south/east/north [73.308, 34.9208, 75.308, 36.9208]; 12 native cell centres. Not city-only data.",
+      "limitations": [
+        "NASA POWER / MERRA-2 reanalysis, not direct city station measurements.",
+        "Two-degree city-and-surroundings window, not a municipal boundary or urban heat-island study.",
+        "Coarse native 0.5 latitude by 0.625 longitude degree cells; no artificial finer resolution.",
+        "No land mask; coastal windows can include sea and mountain windows mix elevations.",
+        "The selected time span and spatial support affect results; scientific review remains pending.",
+        "Monthly amounts derive from rounded NASA mm/day rates and actual month lengths; map slopes use annual sums."
+      ]
+    }
+  ]
+}

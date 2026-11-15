@@ -6,7 +6,8 @@ import xarray as xr
 from app.models.csv_datasets import CsvAnalysis, CsvDataset, FeatureStatus, Verdict
 from app.services.analysis_cache import cached_analyze
 from app.services.csv_data import CsvDataSource
-from app.services.data import DataUnavailable, LocalDataSource, NotFound, local_path, regional_series
+from app.services.data import DataUnavailable, LocalDataSource, NotFound, regional_series
+from app.services.evidence_length import evidence_length
 from app.services.geo import parse_bbox
 from app.services.paradox import find_paradox
 from app.services.statistics import monthly_series, points
@@ -17,7 +18,7 @@ def grid_info(meta):
     if meta.path is None:
         _, array = LocalDataSource().load(meta.id, [-180, -90, 180, 90])
         return _grid_info(meta, array, 'synthetic', None)
-    path = local_path(meta.path)
+    path = LocalDataSource().resolve_path(meta.id)
     try:
         opener = xr.open_zarr if path.suffix == '.zarr' else xr.open_dataset
         with opener(path) as source:
@@ -136,14 +137,15 @@ class Investigations:
                 finding = 'The test does not establish a statistically significant trend; this does not prove an absence of change.'
             summary = f'The estimated change is {trend.slope:.5g} {trend.slope_units}. {finding} These exploratory results do not establish a cause.'
         warnings = list(dict.fromkeys(warnings))
-        return CsvAnalysis(dataset=meta, series=points(monthly_series(raw)), trend=trend,
+        history = evidence_length(raw)
+        return CsvAnalysis(years_to_significance=history, dataset=meta, series=points(monthly_series(raw)), trend=trend,
             selection_bbox=box, paradox=paradox, summary=summary, warnings=warnings,
             verdict=Verdict(verdict=summary, caveats=warnings, provenance=meta.provenance),
             feature_status={
                 'trend': FeatureStatus(available=trend is not None,
                     reason=None if trend else 'Selected monthly coverage does not support trend estimation.'),
                 'paradox': FeatureStatus(available=paradox is not None, reason=spatial_reason),
-                'years_to_significance': FeatureStatus(available=False,
-                    reason='A validated future effect/noise model has not been configured.'),
+                'years_to_significance': FeatureStatus(available=bool(history.historical_prefixes),
+                    reason=None if history.historical_prefixes else 'At least 10 complete years are needed for historical evidence.'),
                 'ai_verdict': FeatureStatus(available=False,
                     reason='The current verdict is a deterministic explanation, without a configured AI provider.')})

@@ -17,6 +17,7 @@ export default defineConfig({
     trace:'retain-on-failure',
   },
   webServer:[
+    {command:'node scripts/serve.mjs',url:'http://127.0.0.1:8768/api/health',env:{BACKEND_PORT:'8768',DATA_ROOT:process.cwd() + '/Data/Sahel',BUNDLED_CITY_GRIDS:'true'},reuseExistingServer:false,timeout:60000},
     {command:'node scripts/serve.mjs --fixtures real',url:'http://127.0.0.1:8765/api/health',env:{BACKEND_PORT:'8765'},reuseExistingServer:false,timeout:60000},
     {command:'node scripts/serve.mjs --fixtures comparison',url:'http://127.0.0.1:8766/api/health',env:{BACKEND_PORT:'8766'},reuseExistingServer:false,timeout:60000},
     {command:'node scripts/serve.mjs',url:'http://127.0.0.1:8767/api/health',env:{BACKEND_PORT:'8767',DATA_ROOT:process.cwd() + '/Data/Sahel'},reuseExistingServer:false,timeout:60000},

@@ -34,8 +34,8 @@ def data_root() -> Path:
     return (backend.parent / 'Data' / 'Sahel').resolve()
 
 
-def local_path(value: str) -> Path:
-    root = data_root()
+def local_path(value: str, root: Path | None = None) -> Path:
+    root = (root or data_root()).resolve()
     if Path(value).is_absolute():
         raise DataUnavailable('Catalog paths must be relative to DATA_ROOT')
     path = (root / value).resolve()
@@ -46,14 +46,24 @@ def local_path(value: str) -> Path:
 
 class LocalDataSource:
     def catalog(self) -> list[Variable]:
-        path = data_root() / 'catalog.json'
-        if not path.exists():
+        roots = [data_root()]
+        city_root = Path(__file__).resolve().parents[3] / 'Data' / 'CityGrids'
+        if ('DATA_ROOT' not in os.environ or os.getenv('BUNDLED_CITY_GRIDS', '').lower() == 'true') and city_root.resolve() not in roots:
+            roots.append(city_root.resolve())
+        paths = [root / 'catalog.json' for root in roots if (root / 'catalog.json').exists()]
+        self._roots_by_id = {}
+        if not paths:
             if os.getenv('MOCK_DATA', 'false').lower() == 'true':
                 return [Variable(id='mock_temperature', name='Synthetic temperature (NOT NASA)',
                     units='K', source='Deterministic synthetic fixture', provenance='mock')]
             return []
         try:
-            raw_records = json.loads(path.read_text())['variables']
+            raw_records = []
+            for path in paths:
+                records = json.loads(path.read_text(encoding='utf-8'))['variables']
+                for record in records:
+                    self._roots_by_id[record['id']] = path.parent
+                raw_records.extend(records)
             metadata_path = os.getenv('CATALOG_METADATA')
             metadata = json.loads(Path(metadata_path).read_text()) if metadata_path else {}
             allowed = {'variable_type', 'data_kind', 'dataset_id', 'version', 'source_url',
@@ -75,6 +85,12 @@ class LocalDataSource:
         except (ValueError, KeyError, TypeError, OSError) as exc:
             raise DataUnavailable('Invalid catalog.json') from exc
 
+    def resolve_path(self, variable):
+        meta = next((m for m in self.catalog() if m.id == variable), None)
+        if meta is None or meta.path is None:
+            raise NotFound('No local path for variable')
+        return local_path(meta.path, self._roots_by_id[meta.id])
+
     def load(self, variable: str, box: list[float], start=None, end=None):
         meta = next((m for m in self.catalog() if m.id == variable), None)
         if meta is None:
@@ -93,7 +109,7 @@ class LocalDataSource:
                 dims=('time','latitude','longitude'), coords={'time': time,
                 'latitude': [-60, 0, 60], 'longitude': [-135, -45, 45, 135]}, attrs={'units':'K'})
         else:
-            path = local_path(meta.path)
+            path = local_path(meta.path, self._roots_by_id[meta.id])
             if not path.exists():
                 raise DataUnavailable(f'Dataset missing for {variable}')
             try:

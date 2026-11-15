@@ -1,0 +1,36 @@
+import { test, expect } from '@playwright/test';
+
+test('city wizard runs NASA grid, historical evidence and preserves original CSV choice', async ({ page }, testInfo) => {
+  test.setTimeout(120000);
+  const errors = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.route('**/*', route => ['127.0.0.1', 'localhost'].includes(new URL(route.request().url()).hostname) ? route.continue() : route.abort());
+  await page.goto('http://127.0.0.1:8768/wizard');
+  await expect(page.getByText('Reading dataset coverage…')).toHaveCount(0);
+  await page.getByRole('button', {name:'CONTINUE'}).click();
+  await page.getByRole('button', {name:'CONTINUE'}).click();
+  await expect(page.getByLabel('Start month')).toHaveValue('1981-01');
+  await expect(page.getByLabel('End month')).toHaveValue('2025-12');
+  await page.getByRole('button', {name:'CONTINUE'}).click();
+  await expect(page.getByText('Not city-only data.', {exact:false}).first()).toBeVisible();
+  const responsePromise = page.waitForResponse(r => r.url().includes('/datasets/grid__power_karachi_temperature/analysis'));
+  await page.getByRole('button', {name:'BEGIN INVESTIGATION'}).click();
+  const response = await responsePromise;
+  expect(response.status()).toBe(200);
+  const analysis = await response.json();
+  expect(analysis.paradox.cells).toHaveLength(12);
+  expect(analysis.years_to_significance.observed_complete_years).toBe(45);
+  expect(analysis.years_to_significance.historical_prefixes).toHaveLength(36);
+  expect(analysis.years_to_significance.estimate_years).toBeNull();
+  await expect(page.getByRole('region', {name:'Trend map with 12 source cells'})).toBeVisible();
+  await expect(page.getByText('HISTORICAL EVIDENCE', {exact:true})).toBeVisible();
+  await page.getByText('Evidence by record length', {exact:true}).click();
+  await expect(page.locator('tbody tr')).toHaveCount(36);
+  await page.screenshot({path:testInfo.outputPath('karachi-nasa-grid.png'),fullPage:true});
+  await page.setViewportSize({width:390,height:844});
+  await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  await page.getByLabel('Dataset', {exact:true}).selectOption('karachi_temperature');
+  await expect(page.getByText('UNAVAILABLE FOR THIS DATASET', {exact:true})).toBeVisible();
+  await expect(page.getByRole('region', {name:/Trend map with/})).toHaveCount(0);
+  expect(errors).toEqual([]);
+});

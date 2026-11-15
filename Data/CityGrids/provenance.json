@@ -1,0 +1,452 @@
+{
+  "retrieved_utc": "2026-11-15T16:48:55.657449+00:00",
+  "documentation": "https://power.larc.nasa.gov/docs/services/api/temporal/monthly/",
+  "datasets": [
+    {
+      "id": "power_karachi_temperature",
+      "request_url": "https://power.larc.nasa.gov/api/temporal/monthly/regional?latitude-min=23.8607&latitude-max=25.8607&longitude-min=66.0011&longitude-max=68.0011&parameters=T2M&community=AG&start=1981&end=2025&format=NETCDF",
+      "source_institution": "NASA Langley Research Center (LaRC)",
+      "version": "POWER Version 10.0.0",
+      "months": 540,
+      "years": 45,
+      "cells": 12,
+      "requested_bbox": [
+        66.0011,
+        23.8607,
+        68.0011,
+        25.8607
+      ],
+      "latitude": [
+        24.0,
+        24.5,
+        25.0,
+        25.5
+      ],
+      "longitude": [
+        66.25,
+        66.875,
+        67.5
+      ],
+      "source_units": "C",
+      "units": "C",
+      "minimum": 14.1,
+      "maximum": 33.17,
+      "missing": 0,
+      "original_file": "original/karachi_temperature.nc",
+      "prepared_file": "karachi_temperature_1981_2025.nc",
+      "original_sha256": "7209e80d447d998c0a161a82cff4fba8d0d4f9670bb2f3f7139aa3ff45d0c5ee",
+      "prepared_sha256": "8dbf1cdac1fe0e814fee3dc232408a90f316c0d08a22e994566f36d24efe3d3a",
+      "annual_records_removed": 45,
+      "derivation": "NASA monthly 2-metre air temperature, original Celsius values"
+    },
+    {
+      "id": "power_karachi_precipitation",
+      "request_url": "https://power.larc.nasa.gov/api/temporal/monthly/regional?latitude-min=23.8607&latitude-max=25.8607&longitude-min=66.0011&longitude-max=68.0011&parameters=PRECTOTCORR&community=AG&start=1981&end=2025&format=NETCDF",
+      "source_institution": "NASA Langley Research Center (LaRC)",
+      "version": "POWER Version 10.0.0",
+      "months": 540,
+      "years": 45,
+      "cells": 12,
+      "requested_bbox": [
+        66.0011,
+        23.8607,
+        68.0011,
+        25.8607
+      ],
+      "latitude": [
+        24.0,
+        24.5,
+        25.0,
+        25.5
+      ],
+      "longitude": [
+        66.25,
+        66.875,
+        67.5
+      ],
+      "source_units": "mm/day",
+      "units": "mm",
+      "minimum": 0.0,
+      "maximum": 569.16,
+      "missing": 0,
+      "original_file": "original/karachi_precipitation.nc",
+      "prepared_file": "karachi_precipitation_1981_2025.nc",
+      "original_sha256": "4bdd35947ade57e4bcb301402b2275d507b00536717a5c4aa62f526c834cc500",
+      "prepared_sha256": "e545e69cee7e8b5f7da9a65ad5a0ff981a03340a8b1b2a105263cc82a6c5d7aa",
+      "annual_records_removed": 45,
+      "derivation": "NASA mean daily rate multiplied by actual Gregorian days in each month"
+    },
+    {
+      "id": "power_lahore_temperature",
+      "request_url": "https://power.larc.nasa.gov/api/temporal/monthly/regional?latitude-min=30.5204&latitude-max=32.5204&longitude-min=73.3587&longitude-max=75.3587&parameters=T2M&community=AG&start=1981&end=2025&format=NETCDF",
+      "source_institution": "NASA Langley Research Center (LaRC)",
+      "version": "POWER Version 10.0.0",
+      "months": 540,
+      "years": 45,
+      "cells": 12,
+      "requested_bbox": [
+        73.3587,
+        30.5204,
+        75.3587,
+        32.5204
+      ],
+      "latitude": [
+        31.0,
+        31.5,
+        32.0,
+        32.5
+      ],
+      "longitude": [
+        73.75,
+        74.375,
+        75.0
+      ],
+      "source_units": "C",
+      "units": "C",
+      "minimum": 10.1,
+      "maximum": 39.38,
+      "missing": 0,
+      "original_file": "original/lahore_temperature.nc",
+      "prepared_file": "lahore_temperature_1981_2025.nc",
+      "original_sha256": "5d36e0eac643742e46b09ec66a6a3eae0879959010f0a58d88fe2681a6d4060f",
+      "prepared_sha256": "15abe77e538f2d5d7aa305722baebfaaa915ff3ffc0092e5186f4452e97b7f48",
+      "annual_records_removed": 45,
+      "derivation": "NASA monthly 2-metre air temperature, original Celsius values"
+    },
+    {
+      "id": "power_lahore_precipitation",
+      "request_url": "https://power.larc.nasa.gov/api/temporal/monthly/regional?latitude-min=30.5204&latitude-max=32.5204&longitude-min=73.3587&longitude-max=75.3587&parameters=PRECTOTCORR&community=AG&start=1981&end=2025&format=NETCDF",
+      "source_institution": "NASA Langley Research Center (LaRC)",
+      "version": "POWER Version 10.0.0",
+      "months": 540,
+      "years": 45,
+      "cells": 12,
+      "requested_bbox": [
+        73.3587,
+        30.5204,
+        75.3587,
+        32.5204
+      ],
+      "latitude": [
+        31.0,
+        31.5,
+        32.0,
+        32.5
+      ],
+      "longitude": [
+        73.75,
+        74.375,
+        75.0
+      ],
+      "source_units": "mm/day",
+      "units": "mm",
+      "minimum": 0.0,
+      "maximum": 597.99,
+      "missing": 0,
+      "original_file": "original/lahore_precipitation.nc",
+      "prepared_file": "lahore_precipitation_1981_2025.nc",
+      "original_sha256": "851b350c5b98c9c3312e1951d87c8f69d2e78ed6036356bb887a4d9ef3adae85",
+      "prepared_sha256": "57b329df3934abb28f14f93dcab7b91736d5bdf21315f53c3ce1ca5ead682abd",
+      "annual_records_removed": 45,
+      "derivation": "NASA mean daily rate multiplied by actual Gregorian days in each month"
+    },
+    {
+      "id": "power_islamabad_temperature",
+      "request_url": "https://power.larc.nasa.gov/api/temporal/monthly/regional?latitude-min=32.6844&latitude-max=34.6844&longitude-min=72.0479&longitude-max=74.0479&parameters=T2M&community=AG&start=1981&end=2025&format=NETCDF",
+      "source_institution": "NASA Langley Research Center (LaRC)",
+      "version": "POWER Version 10.0.0",
+      "months": 540,
+      "years": 45,
+      "cells": 12,
+      "requested_bbox": [
+        72.0479,
+        32.6844,
+        74.0479,
+        34.6844
+      ],
+      "latitude": [
+        33.0,
+        33.5,
+        34.0,
+        34.5
+      ],
+      "longitude": [
+        72.5,
+        73.125,
+        73.75
+      ],
+      "source_units": "C",
+      "units": "C",
+      "minimum": -6.3,
+      "maximum": 37.32,
+      "missing": 0,
+      "original_file": "original/islamabad_temperature.nc",
+      "prepared_file": "islamabad_temperature_1981_2025.nc",
+      "original_sha256": "a0ccab7959a4561d21f9efa3926c0e3b28584f578ee4e143b39b27a8d4afb595",
+      "prepared_sha256": "e7a2aaf7e384278c38f447b15452031d6e6750c85f95a46324c9b50b7289aff1",
+      "annual_records_removed": 45,
+      "derivation": "NASA monthly 2-metre air temperature, original Celsius values"
+    },
+    {
+      "id": "power_islamabad_precipitation",
+      "request_url": "https://power.larc.nasa.gov/api/temporal/monthly/regional?latitude-min=32.6844&latitude-max=34.6844&longitude-min=72.0479&longitude-max=74.0479&parameters=PRECTOTCORR&community=AG&start=1981&end=2025&format=NETCDF",
+      "source_institution": "NASA Langley Research Center (LaRC)",
+      "version": "POWER Version 10.0.0",
+      "months": 540,
+      "years": 45,
+      "cells": 12,
+      "requested_bbox": [
+        72.0479,
+        32.6844,
+        74.0479,
+        34.6844
+      ],
+      "latitude": [
+        33.0,
+        33.5,
+        34.0,
+        34.5
+      ],
+      "longitude": [
+        72.5,
+        73.125,
+        73.75
+      ],
+      "source_units": "mm/day",
+      "units": "mm",
+      "minimum": 0.0,
+      "maximum": 1032.9,
+      "missing": 0,
+      "original_file": "original/islamabad_precipitation.nc",
+      "prepared_file": "islamabad_precipitation_1981_2025.nc",
+      "original_sha256": "56e7714d4a77bf44b38b650a39f6f7f10dec3eea0a06e3b8ca8b603014b9dac6",
+      "prepared_sha256": "3b3d7d94b584be413ac3e7776dcddd40eceabd1b372ece790a25fb1238f0542f",
+      "annual_records_removed": 45,
+      "derivation": "NASA mean daily rate multiplied by actual Gregorian days in each month"
+    },
+    {
+      "id": "power_quetta_temperature",
+      "request_url": "https://power.larc.nasa.gov/api/temporal/monthly/regional?latitude-min=29.1798&latitude-max=31.1798&longitude-min=65.975&longitude-max=67.975&parameters=T2M&community=AG&start=1981&end=2025&format=NETCDF",
+      "source_institution": "NASA Langley Research Center (LaRC)",
+      "version": "POWER Version 10.0.0",
+      "months": 540,
+      "years": 45,
+      "cells": 12,
+      "requested_bbox": [
+        65.975,
+        29.1798,
+        67.975,
+        31.1798
+      ],
+      "latitude": [
+        29.5,
+        30.0,
+        30.5,
+        31.0
+      ],
+      "longitude": [
+        66.25,
+        66.875,
+        67.5
+      ],
+      "source_units": "C",
+      "units": "C",
+      "minimum": -3.53,
+      "maximum": 35.96,
+      "missing": 0,
+      "original_file": "original/quetta_temperature.nc",
+      "prepared_file": "quetta_temperature_1981_2025.nc",
+      "original_sha256": "a85a7762e290486706a645741a46e00222d3f05ecd491313faa995cbf6f77556",
+      "prepared_sha256": "948e8c7821acde03df65986f20f858b2e1d3bf961056e2d7bd5ee438bcd8e1fb",
+      "annual_records_removed": 45,
+      "derivation": "NASA monthly 2-metre air temperature, original Celsius values"
+    },
+    {
+      "id": "power_quetta_precipitation",
+      "request_url": "https://power.larc.nasa.gov/api/temporal/monthly/regional?latitude-min=29.1798&latitude-max=31.1798&longitude-min=65.975&longitude-max=67.975&parameters=PRECTOTCORR&community=AG&start=1981&end=2025&format=NETCDF",
+      "source_institution": "NASA Langley Research Center (LaRC)",
+      "version": "POWER Version 10.0.0",
+      "months": 540,
+      "years": 45,
+      "cells": 12,
+      "requested_bbox": [
+        65.975,
+        29.1798,
+        67.975,
+        31.1798
+      ],
+      "latitude": [
+        29.5,
+        30.0,
+        30.5,
+        31.0
+      ],
+      "longitude": [
+        66.25,
+        66.875,
+        67.5
+      ],
+      "source_units": "mm/day",
+      "units": "mm",
+      "minimum": 0.0,
+      "maximum": 593.4000000000001,
+      "missing": 0,
+      "original_file": "original/quetta_precipitation.nc",
+      "prepared_file": "quetta_precipitation_1981_2025.nc",
+      "original_sha256": "ede7154bb5ca47d5a99ae572d240fd8a0f9a9f73e66cff2bac3f070e2f7c6e83",
+      "prepared_sha256": "76ed7fe6a0114eae72782fa18c6d9017a140a0e80a7f5d89a56e11a1c419d760",
+      "annual_records_removed": 45,
+      "derivation": "NASA mean daily rate multiplied by actual Gregorian days in each month"
+    },
+    {
+      "id": "power_peshawar_temperature",
+      "request_url": "https://power.larc.nasa.gov/api/temporal/monthly/regional?latitude-min=33.0151&latitude-max=35.0151&longitude-min=70.5249&longitude-max=72.5249&parameters=T2M&community=AG&start=1981&end=2025&format=NETCDF",
+      "source_institution": "NASA Langley Research Center (LaRC)",
+      "version": "POWER Version 10.0.0",
+      "months": 540,
+      "years": 45,
+      "cells": 16,
+      "requested_bbox": [
+        70.5249,
+        33.0151,
+        72.5249,
+        35.0151
+      ],
+      "latitude": [
+        33.5,
+        34.0,
+        34.5,
+        35.0
+      ],
+      "longitude": [
+        70.625,
+        71.25,
+        71.875,
+        72.5
+      ],
+      "source_units": "C",
+      "units": "C",
+      "minimum": -6.67,
+      "maximum": 37.63,
+      "missing": 0,
+      "original_file": "original/peshawar_temperature.nc",
+      "prepared_file": "peshawar_temperature_1981_2025.nc",
+      "original_sha256": "29d846293c013aeb901d8c79f2bca1a7e4044b4162ea28bd2c32530169778b49",
+      "prepared_sha256": "cec916603bbd8c5e7219abc89829b6d2ecd92c76322d3421c0b376f9e2de4301",
+      "annual_records_removed": 45,
+      "derivation": "NASA monthly 2-metre air temperature, original Celsius values"
+    },
+    {
+      "id": "power_peshawar_precipitation",
+      "request_url": "https://power.larc.nasa.gov/api/temporal/monthly/regional?latitude-min=33.0151&latitude-max=35.0151&longitude-min=70.5249&longitude-max=72.5249&parameters=PRECTOTCORR&community=AG&start=1981&end=2025&format=NETCDF",
+      "source_institution": "NASA Langley Research Center (LaRC)",
+      "version": "POWER Version 10.0.0",
+      "months": 540,
+      "years": 45,
+      "cells": 16,
+      "requested_bbox": [
+        70.5249,
+        33.0151,
+        72.5249,
+        35.0151
+      ],
+      "latitude": [
+        33.5,
+        34.0,
+        34.5,
+        35.0
+      ],
+      "longitude": [
+        70.625,
+        71.25,
+        71.875,
+        72.5
+      ],
+      "source_units": "mm/day",
+      "units": "mm",
+      "minimum": 0.0,
+      "maximum": 1032.9,
+      "missing": 0,
+      "original_file": "original/peshawar_precipitation.nc",
+      "prepared_file": "peshawar_precipitation_1981_2025.nc",
+      "original_sha256": "e5bc15e6613bd3161a32e8cd4748764913bcc26722e986a8194503d42d329029",
+      "prepared_sha256": "4f6ce9af8b445e2da511701398fa12c6524b088a9ca150d8ee201ea4c21f1b7b",
+      "annual_records_removed": 45,
+      "derivation": "NASA mean daily rate multiplied by actual Gregorian days in each month"
+    },
+    {
+      "id": "power_gilgit_temperature",
+      "request_url": "https://power.larc.nasa.gov/api/temporal/monthly/regional?latitude-min=34.9208&latitude-max=36.9208&longitude-min=73.308&longitude-max=75.308&parameters=T2M&community=AG&start=1981&end=2025&format=NETCDF",
+      "source_institution": "NASA Langley Research Center (LaRC)",
+      "version": "POWER Version 10.0.0",
+      "months": 540,
+      "years": 45,
+      "cells": 12,
+      "requested_bbox": [
+        73.308,
+        34.9208,
+        75.308,
+        36.9208
+      ],
+      "latitude": [
+        35.0,
+        35.5,
+        36.0,
+        36.5
+      ],
+      "longitude": [
+        73.75,
+        74.375,
+        75.0
+      ],
+      "source_units": "C",
+      "units": "C",
+      "minimum": -20.79,
+      "maximum": 20.12,
+      "missing": 0,
+      "original_file": "original/gilgit_temperature.nc",
+      "prepared_file": "gilgit_temperature_1981_2025.nc",
+      "original_sha256": "d87fb1fcb2f71251e4eb384b65108998c5b7cbee77e86f63316648e42cfd4e44",
+      "prepared_sha256": "0614fc54d17e2d09d9d12a33f1a5c879ae5b51bfa1c13f4476ff46f968f2683b",
+      "annual_records_removed": 45,
+      "derivation": "NASA monthly 2-metre air temperature, original Celsius values"
+    },
+    {
+      "id": "power_gilgit_precipitation",
+      "request_url": "https://power.larc.nasa.gov/api/temporal/monthly/regional?latitude-min=34.9208&latitude-max=36.9208&longitude-min=73.308&longitude-max=75.308&parameters=PRECTOTCORR&community=AG&start=1981&end=2025&format=NETCDF",
+      "source_institution": "NASA Langley Research Center (LaRC)",
+      "version": "POWER Version 10.0.0",
+      "months": 540,
+      "years": 45,
+      "cells": 12,
+      "requested_bbox": [
+        73.308,
+        34.9208,
+        75.308,
+        36.9208
+      ],
+      "latitude": [
+        35.0,
+        35.5,
+        36.0,
+        36.5
+      ],
+      "longitude": [
+        73.75,
+        74.375,
+        75.0
+      ],
+      "source_units": "mm/day",
+      "units": "mm",
+      "minimum": 0.0,
+      "maximum": 269.39,
+      "missing": 0,
+      "original_file": "original/gilgit_precipitation.nc",
+      "prepared_file": "gilgit_precipitation_1981_2025.nc",
+      "original_sha256": "33fb77b4df307e20690d3d665ebad10c44de1de9abfde1bb590c9f59dd2ed435",
+      "prepared_sha256": "3f9d4486bec14b6b4ed248d625d015fda81deef70358df5ec2605715f0e0c434",
+      "annual_records_removed": 45,
+      "derivation": "NASA mean daily rate multiplied by actual Gregorian days in each month"
+    }
+  ]
+}

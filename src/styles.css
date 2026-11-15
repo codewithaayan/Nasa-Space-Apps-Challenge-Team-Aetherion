@@ -1388,3 +1388,10 @@ main { flex: 1; }
 @media (max-width: 420px) {
   .globe-target-label { top: 16px; left: 10px; }
 }
+/* Keep the historical evidence readable within the existing result cards. */
+.lab-feature-grid { align-items: start; }
+.historical-evidence-scroll { max-height: 360px; overflow: auto; margin: 12px 0; }
+.historical-evidence-table { width: 100%; border-collapse: collapse; font-size: 11px; text-align: left; }
+.historical-evidence-table th, .historical-evidence-table td { padding: 8px; border-bottom: 1px solid rgba(221,207,171,.15); white-space: nowrap; }
+.historical-evidence-table th { position: sticky; top: 0; background: #1c392f; }
+.historical-evidence-table small { white-space: normal; display: block; min-width: 120px; }

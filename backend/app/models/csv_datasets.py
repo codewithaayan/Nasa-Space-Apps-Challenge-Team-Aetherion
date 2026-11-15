@@ -49,8 +49,21 @@ class FeatureStatus(ScientificModel):
     reason: str | None = None
 
 
+class HistoricalPrefix(ScientificModel):
+    complete_years: int
+    start_year: int
+    end_year: int
+    p_value: float | None = Field(None, ge=0, le=1)
+    adjusted_p_value: float | None = Field(None, ge=0, le=1)
+    significant: bool = False
+    warning: str | None = None
+
+
 class YearsEstimate(ScientificModel):
     estimate_years: float | None = None
+    observed_complete_years: int = 0
+    historical_years_to_significance: int | None = None
+    historical_prefixes: list[HistoricalPrefix] = Field(default_factory=list)
     assumptions: list[str] = Field(default_factory=list)
     method: str = 'No validated future effect/noise model is configured'
     warnings: list[str] = Field(default_factory=lambda: [

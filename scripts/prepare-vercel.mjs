@@ -32,6 +32,18 @@ if (existsSync(path.join(sahel, 'catalog.json'))) {
     }
   }
 }
+const cityGrids = path.join(source, 'Data', 'CityGrids');
+if (existsSync(path.join(cityGrids, 'catalog.json'))) {
+  const provenance = JSON.parse(readFileSync(path.join(cityGrids, 'provenance.json'), 'utf8'));
+  for (const dataset of provenance.datasets) {
+    for (const kind of ['original', 'prepared']) {
+      const file = path.resolve(cityGrids, dataset[`${kind}_file`]);
+      if (!file.startsWith(cityGrids + path.sep) || createHash('sha256').update(readFileSync(file)).digest('hex') !== dataset[`${kind}_sha256`]) {
+        throw new Error('City grid source fingerprint mismatch; do not package modified science data.');
+      }
+    }
+  }
+}
 mkdirSync(output, {recursive:true});
 const filter = file => !['__pycache__','.venv','node_modules'].includes(path.basename(file)) && !file.endsWith('.pyc');
 cpSync(path.join(source,'backend','app'), path.join(output,'backend','app'), {recursive:true,filter});

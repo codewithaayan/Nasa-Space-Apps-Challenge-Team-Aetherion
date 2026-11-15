@@ -43,9 +43,13 @@ class WizardResponse(ScientificModel):
 
 @router.post('/wizard', response_model=WizardResponse)
 def wizard(request: WizardRequest):
-    dataset = next((d for d in Investigations().catalog()
-        if d.id == request.dataset_id), None) if request.dataset_id else next((
-        d for d in Investigations().catalog(request.location or 'karachi') if d.topic == (request.topic or 'temperature')), None)
+    catalog = Investigations().catalog()
+    if request.dataset_id:
+        dataset = next((d for d in catalog if d.id == request.dataset_id), None)
+    else:
+        candidates = [d for d in catalog if d.location_id == (request.location or 'karachi')
+                      and d.topic == (request.topic or 'temperature')]
+        dataset = next((d for d in candidates if d.spatial_analysis_available), candidates[0] if candidates else None)
     if dataset is None:
         return WizardResponse(available=False, explanation='This selection is awaiting a registered dataset.')
     if (request.location and dataset.location_id != request.location) or (request.topic and dataset.topic != request.topic):

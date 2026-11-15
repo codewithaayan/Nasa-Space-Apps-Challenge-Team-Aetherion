@@ -48,7 +48,8 @@ def test_verdict_recomputes_authoritative_statistics_and_years_are_honest(client
     years = client.post('/api/years-to-significance', json=selection).json()
     assert years['estimate_years'] is None
     assert years['method'] and years['warnings']
-    assert not analysis['feature_status']['years_to_significance']['available']
+    assert analysis['feature_status']['years_to_significance']['available']
+    assert years['historical_prefixes']
     assert not analysis['feature_status']['paradox']['available']
     assert client.post('/api/verdict', json={**selection, 'p_value':0.00001}).status_code == 422
 

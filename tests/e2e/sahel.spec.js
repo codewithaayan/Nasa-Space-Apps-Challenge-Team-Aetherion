@@ -29,7 +29,7 @@ test('one wizard investigation automatically loads the real Sahel chart and cell
   await expect(page.getByText('No statistically supported opposing trends found. Cell trends are still shown on the map.')).toBeVisible();
   await expect(page.getByText('Map slopes describe annual totals;', { exact: false })).toBeVisible();
   await expect(page.getByText('WESTERN SAHEL', { exact: true })).toBeVisible();
-  await expect(page.getByText('COMING SOON', { exact: true })).toBeVisible();
+  await expect(page.getByText('HISTORICAL EVIDENCE', { exact: true })).toBeVisible();
   await expect(page.getByText('MODEL PENDING', { exact: true })).toHaveCount(0);
   await expect(page.getByRole('link', { name: 'OPEN SAHEL GRID' })).toHaveCount(0);
   await map.locator('.leaflet-interactive').first().hover();
@@ -46,7 +46,7 @@ test('city investigations explain missing spatial data upfront without borrowing
     ? route.continue() : route.abort());
   await page.goto('http://127.0.0.1:8767/lab?dataset=karachi_temperature');
   await expect(page.getByText('UNAVAILABLE FOR THIS DATASET', { exact: true })).toBeVisible();
-  await expect(page.getByText('COMING SOON', { exact: true })).toBeVisible();
+  await expect(page.getByText('HISTORICAL CHECK', { exact: true })).toBeVisible();
   await expect(page.getByText('PREREQUISITE PENDING', { exact: true })).toHaveCount(0);
   await expect(page.getByText('MODEL PENDING', { exact: true })).toHaveCount(0);
   await expect(page.getByRole('link', { name: 'OPEN SAHEL GRID' })).toHaveCount(0);
