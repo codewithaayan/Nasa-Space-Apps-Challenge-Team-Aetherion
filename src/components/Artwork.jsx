@@ -14,49 +14,49 @@ export function EarthArtwork() {
     <svg className="earth-svg" viewBox="0 0 620 460" role="img" aria-label="Illustrative Earth and satellite artwork, not scientific data">
       <defs>
         <radialGradient id="earth-ocean" cx="32%" cy="28%" r="74%">
-          <stop offset="0" stopColor="#568291" />
-          <stop offset=".48" stopColor="#214b64" />
-          <stop offset="1" stopColor="#0b1c2d" />
+          <stop offset="0" stopColor="#3B6B52" />
+          <stop offset=".48" stopColor="#1E3A2F" />
+          <stop offset="1" stopColor="#10241A" />
         </radialGradient>
         <linearGradient id="earth-edge" x1="0" x2="1">
-          <stop stopColor="#9cc4c8" stopOpacity=".62" />
-          <stop offset=".48" stopColor="#4186a0" stopOpacity=".08" />
-          <stop offset="1" stopColor="#081421" stopOpacity=".75" />
+          <stop stopColor="#83B084" stopOpacity=".55" />
+          <stop offset=".48" stopColor="#6A9A6B" stopOpacity=".08" />
+          <stop offset="1" stopColor="#0B1A13" stopOpacity=".75" />
         </linearGradient>
         <linearGradient id="land-fill" x1="0" y1="0" x2="1" y2="1">
-          <stop stopColor="#d2bd84" />
-          <stop offset="1" stopColor="#698c79" />
+          <stop stopColor="#D9C7A7" />
+          <stop offset="1" stopColor="#6A9A6B" />
         </linearGradient>
         <clipPath id="earth-disc"><circle cx="312" cy="228" r="151" /></clipPath>
       </defs>
       <ellipse className="earth-orbit orbit-a" cx="310" cy="228" rx="271" ry="92" transform="rotate(-25 310 228)" />
       <ellipse className="earth-orbit orbit-b" cx="310" cy="228" rx="236" ry="139" transform="rotate(44 310 228)" />
-      <circle cx="312" cy="228" r="157" fill="#32677b" opacity=".12" />
-      <circle cx="312" cy="228" r="151" fill="url(#earth-ocean)" stroke="#82b3bf" strokeOpacity=".4" />
+      <circle cx="312" cy="228" r="157" fill="#2E5240" opacity=".14" />
+      <circle cx="312" cy="228" r="151" fill="url(#earth-ocean)" stroke="#6A9A6B" strokeOpacity=".4" />
       <g clipPath="url(#earth-disc)">
         <path className="earth-graticule" d="M145 228h334M161 175h302M161 281h302M312 76c-63 54-63 250 0 304M312 76c63 54 63 250 0 304M209 102c-37 77-37 175 0 252M415 102c37 77 37 175 0 252" />
-        <path d="m177 153 38-42 26 10 5 25 27 9 2 24-19 18-3 32-19 20-20-18-8-35-22-12-17-31Z" fill="url(#land-fill)" opacity=".8" />
-        <path d="m320 116 29-20 36 8 12 23 32 8 21 24-13 22-33 1-15 18-32-3-15 18-23-13 8-24-20-24 13-38Z" fill="url(#land-fill)" opacity=".72" />
-        <path d="m345 241 27-9 24 17-5 34-18 17-5 30-22 28-14-31 6-29-12-22 19-35Z" fill="url(#land-fill)" opacity=".72" />
-        <path d="M162 241c44-21 94-30 150-26 60 4 112 18 153 40" fill="none" stroke="#f4c96b" strokeOpacity=".4" strokeDasharray="3 7" />
-        <path d="M172 265c46-13 90-18 137-14 52 5 100 19 135 36" fill="none" stroke="#e8b966" strokeOpacity=".28" />
-        <circle cx="333" cy="252" r="4" fill="#f59e0b" />
-        <circle cx="333" cy="252" r="12" fill="none" stroke="#f59e0b" strokeOpacity=".75" />
-        <circle cx="333" cy="252" r="23" fill="none" stroke="#f59e0b" strokeOpacity=".22" strokeDasharray="2 6" />
+        <path d="m177 153 38-42 26 10 5 25 27 9 2 24-19 18-3 32-19 20-20-18-8-35-22-12-17-31Z" fill="url(#land-fill)" opacity=".82" />
+        <path d="m320 116 29-20 36 8 12 23 32 8 21 24-13 22-33 1-15 18-32-3-15 18-23-13 8-24-20-24 13-38Z" fill="url(#land-fill)" opacity=".74" />
+        <path d="m345 241 27-9 24 17-5 34-18 17-5 30-22 28-14-31 6-29-12-22 19-35Z" fill="url(#land-fill)" opacity=".74" />
+        <path d="M162 241c44-21 94-30 150-26 60 4 112 18 153 40" fill="none" stroke="#D9C7A7" strokeOpacity=".4" strokeDasharray="3 7" />
+        <path d="M172 265c46-13 90-18 137-14 52 5 100 19 135 36" fill="none" stroke="#D9C7A7" strokeOpacity=".28" />
+        <circle cx="333" cy="252" r="4" fill="#6A9A6B" />
+        <circle cx="333" cy="252" r="12" fill="none" stroke="#6A9A6B" strokeOpacity=".75" />
+        <circle cx="333" cy="252" r="23" fill="none" stroke="#6A9A6B" strokeOpacity=".22" strokeDasharray="2 6" />
       </g>
       <circle cx="312" cy="228" r="151" fill="url(#earth-edge)" />
       <g className="earth-satellite" transform="translate(486 74) rotate(-17)">
-        <rect x="-7" y="-7" width="14" height="14" rx="2" fill="#f5d28e" />
-        <path d="M-7-4h-42v8h42M7-4h42v8H7" fill="#284c66" stroke="#87b5c2" strokeWidth="1.5" />
-        <path d="M-39-4v8m8-8v8m8-8v8m8-8v8m30-8v8m8-8v8m8-8v8m8-8v8" stroke="#91b7c0" strokeWidth="1" />
-        <path d="M0 7v11m-6 0h12m-5-7 5 7" fill="none" stroke="#e9c77f" strokeWidth="1.5" />
+        <rect x="-7" y="-7" width="14" height="14" rx="2" fill="#D9C7A7" />
+        <path d="M-7-4h-42v8h42M7-4h42v8H7" fill="#1E3A2F" stroke="#6A9A6B" strokeWidth="1.5" />
+        <path d="M-39-4v8m8-8v8m8-8v8m8-8v8m30-8v8m8-8v8m8-8v8m8-8v8" stroke="#83B084" strokeWidth="1" />
+        <path d="M0 7v11m-6 0h12m-5-7 5 7" fill="none" stroke="#D9C7A7" strokeWidth="1.5" />
       </g>
-      <path d="m470 99-26 35" stroke="#f5bd55" strokeOpacity=".58" strokeDasharray="2 5" />
-      <circle cx="444" cy="136" r="3" fill="#f59e0b" />
-      <g className="earth-star" fill="#a5c2cc">
+      <path d="m470 99-26 35" stroke="#D9C7A7" strokeOpacity=".58" strokeDasharray="2 5" />
+      <circle cx="444" cy="136" r="3" fill="#6A9A6B" />
+      <g className="earth-star" fill="#859D8B">
         <circle cx="92" cy="107" r="1.5" /><circle cx="523" cy="204" r="1.5" />
         <circle cx="133" cy="341" r="1" /><circle cx="492" cy="367" r="1.5" />
-        <path d="M535 115v8m-4-4h8M104 297v7m-3.5-3.5h7" stroke="#a5c2cc" strokeWidth="1" />
+        <path d="M535 115v8m-4-4h8M104 297v7m-3.5-3.5h7" stroke="#859D8B" strokeWidth="1" />
       </g>
     </svg>
   );
@@ -108,37 +108,37 @@ export function LocationArtwork({ locationId = "karachi", className = "" }) {
       aria-label={`Schematic ${coastal ? "coastal" : "inland"} city illustration; not a geographic map or scientific data`}>
       <defs>
         <linearGradient id={`city-wash-${instanceId}`} x1="0" y1="0" x2="1" y2="1">
-          <stop stopColor={coastal ? "#22516a" : "#33485a"} stopOpacity=".68" />
-          <stop offset="1" stopColor="#13283b" stopOpacity=".2" />
+          <stop stopColor={coastal ? "#2A5240" : "#264838"} stopOpacity=".75" />
+          <stop offset="1" stopColor="#14261D" stopOpacity=".25" />
         </linearGradient>
         <pattern id={`city-grid-${instanceId}`} width="27" height="27" patternUnits="userSpaceOnUse" patternTransform={coastal ? "rotate(-12)" : "rotate(9)"}>
-          <path d="M27 0H0v27" fill="none" stroke="#adc2ce" strokeOpacity=".18" strokeWidth="1" />
+          <path d="M27 0H0v27" fill="none" stroke="#7DA88B" strokeOpacity=".18" strokeWidth="1" />
         </pattern>
       </defs>
       <rect width="360" height="220" fill={`url(#city-wash-${instanceId})`} />
       <rect width="360" height="220" fill={`url(#city-grid-${instanceId})`} />
-      <g fill="none" stroke="#a1b9c3" strokeOpacity=".24">
+      <g fill="none" stroke="#859D8B" strokeOpacity=".25">
         <path d="M-20 27c54 27 89-28 145 0s91 22 130-4 73-25 125 3" />
         <path d="M-20 39c54 27 89-28 145 0s91 22 130-4 73-25 125 3" />
         <path d="M-20 185c63-30 96 24 151-2s83-17 127 4 66 13 119-8" />
       </g>
       {coastal ? <>
-        <path d="M0 133c39-6 59 0 80 15 20 15 30 35 58 38 25 3 38-12 65-10 23 2 42 17 74 13 32-4 49-20 83-16v47H0Z" fill="#17516a" fillOpacity=".55" />
-        <path d="M0 132c39-6 59 0 80 15 20 15 30 35 58 38 25 3 38-12 65-10 23 2 42 17 74 13 32-4 49-20 83-16" fill="none" stroke="#74bdc5" strokeOpacity=".72" strokeWidth="2" />
-        <path d="M10 166c29-5 48 2 63 14m-54-3c22-4 35 0 47 8m130-3c19-7 34-5 48 3m45-1c20-5 36-3 51 3" fill="none" stroke="#74bdc5" strokeOpacity=".4" />
+        <path d="M0 133c39-6 59 0 80 15 20 15 30 35 58 38 25 3 38-12 65-10 23 2 42 17 74 13 32-4 49-20 83-16v47H0Z" fill="#1A3B2D" fillOpacity=".6" />
+        <path d="M0 132c39-6 59 0 80 15 20 15 30 35 58 38 25 3 38-12 65-10 23 2 42 17 74 13 32-4 49-20 83-16" fill="none" stroke="#6A9A6B" strokeOpacity=".72" strokeWidth="2" />
+        <path d="M10 166c29-5 48 2 63 14m-54-3c22-4 35 0 47 8m130-3c19-7 34-5 48 3m45-1c20-5 36-3 51 3" fill="none" stroke="#6A9A6B" strokeOpacity=".4" />
       </> : <>
-        <g fill="#c6a76d" fillOpacity=".17" stroke="#dfc18a" strokeOpacity=".34">
+        <g fill="#D9C7A7" fillOpacity=".16" stroke="#D9C7A7" strokeOpacity=".34">
           <path d="M23 69h72v37H23zm88 0h48v37h-48zm64 0h70v37h-70zm85 0h68v37h-68z" />
           <path d="M40 118h53v35H40zm68 0h67v35h-67zm82 0h51v35h-51zm67 0h63v35h-63z" />
         </g>
-        <path d="M18 162h325M18 58h325M12 111h335" fill="none" stroke="#f0c66c" strokeOpacity=".45" strokeDasharray="4 7" />
+        <path d="M18 162h325M18 58h325M12 111h335" fill="none" stroke="#D9C7A7" strokeOpacity=".45" strokeDasharray="4 7" />
       </>}
       <g transform="translate(180 102)">
-        <circle r="19" fill="#f59e0b" fillOpacity=".1" stroke="#f59e0b" strokeOpacity=".48" />
-        <circle r="9" fill="#f59e0b" fillOpacity=".24" stroke="#ffc85b" />
-        <circle r="3.5" fill="#ffd47a" />
+        <circle r="19" fill="#D9C7A7" fillOpacity=".12" stroke="#D9C7A7" strokeOpacity=".5" />
+        <circle r="9" fill="#6A9A6B" fillOpacity=".4" stroke="#D9C7A7" />
+        <circle r="3.5" fill="#D9C7A7" />
       </g>
-      <text x="15" y="204" fill="#c7d4dc" fillOpacity=".67" fontFamily="monospace" fontSize="8" letterSpacing="1.7">SCHEMATIC / NOT TO SCALE</text>
+      <text x="15" y="204" fill="#B8C8BD" fillOpacity=".7" fontFamily="monospace" fontSize="8" letterSpacing="1.7">SCHEMATIC / NOT TO SCALE</text>
     </svg>
   );
 }
@@ -157,37 +157,37 @@ export function PageArtwork({ variant = "wizard" }) {
     <svg className={`page-art page-art-${variant}`} viewBox="0 0 250 160" aria-hidden="true">
       <defs>
         <linearGradient id={`page-art-wash-${variant}`} x1="0" x2="1" y1="0" y2="1">
-          <stop stopColor="#f59e0b" stopOpacity=".18" />
-          <stop offset="1" stopColor="#4c91a5" stopOpacity=".04" />
+          <stop stopColor="#D9C7A7" stopOpacity=".2" />
+          <stop offset="1" stopColor="#6A9A6B" stopOpacity=".05" />
         </linearGradient>
       </defs>
       <path className="page-art-orbit" d="M18 105C53 13 184 9 231 63s-74 83-159 65S42 66 164 31" />
-      <circle cx="126" cy="79" r="55" fill={`url(#page-art-wash-${variant})`} stroke="#92afbd" strokeOpacity=".28" />
-      <circle cx="126" cy="79" r="41" fill="none" stroke="#86a8b7" strokeOpacity=".22" />
+      <circle cx="126" cy="79" r="55" fill={`url(#page-art-wash-${variant})`} stroke="#6A9A6B" strokeOpacity=".3" />
+      <circle cx="126" cy="79" r="41" fill="none" stroke="#859D8B" strokeOpacity=".25" />
       {variant === "wizard" && <>
         <path className="page-art-line" d="M78 52h65l13 12h20v42H78zM91 72h53m-53 12h70m-70 12h43" />
         <circle className="page-art-point" cx="170" cy="48" r="6" /><circle className="page-art-point" cx="73" cy="106" r="4" />
       </>}
       {variant === "lab" && <>
-        <circle cx="126" cy="79" r="25" fill="none" stroke="#f59e0b" strokeOpacity=".65" />
-        <circle cx="126" cy="79" r="10" fill="none" stroke="#f59e0b" strokeOpacity=".55" />
+        <circle cx="126" cy="79" r="25" fill="none" stroke="#D9C7A7" strokeOpacity=".65" />
+        <circle cx="126" cy="79" r="10" fill="none" stroke="#D9C7A7" strokeOpacity=".55" />
         <path className="page-art-line" d="M126 25v108M72 79h108m-54 0 31-28" />
         <circle className="page-art-point" cx="157" cy="51" r="4" />
       </>}
       {variant === "cases" && <>
         <path className="page-art-line" d="M78 55h40l10 9h49v44H78zM88 46h42l9 9m-43 22h52m-52 10h61m-61 10h33" />
-        <path d="M90 69h59" stroke="#f59e0b" strokeOpacity=".75" />
+        <path d="M90 69h59" stroke="#D9C7A7" strokeOpacity=".75" />
       </>}
       {variant === "science" && <>
-        <ellipse cx="126" cy="79" rx="45" ry="16" fill="none" stroke="#a5c2cc" strokeOpacity=".6" transform="rotate(-33 126 79)" />
-        <ellipse cx="126" cy="79" rx="45" ry="16" fill="none" stroke="#a5c2cc" strokeOpacity=".42" transform="rotate(33 126 79)" />
+        <ellipse cx="126" cy="79" rx="45" ry="16" fill="none" stroke="#859D8B" strokeOpacity=".6" transform="rotate(-33 126 79)" />
+        <ellipse cx="126" cy="79" rx="45" ry="16" fill="none" stroke="#859D8B" strokeOpacity=".42" transform="rotate(33 126 79)" />
         <circle className="page-art-point" cx="126" cy="79" r="7" />
-        <circle cx="166" cy="55" r="4" fill="#9fc6cf" /><circle cx="89" cy="102" r="3" fill="#f59e0b" />
+        <circle cx="166" cy="55" r="4" fill="#6A9A6B" /><circle cx="89" cy="102" r="3" fill="#D9C7A7" />
       </>}
       {variant === "compare" && <>
         <path className="page-art-line" d="M87 99V78l17-16 17 16v21m18 0V70l18-18 18 18v29m-65-1h65" />
-        <path d="M100 78h8v8h-8zm50 0h8v8h-8z" fill="#f59e0b" fillOpacity=".7" />
-        <path d="M92 112c22 13 49 13 68 0" fill="none" stroke="#f59e0b" strokeOpacity=".8" strokeDasharray="3 5" />
+        <path d="M100 78h8v8h-8zm50 0h8v8h-8z" fill="#D9C7A7" fillOpacity=".7" />
+        <path d="M92 112c22 13 49 13 68 0" fill="none" stroke="#D9C7A7" strokeOpacity=".8" strokeDasharray="3 5" />
       </>}
       {variant === "report" && <>
         <path className="page-art-line" d="M92 47h55l17 17v50H92zM147 47v18h17m-53 10h36m-36 11h36m-36 11h24" />
@@ -197,4 +197,3 @@ export function PageArtwork({ variant = "wizard" }) {
     </svg>
   );
 }
-
