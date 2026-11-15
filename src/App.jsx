@@ -1,5 +1,5 @@
 import { Link, Route, Routes } from "react-router-dom";
-import { ArrowRight, BookOpen, Clock3, Code2, ClipboardList, Database, ExternalLink, Eye, FlaskConical, Globe2, Layers3, Lightbulb, Search, ShieldAlert, Target, UsersRound } from "lucide-react";
+import { ArrowRight, BookOpen, Clock3, ClipboardList, Database, ExternalLink, Eye, Layers3, Search, Target, UsersRound } from "lucide-react";
 import { locations } from "./data";
 import { Layout, Eyebrow, SectionHeading, StatusNotice } from "./components/Layout";
 import { LocationArtwork, PageArtwork } from "./components/Artwork";
@@ -65,18 +65,6 @@ function FeatureCard({ icon: Icon, number, title, text }) {
   return <article className="feature-card"><div className="feature-top"><span>{number}</span><Icon size={18} /></div><h3>{title}</h3><p>{text}</p><span className="feature-line" /></article>;
 }
 
-const concepts = [
-  ["Variable", "A measurable feature you want to investigate, such as precipitation or air temperature."],
-  ["Time series", "A set of observations recorded in time order. Looking across time can reveal patterns."],
-  ["Trend", "A long-term direction in the data. A trend does not explain why a change happened."],
-  ["Seasonal cycle", "A pattern that repeats on a regular calendar schedule, like warmer months each year."],
-  ["Anomaly", "A value compared with a reference average, often after recurring seasonal patterns are considered."],
-  ["Slope", "A measure of how quickly a quantity changes over time. The unit depends on the variable and time scale."],
-  ["Statistical significance", "A test of whether a pattern is unlikely to be explained by random variation alone, given the assumptions."],
-  ["Mann–Kendall test", "A non-parametric test often used to assess whether a time series has a consistent upward or downward trend."],
-  ["Theil–Sen slope", "A robust estimate of a trend's rate of change, based on the median of pairwise slopes."],
-  ["Confidence interval", "A range expressing uncertainty around an estimate. A wider interval generally means less precision."],
-];
 const teamMembers = [
   { name: "Aayan", role: "Frontend development", contribution: "Shapes the interface and makes the investigation tools clear and usable." },
   { name: "Abdullah", role: "Backend & scientific calculations", contribution: "Builds the APIs, data schemas and analysis that support each investigation." },
@@ -84,31 +72,17 @@ const teamMembers = [
   { name: "Waseel", role: "Analysis workflow & validation support", contribution: "Develops the investigation wizard and verdict experience, with scientific validation support." },
   { name: "Ayesha", role: "Research & presentation", contribution: "Leads research and helps communicate the project and its findings through presentation." },
 ];
-const projectTools = [
-  ["Interactive interface", "React, Vite and Three.js", Code2],
-  ["Scientific services", "Python, FastAPI, NumPy, Pandas and SciPy", FlaskConical],
-  ["Earth observation", "Source-specific environmental datasets with provenance", Globe2],
-  ["Clear explanations", "Charts, case files and plain-language methods", BookOpen],
-];
-const journeySteps = [
-  ["01", "Ask a question", "Start with the challenge of making environmental change easier to investigate."],
-  ["02", "Research the evidence", "Identify relevant datasets, variables and methods before interpreting results."],
-  ["03", "Build the case file", "Connect data, statistical analysis and visual explanations in one workflow."],
-  ["04", "Review the limits", "Keep provenance, uncertainty and scientific limitations visible."],
-  ["05", "Keep improving", "Expand carefully as compatible, documented datasets become available."],
-];
-
 function AboutUs() {
   return (
     <div className="page-wrap page-content about-page">
       <section className="about-hero" aria-labelledby="about-title">
         <div className="about-hero-copy">
           <Eyebrow>ABOUT TEAM AETHERION</Eyebrow>
-          <h1 id="about-title">Making Earth’s changing patterns <span>easier to understand.</span></h1>
-          <p>We are Team Aetherion, a student-led team exploring how Earth observation data can reveal meaningful patterns about our planet. Rosenzweig Index turns complex environmental datasets into visual investigations and accessible scientific insights.</p>
+          <h1 id="about-title">Meet the team behind <span>Rosenzweig Index.</span></h1>
+          <p>We are Team Aetherion, a student-led team bringing software, environmental research and clear communication together to make Earth data easier to explore.</p>
           <div className="about-actions">
-            <Link to="/cases" className="button button-primary">EXPLORE THE PROJECT <ArrowRight size={16} /></Link>
-            <a href="#team" className="button button-secondary">MEET THE TEAM <UsersRound size={15} /></a>
+            <a href="#team" className="button button-primary">MEET THE TEAM <UsersRound size={15} /></a>
+            <Link to="/science" className="button button-secondary">HOW IT WORKS <ArrowRight size={16} /></Link>
           </div>
         </div>
         <div className="about-hero-art" aria-hidden="true">
@@ -116,96 +90,54 @@ function AboutUs() {
         </div>
       </section>
 
-      <section className="about-intro" aria-labelledby="about-who-title">
-        <div>
+      <section className="about-story" aria-labelledby="about-who-title">
+        <div className="about-story-copy">
           <Eyebrow>WHO WE ARE</Eyebrow>
-          <h2 id="about-who-title">Curious minds. One planet. Countless discoveries.</h2>
+          <h2 id="about-who-title">Different skills.<br />One shared mission.</h2>
+          <p>Our team combines frontend and backend development, data workflows, scientific analysis support, research and presentation. We want environmental evidence to feel approachable, while keeping its source and uncertainty in view.</p>
         </div>
-        <p>We bring together programming, scientific research, data analysis and creative problem-solving. We believe environmental evidence should be approachable—not only to specialists—and that clear explanations help more people ask better questions about a changing planet.</p>
+        <div className="about-values-grid" aria-label="Our mission and vision">
+          <article className="about-value-card">
+            <Target size={18} />
+            <h3>Our mission</h3>
+            <p>Make environmental data easier to explore and its results easier to understand.</p>
+          </article>
+          <article className="about-value-card about-value-card-alt">
+            <Eye size={18} />
+            <h3>Our principle</h3>
+            <p>Keep the evidence, source and limitations together—so a pattern is never mistaken for its cause.</p>
+          </article>
+        </div>
       </section>
 
       <section className="about-namesake-section" aria-labelledby="about-namesake-title">
         <div className="about-section-heading">
           <Eyebrow>THE NAME BEHIND THE PROJECT</Eyebrow>
-          <h2 id="about-namesake-title">Why “Rosenzweig Index”?</h2>
-          <p>The name honors two scientists whose distinct research inspires our interest in environmental change: climate impacts on people and food systems, and the conservation of biodiversity in human-shaped landscapes.</p>
+          <h2 id="about-namesake-title">Inspired by two Rosenzweigs.</h2>
+          <p>The name recognizes two distinct scientific contributions that motivate our interest in environmental change and its effects on living systems.</p>
         </div>
         <div className="about-scientist-grid">
           <article className="about-scientist-card">
-            <span className="about-scientist-field">CLIMATE / FOOD SYSTEMS</span>
+            <span className="about-scientist-field">CLIMATE & FOOD SYSTEMS</span>
             <h3>Cynthia E. Rosenzweig</h3>
-            <p>A climate scientist at NASA’s Goddard Institute for Space Studies, Rosenzweig leads research on how climate variability and change affect systems important to human well-being. Her work has helped advance climate-impact research across agriculture and cities; she co-founded AgMIP, an international collaboration comparing agricultural models and assessing climate risks to food systems.</p>
+            <p>A NASA Goddard Institute for Space Studies climate scientist, she studies how climate variability and change affect people and vital systems. She co-founded AgMIP, an international effort to compare agricultural models and assess climate impacts on food systems.</p>
             <a href="https://people.climate.columbia.edu/users/profile/cynthia-ropes-rosenzweig" target="_blank" rel="noreferrer">Columbia Climate School profile <ExternalLink size={13} /></a>
           </article>
           <article className="about-scientist-card">
-            <span className="about-scientist-field">ECOLOGY / BIODIVERSITY</span>
+            <span className="about-scientist-field">ECOLOGY & BIODIVERSITY</span>
             <h3>Michael L. Rosenzweig</h3>
-            <p>An influential ecologist, Rosenzweig’s research examined patterns of species diversity across space and time. He developed the idea of reconciliation ecology: redesigning human-modified environments so they can support more biodiversity alongside human uses. This offers a complementary perspective on how people and changing environments interact.</p>
+            <p>An ecologist known for research on species diversity and reconciliation ecology: adapting human-used places so they can also support biodiversity. His work offers a complementary perspective on how people and nature share changing environments.</p>
             <a href="https://experts.arizona.edu/en/publications/reconciliation-ecology-and-the-future-of-species-diversity/" target="_blank" rel="noreferrer">University of Arizona research profile <ExternalLink size={13} /></a>
             <a href="https://doi.org/10.1017/cbo9780511623387" target="_blank" rel="noreferrer">Species Diversity in Space and Time <ExternalLink size={13} /></a>
           </article>
         </div>
-        <p className="about-namesake-note">“Rosenzweig Index” is our project name—not a published or standardized index created by either scientist, and not an endorsement or collaboration with them.</p>
-      </section>
-
-      <section className="about-values-grid" aria-label="Our mission and vision">
-        <article className="about-value-card">
-          <span className="about-icon"><Target size={19} /></span>
-          <Eyebrow>OUR MISSION</Eyebrow>
-          <h2>Make investigation accessible.</h2>
-          <p>Help people explore documented Earth science data and discover environmental trends through understandable, interactive tools.</p>
-        </article>
-        <article className="about-value-card about-value-card-alt">
-          <span className="about-icon"><Eye size={19} /></span>
-          <Eyebrow>OUR VISION</Eyebrow>
-          <h2>More people, closer to the evidence.</h2>
-          <p>A world where anyone can explore Earth’s changing systems, understand what the evidence can—and cannot—show, and make informed decisions.</p>
-        </article>
-      </section>
-
-      <section className="about-project-section" aria-labelledby="about-project-title">
-        <div className="about-section-heading">
-          <Eyebrow>WHY WE BUILT IT</Eyebrow>
-          <h2 id="about-project-title">Turn data into discoveries.</h2>
-          <p>Environmental datasets can hold valuable signals, but long time series and statistical methods are not always easy to navigate. Rosenzweig Index brings the investigation steps together and explains the evidence in context.</p>
-        </div>
-        <div className="about-project-panel">
-          <div className="about-project-lead">
-            <span className="about-icon"><Lightbulb size={19} /></span>
-            <h3>One case file. A clearer path through the data.</h3>
-            <p>Choose an available dataset, review its coverage, explore the time series and examine the statistical result alongside its source and limitations.</p>
-          </div>
-          <div className="about-capability-list">
-            {[
-              "Explore environmental datasets that are connected to the platform.",
-              "Visualize time-series changes and compare selected locations where compatible data exists.",
-              "Review trend direction, statistical significance and uncertainty.",
-              "Read plain-language findings without treating correlation as cause.",
-            ].map((text, index) => <div className="about-capability" key={text}><span>0{index + 1}</span><p>{text}</p></div>)}
-          </div>
-        </div>
-      </section>
-
-      <section className="about-principles" aria-labelledby="about-principles-title">
-        <div className="about-section-heading">
-          <Eyebrow>OUR APPROACH</Eyebrow>
-          <h2 id="about-principles-title">Useful insights, grounded in evidence.</h2>
-        </div>
-        <div className="about-principle-grid">
-          {[
-            ["Data with provenance", "Know which source, variable, units and coverage support an investigation.", Database],
-            ["Methods made visible", "Use established statistical methods and explain what their results mean.", FlaskConical],
-            ["Explore interactively", "Move through locations, time ranges, charts and case files in one place.", Globe2],
-            ["Explain with care", "Make findings readable while keeping uncertainty and limitations in view.", BookOpen],
-          ].map(([title, text, Icon]) => <article className="about-principle-card" key={title}><Icon size={19} /><h3>{title}</h3><p>{text}</p></article>)}
-        </div>
+        <p className="about-namesake-note">Rosenzweig Index is our project name—not a standardized index developed by either scientist or an endorsement by them.</p>
       </section>
 
       <section className="about-team-section" id="team" aria-labelledby="about-team-title">
         <div className="about-section-heading">
           <Eyebrow>MEET THE TEAM</Eyebrow>
-          <h2 id="about-team-title">The minds behind the mission.</h2>
-          <p>Different skills, one shared goal: making environmental evidence easier to explore.</p>
+          <h2 id="about-team-title">The people building it.</h2>
         </div>
         <div className="about-team-grid">
           {teamMembers.map(member => (
@@ -219,39 +151,74 @@ function AboutUs() {
         </div>
       </section>
 
-      <section className="about-tech-section" aria-labelledby="about-tech-title">
-        <div className="about-section-heading">
-          <Eyebrow>OUR TECHNOLOGY</Eyebrow>
-          <h2 id="about-tech-title">Built with technology. Driven by curiosity.</h2>
-        </div>
-        <div className="about-tech-grid">
-          {projectTools.map(([title, description, Icon]) => <article className="about-tech-card" key={title}><Icon size={18} /><div><h3>{title}</h3><p>{description}</p></div></article>)}
-        </div>
-      </section>
-
-      <section className="about-journey-section" aria-labelledby="about-journey-title">
-        <div className="about-section-heading">
-          <Eyebrow>OUR JOURNEY</Eyebrow>
-          <h2 id="about-journey-title">From a question to an investigation.</h2>
-        </div>
-        <div className="about-journey-grid">
-          {journeySteps.map(([number, title, description]) => <article className="about-journey-step" key={number}><span>{number}</span><h3>{title}</h3><p>{description}</p></article>)}
-        </div>
-      </section>
-
-
       <section className="about-cta">
-        <div><Eyebrow>THE EARTH HAS STORIES TO TELL</Eyebrow><h2>Explore the data.<br /><span>Follow the evidence.</span></h2></div>
-        <Link to="/cases" className="button button-primary">EXPLORE CASE FILES <ArrowRight size={16} /></Link>
+        <div><Eyebrow>EXPLORE THE PROJECT</Eyebrow><h2>Start with a question.<br /><span>Follow the evidence.</span></h2></div>
+        <Link to="/wizard" className="button button-primary">START AN INVESTIGATION <ArrowRight size={16} /></Link>
       </section>
     </div>
   );
 }
 
-function AboutScience() {
-  return <div className="page-wrap page-content"><div className="page-title-row"><div><Eyebrow>FIELD GUIDE / READ THE EVIDENCE</Eyebrow><h1>About the science.</h1><p>Good investigations make the methods and uncertainty understandable.</p></div><PageArtwork variant="science" /><span className="case-label"><Microscope size={15} /> PLAIN-LANGUAGE GUIDE</span></div><div className="science-intro"><div className="science-icon"><FlaskConical size={23} /></div><div><h2>Observation is not explanation.</h2><p>Satellite and other Earth observations can help us understand environmental change. Careful analysis can identify patterns, but patterns alone cannot tell us their cause.</p></div></div><div className="concept-grid">{concepts.map(([name, text], index) => <article className="concept-card" key={name}><span>{String(index + 1).padStart(2, "0")}</span><h3>{name}</h3><p>{text}</p></article>)}</div><section className="science-cautions"><Eyebrow>FOUR THINGS TO KEEP IN MIND</Eyebrow><div className="caution-grid"><Caution title="Significance is not causation" text="A significant trend does not prove what caused the change." /><Caution title="Not significant ≠ no trend" text="A trend can exist without enough evidence to pass a significance threshold." /><Caution title="Respect seasonal patterns" text="Recurring cycles should be accounted for before interpreting long-term change." /><Caution title="Check data quality" text="Missing observations, sensor changes and coverage gaps can affect conclusions." /></div></section><div className="sources-note"><Database size={17} /><span><b>About the data</b> — Supplied source exports for Karachi, Lahore, Gilgit, Islamabad, Peshawar and Quetta are connected for exploratory analysis. Product types include satellite estimates, reanalysis and land-model output. Sources, units, coverage and limitations accompany each result; scientific review remains pending.</span></div></div>;
+function HowItWorks() {
+  const { datasets, loading, error } = useCatalog();
+  const registeredPlaces = new Set(datasets.map(dataset => dataset.location_id).filter(id => locations.some(location => location.id === id))).size;
+  const steps = [
+    { number: "01", title: "Choose a question", text: "Select an environmental variable, a location and a time range in the investigation wizard.", icon: Search },
+    { number: "02", title: "Check the source", text: "Review the dataset, units, coverage and spatial support before running an analysis.", icon: Database },
+    { number: "03", title: "Explore the evidence", text: "Plot monthly values, inspect the trend and review statistical results with their uncertainty.", icon: Layers3 },
+    { number: "04", title: "Interpret with care", text: "Use the case report to summarize what the data supports—and what it cannot establish.", icon: BookOpen },
+  ];
+  return (
+    <div className="page-wrap page-content how-page">
+      <header className="how-hero">
+        <div>
+          <Eyebrow>ROSENZWEIG INDEX / GUIDE</Eyebrow>
+          <h1>How it works</h1>
+          <p>Follow a clear path from a research question to a source-backed environmental trend investigation.</p>
+          <Link to="/wizard" className="button button-primary">START AN INVESTIGATION <ArrowRight size={16} /></Link>
+        </div>
+        <PageArtwork variant="science" />
+      </header>
+
+      <section className="how-workflow" aria-labelledby="how-workflow-title">
+        <div className="how-section-heading">
+          <Eyebrow>THE WORKFLOW</Eyebrow>
+          <h2 id="how-workflow-title">Four steps. Evidence at every step.</h2>
+        </div>
+        <div className="how-step-grid">
+          {steps.map(({ number, title, text, icon: Icon }) => (
+            <article className="how-step-card" key={number}>
+              <div className="how-step-top"><span>{number}</span><Icon size={19} /></div>
+              <h3>{title}</h3>
+              <p>{text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="how-method" aria-labelledby="how-method-title">
+        <div className="how-method-copy">
+          <Eyebrow>THE ANALYSIS</Eyebrow>
+          <h2 id="how-method-title">A trend is a signal—not an explanation.</h2>
+          <p>The platform displays data at its supplied time scale and reports trend statistics with source context. Statistical significance does not identify a cause, and a result depends on the dataset, coverage and method assumptions.</p>
+        </div>
+        <div className="how-method-list">
+          <div><b>Trend direction</b><span>Shows whether the analyzed series rises or falls under the selected method.</span></div>
+          <div><b>Statistical significance</b><span>Indicates evidence against a no-trend assumption; it does not measure importance or prove causation.</span></div>
+          <div><b>Source limitations</b><span>Reanalysis, satellite estimates and model products represent different kinds of evidence and are not interchangeable.</span></div>
+        </div>
+      </section>
+
+      <aside className="how-data-status" role={loading || error ? "status" : undefined}>
+        <Database size={18} />
+        <div>
+          <b>{loading ? "Checking the dataset catalog…" : error ? "Dataset catalog unavailable" : `${registeredPlaces} of ${locations.length} locations have registered datasets`}</b>
+          <p>{error || "Available variables, date ranges and spatial coverage depend on each registered source. Check the catalog in the investigation wizard before interpreting a result."}</p>
+        </div>
+      </aside>
+    </div>
+  );
 }
-function Caution({ title, text }) { return <div className="caution-card"><ShieldAlert size={16} /><div><b>{title}</b><p>{text}</p></div></div>; }
 
 function NotFound() { return <div className="page-wrap not-found"><Eyebrow>RECORD NOT FOUND</Eyebrow><h1>This case is off the record.</h1><Link to="/cases" className="button button-primary">RETURN TO CASE FILES <ArrowRight size={15} /></Link></div>; }
 
@@ -264,7 +231,7 @@ export default function App() {
     <Route path="/cases/demo/:caseId" element={<PreparedCase />} />
     <Route path="/cases/:caseId" element={<CaseFileDetails />} />
     <Route path="/about" element={<AboutUs />} />
-    <Route path="/science" element={<AboutScience />} />
+    <Route path="/science" element={<HowItWorks />} />
     <Route path="/compare" element={<Compare />} />
     <Route path="*" element={<NotFound />} />
   </Routes></Layout></CatalogProvider>;

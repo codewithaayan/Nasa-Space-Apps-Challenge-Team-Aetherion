@@ -37,22 +37,26 @@ test('team branding, favicon and city-specific photography load across the homep
 
 test('About tab introduces the team and keeps the science guide under How It Works',async ({page}) => {
   await page.goto('/about');
-  await expect(page.getByRole('heading',{name:'Making Earth’s changing patterns easier to understand.'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Meet the team behind Rosenzweig Index.'})).toBeVisible();
   await expect(page.getByRole('heading',{name:'Ayesha'})).toBeVisible();
   await expect(page.getByText('Research & presentation')).toBeVisible();
-  await expect(page.getByRole('heading',{name:'Why “Rosenzweig Index”?' })).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Inspired by two Rosenzweigs.'})).toBeVisible();
   await expect(page.getByRole('heading',{name:'Cynthia E. Rosenzweig'})).toBeVisible();
   await expect(page.getByRole('heading',{name:'Michael L. Rosenzweig'})).toBeVisible();
-  await expect(page.getByText('not a published or standardized index created by either scientist', {exact:false})).toBeVisible();
+  await expect(page.getByText('not a standardized index developed by either scientist', {exact:false})).toBeVisible();
   await expect(page.getByRole('link',{name:'Columbia Climate School profile'})).toHaveAttribute('href','https://people.climate.columbia.edu/users/profile/cynthia-ropes-rosenzweig');
   await expect(page.getByRole('link',{name:'University of Arizona research profile'})).toHaveAttribute('href','https://experts.arizona.edu/en/publications/reconciliation-ecology-and-the-future-of-species-diversity/');
   await expect(page.locator('.demo-badge, .about-hero-note, .about-orbit-tag, .about-member-number')).toHaveCount(0);
-  await page.getByRole('link',{name:'How It Works'}).click();
+  await page.getByRole('link',{name:'How It Works',exact:true}).click();
   await expect(page).toHaveURL(/\/science$/);
-  await expect(page.getByRole('heading',{name:'About the science.'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'How it works'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Four steps. Evidence at every step.'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'A trend is a signal—not an explanation.'})).toBeVisible();
+  await page.setViewportSize({width:375,height:812});
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.getByRole('button',{name:'Open navigation'}).click();
   await page.getByRole('link',{name:'About',exact:true}).click();
   await expect(page).toHaveURL(/\/about$/);
-  await page.setViewportSize({width:375,height:812});
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
 
