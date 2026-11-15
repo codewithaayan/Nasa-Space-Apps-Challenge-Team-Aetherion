@@ -45,7 +45,22 @@ class LocalDataSource:
                     units='K', source='Deterministic synthetic fixture', provenance='mock')]
             return []
         try:
-            records = [Variable.model_validate(r) for r in json.loads(path.read_text())['variables']]
+            raw_records = json.loads(path.read_text())['variables']
+            metadata_path = os.getenv('CATALOG_METADATA')
+            metadata = json.loads(Path(metadata_path).read_text()) if metadata_path else {}
+            allowed = {'variable_type', 'data_kind', 'dataset_id', 'version', 'source_url',
+                       'scientific_name', 'temporal_coverage', 'spatial_resolution',
+                       'spatial_support', 'limitations'}
+            if set(metadata) - {r['id'] for r in raw_records}:
+                raise ValueError('Metadata references unknown catalog variables')
+            records = []
+            for record in raw_records:
+                additions = metadata.get(record['id'], {})
+                if set(additions) - allowed:
+                    raise ValueError('Metadata can only supply scientific descriptive fields')
+                if any(k in record and record[k] != v for k, v in additions.items()):
+                    raise ValueError('Metadata conflicts with existing catalog fields')
+                records.append(Variable.model_validate({**record, **additions}))
             if len({r.id for r in records}) != len(records):
                 raise ValueError('Duplicate variable IDs')
             return records

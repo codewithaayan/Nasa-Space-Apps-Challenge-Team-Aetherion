@@ -1,0 +1,19 @@
+{
+  "sahel_precipitation": {
+    "variable_type": "monthly_amount",
+    "data_kind": "reanalysis",
+    "dataset_id": "NASA POWER / MERRA-2 bias-corrected precipitation",
+    "version": "POWER Version 10.0.0",
+    "scientific_name": "Monthly precipitation amount derived from PRECTOTCORR",
+    "source_url": "https://power.larc.nasa.gov/api/temporal/monthly/regional?latitude-min=12&latitude-max=17&longitude-min=-5&longitude-max=0&parameters=PRECTOTCORR&community=AG&start=2001&end=2024&format=NETCDF",
+    "temporal_coverage": ["2001-01-01", "2024-12-01"],
+    "spatial_resolution": {"latitude_degrees": 0.5, "longitude_degrees": 0.625},
+    "limitations": [
+      "NASA POWER / MERRA-2 bias-corrected reanalysis, not direct station observations or satellite-only rainfall.",
+      "Monthly amounts equal source mean daily rate times actual Gregorian month length; source rounding retained.",
+      "Western Sahel subset only: no land mask; not the whole Sahel.",
+      "This subset did not show statistically supported opposing trends.",
+      "Monthly-amount trend and annual-total grid trends have different aggregation semantics."
+    ]
+  }
+}
