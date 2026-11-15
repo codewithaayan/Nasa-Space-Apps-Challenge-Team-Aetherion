@@ -69,7 +69,7 @@ const teamMembers = [
   { name: "Aayan", role: "Frontend development", contribution: "Shapes the interface and makes the investigation tools clear and usable." },
   { name: "Abdullah", role: "Backend & scientific calculations", contribution: "Builds the APIs, data schemas and analysis that support each investigation." },
   { name: "Ridho", role: "NASA data & platform operations", contribution: "Works on data ingestion, cataloguing, caching and prepared case materials." },
-  { name: "Waseel", role: "Analysis workflow & validation support", contribution: "Develops the investigation wizard and verdict experience, with scientific validation support." },
+  { name: "Waseela", role: "Analysis workflow & validation support", contribution: "Develops the investigation wizard and verdict experience, with scientific validation support." },
   { name: "Ayesha", role: "Research & presentation", contribution: "Leads research and helps communicate the project and its findings through presentation." },
 ];
 function AboutUs() {
