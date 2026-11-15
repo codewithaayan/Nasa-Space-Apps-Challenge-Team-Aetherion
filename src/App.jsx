@@ -83,6 +83,7 @@ function AboutUs() {
           <div className="about-actions">
             <a href="#team" className="button button-primary">MEET THE TEAM <UsersRound size={15} /></a>
             <Link to="/science" className="button button-secondary">HOW IT WORKS <ArrowRight size={16} /></Link>
+            <a href="https://github.com/codewithaayan/Nasa-Space-Apps-Challenge-Team-Aetherion" target="_blank" rel="noreferrer" className="button button-secondary">VIEW OUR CODE <ExternalLink size={15} /></a>
           </div>
         </div>
         <div className="about-hero-art" aria-hidden="true">
@@ -153,7 +154,10 @@ function AboutUs() {
 
       <section className="about-cta">
         <div><Eyebrow>EXPLORE THE PROJECT</Eyebrow><h2>Start with a question.<br /><span>Follow the evidence.</span></h2></div>
-        <Link to="/wizard" className="button button-primary">START AN INVESTIGATION <ArrowRight size={16} /></Link>
+        <div className="about-actions">
+          <Link to="/wizard" className="button button-primary">START AN INVESTIGATION <ArrowRight size={16} /></Link>
+          <a href="https://github.com/codewithaayan/Nasa-Space-Apps-Challenge-Team-Aetherion" target="_blank" rel="noreferrer" className="button button-secondary">VIEW OUR CODE <ExternalLink size={15} /></a>
+        </div>
       </section>
     </div>
   );
