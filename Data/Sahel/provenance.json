@@ -1,0 +1,53 @@
+{
+  "request_url": "https://power.larc.nasa.gov/api/temporal/monthly/regional?latitude-min=12&latitude-max=17&longitude-min=-5&longitude-max=0&parameters=PRECTOTCORR&community=AG&start=2001&end=2024&format=NETCDF",
+  "retrieved_date": "2026-11-14",
+  "source_institution": "NASA Langley Research Center (LaRC)",
+  "source_version": "POWER Version 10.0.0",
+  "data_kind": "NASA POWER MERRA-2 bias-corrected reanalysis, not direct station or satellite-only observations",
+  "months": 288,
+  "years": 24,
+  "cells": 99,
+  "latitude": [
+    12.0,
+    12.5,
+    13.0,
+    13.5,
+    14.0,
+    14.5,
+    15.0,
+    15.5,
+    16.0,
+    16.5,
+    17.0
+  ],
+  "longitude": [
+    -5.0,
+    -4.375,
+    -3.75,
+    -3.125,
+    -2.5,
+    -1.875,
+    -1.25,
+    -0.625,
+    -5.920304394294029e-13
+  ],
+  "spacing_degrees": {
+    "latitude": 0.5,
+    "longitude": 0.625
+  },
+  "first_month": "2001-01-01",
+  "last_month": "2024-12-01",
+  "missing_values": 0,
+  "rate_units": "mm/day",
+  "rate_min": 0.0,
+  "rate_max": 18.41,
+  "monthly_amount_units": "mm",
+  "monthly_amount_min": 0.0,
+  "monthly_amount_max": 570.71,
+  "annual_records_removed": 24,
+  "spatial_interpolation": false,
+  "sha256": {
+    "nasa_power_original.nc": "ea25f4bea5ced35b325b4fcb6cb82cf0cda813fc4c98e5051f339504fae0c37b",
+    "sahel_monthly_2001_2024.nc": "26e73a1b9cf29884025c869f7e85e203db6247bafb2c5d1df63bb3c01933aade"
+  }
+}

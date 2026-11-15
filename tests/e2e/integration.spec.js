@@ -84,7 +84,6 @@ test('wizard validates real precipitation coverage, plots it and prints a report
   await page.getByRole('button',{name:'CONTINUE'}).click();
   await page.getByRole('button',{name:'BEGIN INVESTIGATION'}).click();
   await expect(page).toHaveURL(/\/lab\?dataset=karachi_precipitation/);
-  await page.getByRole('button',{name:'RUN ANALYSIS'}).click();
   await expect(page.getByRole('status').filter({hasText:'Analysis complete'})).toBeVisible();
   const plot=page.locator('.js-plotly-plot');
   await expect.poll(() => plot.evaluate(node => node.data?.length)).toBe(3);
@@ -158,15 +157,14 @@ test('all six cities are discoverable and a new-city wizard respects its actual 
   await expect(page.getByText('mm/hr',{exact:true}).first()).toBeVisible();
   await page.getByRole('button',{name:'BEGIN INVESTIGATION'}).click();
   await expect(page).toHaveURL(/dataset=gilgit_precipitation/);
-  await page.getByRole('button',{name:'RUN ANALYSIS'}).click();
   await expect(page.getByRole('status').filter({hasText:'Analysis complete'})).toBeVisible();
   expect(await page.locator('.js-plotly-plot').evaluate(node => node.data[0].y.length)).toBe(237);
 });
 
 test('comparison selectors analyze new cities and reject different evaporation components',async ({page}) => {
   await page.goto('/compare');
-  await page.getByLabel('Left comparison location').selectOption('gilgit');
-  await page.getByLabel('Right comparison location').selectOption('islamabad');
+  await page.getByLabel('First comparison place').selectOption('gilgit');
+  await page.getByLabel('Second comparison place').selectOption('islamabad');
   await expect(page.getByRole('button',{name:'RUN COMPARISON'})).toBeEnabled();
   await page.getByRole('button',{name:'RUN COMPARISON'}).click();
   await expect.poll(() => page.locator('.js-plotly-plot').evaluateAll(nodes => nodes.every(node => node.data?.length === 3))).toBe(true);
@@ -175,8 +173,8 @@ test('comparison selectors analyze new cities and reject different evaporation c
   const first = await page.locator('.js-plotly-plot').evaluateAll(nodes => nodes.map(node => node.data[0].y[0]));
   expect(first[0]).toBeCloseTo(258.963501);
   expect(first[1]).toBeCloseTo(283.368317);
-  await page.getByLabel('Right comparison location').selectOption('quetta');
-  await page.getByLabel('Left comparison location').selectOption('lahore');
+  await page.getByLabel('Second comparison place').selectOption('quetta');
+  await page.getByLabel('First comparison place').selectOption('lahore');
   await page.getByLabel('Comparison variable').selectOption('evaporation');
   await expect(page.getByText(/Comparison needs matching product/)).toBeVisible();
   await expect(page.getByText('Direct evaporation from bare soil (energy flux) · W m-2',{exact:true})).toBeVisible();
@@ -204,12 +202,16 @@ test('comparison selectors submit the selected pair from all six cities',async (
   await page.goto('/compare');
   const firstPlace=page.getByLabel('First comparison place');
   const secondPlace=page.getByLabel('Second comparison place');
-  await expect(firstPlace.locator('option')).toHaveText(['Karachi','Lahore','Islamabad','Quetta','Peshawar','Gilgit']);
+  // Offline grid fixtures may add a source-defined region alongside the six cities.
+  await expect.poll(() => firstPlace.locator('option').allTextContents()).toEqual(
+    expect.arrayContaining(['Karachi','Lahore','Islamabad','Quetta','Peshawar','Gilgit']));
   await firstPlace.selectOption('quetta');
   await secondPlace.selectOption('gilgit');
   await expect.poll(() => comparisonRequests.some(request => request.left_location === 'quetta' && request.right_location === 'gilgit')).toBe(true);
   await expect(page.locator('.compare-city h2')).toHaveText(['Quetta','Gilgit']);
-  await expect(page.getByText('Quetta is awaiting a compatible dataset.')).toBeVisible();
+  await expect(page.getByRole('button',{name:'RUN COMPARISON'})).toBeEnabled();
+  await page.getByRole('button',{name:'RUN COMPARISON'}).click();
+  await expect.poll(() => page.locator('.js-plotly-plot').evaluateAll(nodes => nodes.length === 2 && nodes.every(node => node.data?.length === 3))).toBe(true);
 });
 
 test('city selection is available from the selected location panel without a target bar',async ({page}) => {
@@ -241,11 +243,60 @@ test('synthetic grids exercise the actual map contract without posing as NASA da
 
 test('prepared cases load from backend artifacts with review status intact',async ({page}) => {
   await page.goto('/cases');
-  await page.getByRole('link',{name:'OPEN PREPARED CASE'}).last().click();
+  await expect(page.getByRole('heading',{name:'Sahel precipitation',exact:true})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Arctic temperature',exact:true})).toBeVisible();
+  await expect(page.getByText('Amazon vegetation and moisture')).toHaveCount(0);
+  await expect(page.getByRole('button',{name:'REPORT NOT AVAILABLE'})).toBeDisabled();
+  await page.getByRole('link',{name:'OPEN REPORT',exact:true}).click();
   await expect(page).toHaveURL(/\/cases\/demo\/arctic/);
   await expect(page.getByText('Synthetic software-test fixture, NOT an Arctic finding. Scientific review has not occurred.')).toBeVisible();
   await expect(page.locator('.js-plotly-plot')).toBeVisible();
   await expect(page.getByRole('button',{name:'PRINT / SAVE AS PDF'})).toBeEnabled();
+});
+
+test('globe readings follow the selected city catalog, units and record dates',async ({page}) => {
+  const catalog = await (await page.request.get('/api/datasets')).json();
+  await page.goto('/');
+  const temperature = page.locator('.float-metric-temp');
+  const precipitation = page.locator('.float-metric-precip');
+  for (const city of ['karachi', 'lahore', 'gilgit']) {
+    if (city !== 'karachi') {
+      await page.locator('.hud-panel-city-switcher').getByRole('button', {name: city === 'lahore' ? 'Lahore' : 'Gilgit', exact: true}).click();
+    }
+    const temp = catalog.find(dataset => dataset.id === `${city}_temperature`);
+    const rain = catalog.find(dataset => dataset.id === `${city}_precipitation`);
+    await expect(temperature.locator('.metric-sub')).toHaveText(temp.latest_record.time);
+    await expect(precipitation.locator('.metric-sub')).toHaveText(rain.latest_record.time);
+    // Windows may use a decimal comma even with an English browser locale.
+    const temperatureValue = parseFloat((await temperature.locator('.metric-val').innerText()).replace(',', '.'));
+    const precipitationValue = parseFloat((await precipitation.locator('.metric-val').innerText()).replace(',', '.'));
+    // Summaries show five significant digits; compare relative rounding error.
+    for (const [displayed, source] of [[temperatureValue, temp.latest_record.value], [precipitationValue, rain.latest_record.value]]) {
+      expect(Math.abs(displayed - source) / Math.max(Math.abs(source), Number.EPSILON)).toBeLessThanOrEqual(5e-5);
+    }
+    await expect(temperature.locator('.metric-val')).toContainText('K');
+    await expect(precipitation.locator('.metric-val')).toContainText('mm/hr');
+    await expect(page.locator('.hud-feed-panel')).toContainText('6 monthly datasets');
+  }
+  await expect(page.locator('.hud-live-tag')).toHaveText('3D VIEW');
+  await expect(page.getByText('LOCAL SOURCE VALIDATED', {exact: false})).toHaveCount(0);
+  await expect(page.getByText('No dataset registered', {exact: true})).toHaveCount(0);
+  await page.locator('.hero-visual').screenshot({path: 'work/e2e/globe-readings.png'});
+});
+
+test('missing globe values stay unavailable rather than falling back to fixed numbers',async ({page}) => {
+  await page.route('**/api/datasets', async route => {
+    const response = await route.fetch();
+    const catalog = await response.json();
+    for (const dataset of catalog) {
+      if (dataset.location_id === 'karachi') dataset.latest_record = {time: '2025-12', value: null};
+    }
+    await route.fulfill({response, json: catalog});
+  });
+  await page.goto('/');
+  await expect(page.locator('.float-metric-temp .metric-val')).toHaveText('Not available');
+  await expect(page.locator('.float-metric-precip .metric-val')).toHaveText('Not available');
+  await expect(page.locator('.float-metric-veg .metric-val')).toHaveText('Not available');
 });
 
 test('server-enforced city comparison becomes usable when compatible fixtures arrive',async ({page}) => {
@@ -279,6 +330,6 @@ test('mobile investigation and report layouts fit without horizontal scrolling',
   await expect(page.getByRole('button',{name:'PRINT / SAVE AS PDF'})).toBeEnabled();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.goto('/compare');
-  await page.getByLabel('Right comparison location').selectOption('islamabad');
+  await page.getByLabel('Second comparison place').selectOption('islamabad');
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });

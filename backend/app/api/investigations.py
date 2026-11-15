@@ -136,8 +136,9 @@ class PreparedCase(ScientificModel):
 @cases_router.get('/cases', response_model=list[PreparedCase])
 def cases():
     result = []
-    for case, title in [('sahel', 'Sahel precipitation'), ('amazon', 'Amazon vegetation and moisture'),
-                        ('arctic', 'Arctic temperature')]:
+    # Keep the current public selection focused on the retained source work.
+    # Legacy Amazon artifacts remain readable through /demo for compatibility.
+    for case, title in [('sahel', 'Sahel precipitation'), ('arctic', 'Arctic temperature')]:
         try:
             prepared = demo(case)
             result.append(PreparedCase(id=case, title=title, available=prepared.available,

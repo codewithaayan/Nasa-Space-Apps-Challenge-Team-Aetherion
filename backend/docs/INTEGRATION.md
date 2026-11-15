@@ -13,7 +13,7 @@ is `/api/cases` only, so direct browser navigation to `/cases` serves the app.
 | `POST /api/verdict` | Recomputes authoritative backend statistics and returns a deterministic explanation with provenance/caveats. No client-supplied p-values or model prose override calculations. |
 | `POST /api/years-to-significance` | Returns a typed null estimate and a reason until an actual validated future effect/noise model is configured. |
 | `POST /api/comparison` | Checks distinct locations, topic, product/version, source variable, output units, provenance/kind and shared coverage. `run=false` checks readiness; `run=true` calculates both selections. |
-| `GET /api/cases` | Discovers the existing Sahel/Amazon/Arctic prepared-artifact states. Invalid artifacts remain unavailable. |
+| `GET /api/cases` | Lists the retained Sahel and Arctic report states. Missing reports stay unavailable; Amazon is deferred. |
 | `GET /api/demo/{case}` | Reads the validated envelope of an offline prepared case, retaining original source and scientific-review status. |
 
 Selection request for verdict or years-to-significance:
@@ -45,6 +45,13 @@ DATA_ROOT catalog/adapter. Gridded metadata may declare optional `location_id` a
 Dataset region and keep their own variable ID as the topic. Native coordinate
 metadata supplies selectable bounds; bounds around a single point are selection
 conveniences, not a claim of a regional footprint. No grid is generated from a CSV.
+
+CSV catalog entries include `latest_record:{time,value}` in the declared output
+units; `time` is YYYY-MM and a missing value remains null. Analyses update this
+record to the end of the selected period. The globe uses these records and their
+dates directly, without extra trend requests or hardcoded climate measurements.
+Globe coordinates are city references; its orbit is a visual aid, not live
+satellite telemetry. Records and review status remain explicit.
 
 The wizard and lab discover new registered locations/topics. Lab/report dataset,
 dates and grid bbox can be linked and survive refresh. Changing a selection clears

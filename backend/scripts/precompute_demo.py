@@ -21,8 +21,10 @@ def prepare_case(case, variable, box=None, start=None, end=None, validated_by=No
         source=meta.source_url or meta.source, validated_by=validated_by,
         validated=bool(validated_by), result=analysis, timeseries=chart, trend=analysis, paradox=grid,
         prepared_at=datetime.now(timezone.utc).isoformat(),
-        message='Candidate case, not an established finding. ' +
-            ('Scientific review recorded.' if validated_by else 'Technical precompute only; scientific review pending.'))
+        message='Report calculated from the documented source data. ' +
+            ('Scientific review recorded.' if validated_by else 'Scientific review pending.') +
+            (' This selection covers one native grid cell, not an entire region.'
+             if da.sizes['latitude'] * da.sizes['longitude'] == 1 else ''))
 
 
 def main():

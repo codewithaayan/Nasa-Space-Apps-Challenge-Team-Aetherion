@@ -3,6 +3,7 @@ import { execFileSync } from 'node:child_process';
 import { parseArgs } from 'node:util';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { createHash } from 'node:crypto';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const { values } = parseArgs({ options: { source: { type:'string' }, output: { type:'string' } } });
@@ -22,6 +23,15 @@ if (manifest.datasets.length < 6 || registrations.some(d => d.provenance === 'mo
   throw new Error('Expected unique real source registrations; do not deploy synthetic test fixtures.');
 }
 const commit = execFileSync('git', ['-C',source,'rev-parse','HEAD'], {encoding:'utf8',windowsHide:true}).trim();
+const sahel = path.join(source, 'Data', 'Sahel');
+if (existsSync(path.join(sahel, 'catalog.json'))) {
+  const provenance = JSON.parse(readFileSync(path.join(sahel, 'provenance.json'), 'utf8'));
+  for (const [file, hash] of Object.entries(provenance.sha256)) {
+    if (path.basename(file) !== file || createHash('sha256').update(readFileSync(path.join(sahel, file))).digest('hex') !== hash) {
+      throw new Error('Sahel source fingerprint mismatch; do not package modified science data.');
+    }
+  }
+}
 mkdirSync(output, {recursive:true});
 const filter = file => !['__pycache__','.venv','node_modules'].includes(path.basename(file)) && !file.endsWith('.pyc');
 cpSync(path.join(source,'backend','app'), path.join(output,'backend','app'), {recursive:true,filter});

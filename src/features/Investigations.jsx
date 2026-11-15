@@ -11,7 +11,7 @@ import { TrendChart } from '../components/TrendChart';
 const Catalog = createContext(null);
 function errorMessage(error) {
   if (error.response) return typeof error.response.data?.detail === 'string' ? error.response.data.detail : 'The service rejected the request. Check the selected dataset and dates.';
-  return 'Cannot reach the analysis service. Check that the backend is running and the API address is configured.';
+  return 'The analysis service is temporarily unreachable. Please try again.';
 }
 export function CatalogProvider({ children }) {
   const [datasets, setDatasets] = useState([]);
@@ -36,7 +36,7 @@ export function CatalogProvider({ children }) {
   const places = [...locations];
   const topics = [...variables];
   for (const dataset of datasets) {
-    if (!places.some(p => p.id === dataset.location_id)) places.push({ id: dataset.location_id, name: dataset.location_id === 'region' ? 'Dataset region' : dataset.location_id, province: 'Source-defined region' });
+    if (!places.some(p => p.id === dataset.location_id)) places.push({ id: dataset.location_id, name: dataset.location_id === 'region' ? 'Dataset region' : dataset.location_id === 'sahel' ? 'Western Sahel' : dataset.location_id, province: 'Source-defined region' });
     if (!topics.some(t => t.id === dataset.topic)) topics.push({ id: dataset.topic, name: dataset.name, description: 'A variable from the installed dataset catalog.' });
   }
   return <Catalog.Provider value={{ datasets, places, topics, preparedCases, casesError, loading, error, reload: () => setRevision(x => x + 1) }}>{children}</Catalog.Provider>;
@@ -53,7 +53,7 @@ function CatalogStatus() {
   const { loading, error, datasets, reload } = useCatalog();
   if (loading) return <StatusNotice>Reading dataset coverage…</StatusNotice>;
   if (error) return <div className="inline-error" role="alert">{error} <button className="button button-secondary" onClick={reload}>RETRY CONNECTION</button></div>;
-  if (!datasets.length) return <StatusNotice>No datasets are registered. Configure a CSV manifest or the gridded data catalog.</StatusNotice>;
+  if (!datasets.length) return <StatusNotice>No datasets are available right now. Please try again later.</StatusNotice>;
   return null;
 }
 function DateFields({ dataset, start, end, onStart, onEnd }) {
@@ -89,7 +89,7 @@ export function Wizard() {
       const { data } = await api.submitWizard({ dataset_id: dataset?.id, location: place, topic, ...dateParams(start,end) });
       if (!data.available) { setMessage(data.explanation); return; }
       const selection = data.selection;
-      navigate('/lab?' + new URLSearchParams({ dataset: selection.dataset_id, start: month(selection.start), end: month(selection.end) }).toString());
+      navigate('/lab?' + new URLSearchParams({ dataset: selection.dataset_id, start: month(selection.start), end: month(selection.end) }).toString(), { state: { runInvestigation: true } });
     } catch (e) { setMessage(errorMessage(e)); }
     finally { setSubmitting(false); }
   };
@@ -103,9 +103,9 @@ export function Wizard() {
     <CatalogStatus />
     <div className="wizard-progress">{['TOPIC','LOCATION','TIME PERIOD','REVIEW'].map((label,i) => <div className={`wizard-step ${step === i ? 'active' : ''} ${step > i ? 'complete' : ''}`} key={label}><span>{step > i ? <Check size={14} /> : `0${i + 1}`}</span><b>{label}</b>{i < 3 && <i />}</div>)}</div>
     <div className="wizard-layout"><div className="wizard-main">
-      {step === 0 && <><div className="wizard-heading"><h2>What do you want to investigate?</h2><p>All planned topics remain available. Data availability is checked for the selected location.</p></div><div className="variable-grid">{topics.map(v => <button key={v.id} className={`variable-option ${topic === v.id ? 'selected' : ''}`} onClick={() => setTopic(v.id)}><TopicArtwork variable={v.id} /><b>{v.name}</b><span>{v.description}</span></button>)}</div></>}
+      {step === 0 && <><div className="wizard-heading"><h2>What do you want to investigate?</h2><p>Choose a topic to see the records available for each location.</p></div><div className="variable-grid">{topics.map(v => <button key={v.id} className={`variable-option ${topic === v.id ? 'selected' : ''}`} onClick={() => setTopic(v.id)}><TopicArtwork variable={v.id} /><b>{v.name}</b><span>{v.description}</span></button>)}</div></>}
       {step === 1 && <><div className="wizard-heading"><h2>Choose your investigation area.</h2></div><div className="location-options">{places.map(l => <button key={l.id} className={`location-option ${place === l.id ? 'selected' : ''}`} onClick={() => setPlace(l.id)}><MapPin size={22} /><b>{l.name}</b><small>{datasets.some(d => d.location_id === l.id && d.topic === topic) ? 'Source export available · unreviewed' : 'Awaiting dataset'}</small></button>)}</div><MapPanel activeLocation={place} dataset={dataset} height="230px" compact /></>}
-      {step === 2 && <><div className="wizard-heading"><h2>Choose the time period.</h2><p>{dataset ? `Actual source coverage: ${bounds(dataset).join(' to ')}. Short selections can show source values even when trend inference is unavailable.` : 'This location and variable are awaiting data. The feature remains planned.'}</p></div><DateFields dataset={dataset} start={start} end={end} onStart={setStart} onEnd={setEnd} />{dataset && <div className="period-actions"><button className="button button-secondary" onClick={() => { const [a,b] = bounds(dataset); setStart(a); setEnd(b); }}>FULL AVAILABLE RECORD</button><button className="button button-secondary" disabled={dataset.monthly_slots < 120} onClick={() => { const [year,m] = bounds(dataset)[1].split('-').map(Number); setStart(new Date(Date.UTC(year,m - 120,1)).toISOString().slice(0,7)); setEnd(bounds(dataset)[1]); }}>LAST 10 YEARS</button></div>}</>}
+      {step === 2 && <><div className="wizard-heading"><h2>Choose the time period.</h2><p>{dataset ? `Actual source coverage: ${bounds(dataset).join(' to ')}. Short selections can show source values even when trend inference is unavailable.` : 'No records are available for this location and variable.'}</p></div><DateFields dataset={dataset} start={start} end={end} onStart={setStart} onEnd={setEnd} />{dataset && <div className="period-actions"><button className="button button-secondary" onClick={() => { const [a,b] = bounds(dataset); setStart(a); setEnd(b); }}>FULL AVAILABLE RECORD</button><button className="button button-secondary" disabled={dataset.monthly_slots < 120} onClick={() => { const [year,m] = bounds(dataset)[1].split('-').map(Number); setStart(new Date(Date.UTC(year,m - 120,1)).toISOString().slice(0,7)); setEnd(bounds(dataset)[1]); }}>LAST 10 YEARS</button></div>}</>}
       {step === 3 && <><div className="wizard-heading"><h2>Review your case.</h2></div><Evidence label="VARIABLE" value={dataset?.name} /><Evidence label="LOCATION" value={selectedLocation?.name} /><Evidence label="PERIOD" value={`${start} to ${end}`} /><Evidence label="UNIT" value={dataset?.units} /><Evidence label="SOURCE TYPE" value={kindLabel(dataset?.data_kind)} /><Evidence label="REVIEW" value="Scientifically unreviewed" /><p className="source-description">{dataset?.spatial_support}</p></>}
       {message && <div className="inline-error" role="alert">{message}</div>}
       <div className="wizard-footer">{step ? <button className="button button-secondary" onClick={() => { setStep(s => s - 1); setMessage(''); }}><ChevronLeft size={16} />BACK</button> : <span />}{step < 3 ? <button className="button button-primary" onClick={advance}>CONTINUE<ChevronRight size={16} /></button> : <button className="button button-primary" disabled={submitting || !!selectionError(dataset,start,end)} onClick={begin}>BEGIN INVESTIGATION<ArrowRight size={16} /></button>}</div>
@@ -153,18 +153,23 @@ function Statistics({ result }) {
     ['MONTHLY COVERAGE',result ? `${number(result.dataset.finite_months / result.dataset.monthly_slots * 100)}%` : '—','Within the selected period'],
   ].map(([label,value,note]) => <div className="stat-card" key={label}><span>{label}</span><b>{value}</b><small>{note}</small></div>)}</div><div className="beginner-note">Statistical significance does not establish a cause. An unsupported trend does not prove an absence of change.</div></section>;
 }
-function PendingFeatures({ result }) {
+function PendingFeatures({ result, dataset = result?.dataset, loading = false }) {
   const spatial = result?.paradox;
   const years = result?.years_to_significance;
+  const supportsMap = dataset?.spatial_analysis_available;
+  const mapStatus = spatial ? 'GRID ANALYSED' : loading && supportsMap ? 'CALCULATING' : !dataset ? 'SELECT A DATASET' : supportsMap ? 'INCLUDED IN INVESTIGATION' : 'UNAVAILABLE FOR THIS DATASET';
+  const mapReason = result?.feature_status?.paradox?.reason || (supportsMap
+    ? 'Local cell trends will be calculated when you run this investigation.'
+    : 'This dataset does not contain multiple grid-cell histories, so a local trend map cannot be calculated.');
   return <div className="lab-feature-grid">
-    <section className="feature-result-panel"><div className="panel-heading"><h2><Layers3 size={17} /> Paradox Finder</h2><span className="status-chip">{spatial ? 'GRID ANALYSED' : 'PREREQUISITE PENDING'}</span></div>
-      {spatial ? <><p>{spatial.opposing_trends ? 'Supported increases and decreases meet the regional screening rule.' : 'The opposing-trend screening rule was not met.'}</p><Evidence label="TESTABLE CELLS" value={spatial.valid_cells} /><Evidence label="INCREASING SHARE" value={`${number(spatial.increasing_proportion * 100)}%`} /><Evidence label="DECREASING SHARE" value={`${number(spatial.decreasing_proportion * 100)}%`} /><p className="source-description">Shares count testable cells, not geographic area. Cell significance includes Benjamini-Yekutieli FDR correction.</p></> : <p>{result?.feature_status?.paradox?.reason || 'Run an analysis to check whether per-cell monthly histories are available.'}</p>}
+    <section className="feature-result-panel"><div className="panel-heading"><h2><Layers3 size={17} /> Paradox Finder</h2><span className="status-chip">{mapStatus}</span></div>
+      {spatial ? <><p>{spatial.opposing_trends ? 'Supported increases and decreases meet the regional screening rule.' : 'No statistically supported opposing trends found. Cell trends are still shown on the map.'}</p><Evidence label="MAPPED CELLS" value={spatial.cells.length} /><Evidence label="TESTABLE CELLS" value={spatial.valid_cells} /><Evidence label="INCREASING SHARE" value={`${number(spatial.increasing_proportion * 100)}%`} /><Evidence label="DECREASING SHARE" value={`${number(spatial.decreasing_proportion * 100)}%`} /><p className="source-description">Map slopes describe annual {spatial.variable.annual_aggregation === 'sum' ? 'totals' : 'means'}; the chart trend describes monthly values. Shares count testable cells, not geographic area. Cell significance includes Benjamini-Yekutieli FDR correction.</p></> : <p>{!dataset ? 'Choose a dataset to see whether local trend mapping is available.' : loading && supportsMap ? 'Calculating local trends for the selected region...' : mapReason}</p>}
     </section>
-    <section className="feature-result-panel"><div className="panel-heading"><h2><Clock3 size={17} /> Years to significance</h2><span className="status-chip">{years?.estimate_years != null ? 'MODEL ESTIMATE' : 'MODEL PENDING'}</span></div><p>{years?.estimate_years != null ? `${number(years.estimate_years)} years under the stated model assumptions.` : result?.feature_status?.years_to_significance?.reason || 'A validated model of future effect and noise is required.'}</p>{years && <><p className="source-description">{years.method}</p><Warnings items={[...years.assumptions,...years.warnings]} /></>}</section>
+    <section className="feature-result-panel"><div className="panel-heading"><h2><Clock3 size={17} /> Years to significance</h2><span className="status-chip">{years?.estimate_years != null ? 'MODEL ESTIMATE' : 'COMING SOON'}</span></div><p>{years?.estimate_years != null ? `${number(years.estimate_years)} years under the stated model assumptions.` : 'Estimates of how much additional data is needed are not available yet.'}</p>{years?.estimate_years != null && <><p className="source-description">{years.method}</p><Warnings items={[...years.assumptions,...years.warnings]} /></>}</section>
   </div>;
 }
 function Summary({ result }) {
-  return <section className="verdict-panel"><div className="verdict-heading"><ClipboardList size={22} /><div><Eyebrow>BACKEND EXPLANATION</Eyebrow><h2>Detective's verdict</h2></div><span className="status-chip">{result?.verdict?.ai_generated ? 'AI EXPLANATION' : 'COMPUTED SUMMARY'}</span></div><p className="computed-summary">{result?.verdict?.verdict || result?.summary || 'Run an analysis to see a summary based on the calculated statistics.'}</p>{result?.verdict && <p className="summary-method">{result.verdict.method}</p>}</section>;
+  return <section className="verdict-panel"><div className="verdict-heading"><ClipboardList size={22} /><div><Eyebrow>ANALYSIS SUMMARY</Eyebrow><h2>Detective's verdict</h2></div><span className="status-chip">{result?.verdict?.ai_generated ? 'AI EXPLANATION' : 'COMPUTED SUMMARY'}</span></div><p className="computed-summary">{result?.verdict?.verdict || result?.summary || 'Run an analysis to see a summary based on the calculated statistics.'}</p>{result?.verdict && <p className="summary-method">{result.verdict.method}</p>}</section>;
 }
 function Provenance({ dataset }) {
   if (!dataset) return null;
@@ -174,6 +179,7 @@ function Provenance({ dataset }) {
 export function Lab() {
   const initial = useLocation().state;
   const [query,setQuery] = useSearchParams();
+  const [initialRunKey] = useState(() => initial?.runInvestigation ? query.toString() : null);
   const { datasets, places, topics } = useCatalog();
   const selectedId = query.get('dataset');
   const selected = datasets.find(d => d.id === selectedId);
@@ -194,23 +200,26 @@ export function Lab() {
     if (dataset) next.set('dataset',dataset.id);
     next.set('start',start); next.set('end',end); next.set(name,value); setQuery(next);
   };
-  const { result,error,loading,run } = useAnalysis(dataset,start,end,false,bbox);
+  // A completed wizard runs its entire selected investigation once. Editing the
+  // selection clears those results and returns control to the Run button.
+  const autoRun = initialRunKey !== null && initialRunKey === query.toString();
+  const { result,error,loading,run } = useAnalysis(dataset,start,end,autoRun,bbox);
   const activeDataset = result?.dataset || dataset;
   const label = dataset?.name || topics.find(v => v.id === topic)?.name;
   const invalid = selectionError(dataset,start,end);
   const reportQuery = dataset ? new URLSearchParams({ dataset:dataset.id,start,end,...(bbox ? { bbox } : {}) }).toString() : '';
   return <div className="page-wrap lab-page page-content">
-    <div className="lab-header"><div><Eyebrow>EARTH SCIENCE / ANALYSIS WORKSPACE</Eyebrow><h1>Investigation Lab</h1><p>Explore source data and backend-computed statistics.</p></div><PageArtwork variant="lab" /></div><CatalogStatus />
+    <div className="lab-header"><div><Eyebrow>EARTH SCIENCE / ANALYSIS WORKSPACE</Eyebrow><h1>Investigation Lab</h1><p>Explore environmental records and calculated trends.</p></div><PageArtwork variant="lab" /></div><CatalogStatus />
     <div className="analysis-controls-panel"><div className="panel-title">INVESTIGATION PARAMETERS</div><div className="connected-controls">
-      <label className="control-field"><span>LOCATION</span><div className="select-wrap"><select aria-label="Location" value={place} onChange={e => changeSelection(e.target.value,topic)}>{places.map(l => <option key={l.id} value={l.id}>{l.name}{datasets.some(d => d.location_id === l.id) ? '' : ' ? awaiting data'}</option>)}</select></div></label>
+      <label className="control-field"><span>LOCATION</span><div className="select-wrap"><select aria-label="Location" value={place} onChange={e => changeSelection(e.target.value,topic)}>{places.map(l => <option key={l.id} value={l.id}>{l.name}{datasets.some(d => d.location_id === l.id) ? '' : ' ? no data'}</option>)}</select></div></label>
       <label className="control-field"><span>VARIABLE</span><div className="select-wrap"><select aria-label="Variable" value={topic} onChange={e => changeSelection(place,e.target.value)}>{topics.map(v => <option key={v.id} value={v.id}>{datasets.find(d => d.topic === v.id && d.location_id === place)?.name || v.name}</option>)}</select></div></label>
       <DateFields dataset={dataset} start={start} end={end} onStart={value => changeField('start',value)} onEnd={value => changeField('end',value)} />
       <button className="button button-primary" disabled={loading || !!invalid} onClick={run}><Play size={14} />{loading ? 'ANALYSING?' : 'RUN ANALYSIS'}</button>
-    </div>{spatial && <label className="control-field bbox-field"><span>BOUNDING BOX ? WEST, SOUTH, EAST, NORTH</span><input aria-label="Bounding box" value={bbox} onChange={e => changeField('bbox',e.target.value)} /><small>Selection uses native cell centres. Maximum 100 cells and 600 monthly slots.</small></label>}<div className="controls-bottom"><span>{dataset ? `${dataset.monthly_slots} monthly slots available; units: ${dataset.units}` : 'Awaiting a source dataset for this selection.'}</span></div>{invalid && dataset && <div className="inline-error" role="alert">{invalid}</div>}</div>
+    </div>{spatial && <label className="control-field bbox-field"><span>BOUNDING BOX: WEST, SOUTH, EAST, NORTH</span><input aria-label="Bounding box" value={bbox} onChange={e => changeField('bbox',e.target.value)} /><small>Selection uses native cell centres. Maximum 100 cells and 600 monthly slots.</small></label>}<div className="controls-bottom"><span>{dataset ? `${dataset.monthly_slots} monthly slots available; units: ${dataset.units}` : 'Awaiting a source dataset for this selection.'}</span></div>{invalid && dataset && <div className="inline-error" role="alert">{invalid}</div>}</div>
     {error && <div className="inline-error" role="alert">{error}</div>}<div role="status" className="analysis-progress" aria-live="polite">{loading ? 'Calculating seasonal adjustment, trend and uncertainty...' : result ? 'Analysis complete; scientifically unreviewed' : ''}</div>
     <div className="lab-main-grid"><section className="panel"><div className="panel-heading"><h2>Investigation area</h2><span className="status-chip">{result?.paradox ? 'CELL TREND LAYER' : 'LOCATION REFERENCE'}</span></div><MapPanel activeLocation={place} dataset={activeDataset} paradox={result?.paradox} height="320px" /><p className="source-description">{activeDataset?.spatial_support || 'Location reference only. Source coverage has not been supplied.'}</p></section><section className="panel"><div className="panel-heading"><h2>Evidence and source</h2><span className="status-chip">{result ? 'ANALYSED' : 'NOT RUN'}</span></div>{activeDataset ? <Provenance dataset={activeDataset} /> : <StatusNotice>This selection is awaiting a registered dataset.</StatusNotice>}</section></div>
     <section className="panel chart-panel"><div className="panel-heading"><h2>{label} {dataset && <small>({dataset.units})</small>}</h2></div><TrendChart variableName={label} unit={dataset?.units} analysis={result} /></section>
-    <Statistics result={result} /><PendingFeatures result={result} /><Summary result={result} />
+    <Statistics result={result} /><PendingFeatures result={result} dataset={activeDataset} loading={loading} /><Summary result={result} />
     {activeDataset && <section className="panel"><h2>Interpretation and limitations</h2><Warnings items={result?.warnings || dataset.limitations} />{result?.trend && <details><summary>Calculation methods</summary>{Object.entries(result.trend.methods).map(([key,value]) => <Evidence key={key} label={key.toUpperCase()} value={value} />)}</details>}</section>}
     <div className="lab-bottom-actions">{result && <Link className="button button-primary" to={`/cases/${place}?${reportQuery}`}>OPEN CASE REPORT<ArrowRight size={16} /></Link>}<Link className="button button-secondary" to="/compare">COMPARE CITIES</Link></div>
   </div>;
@@ -221,11 +230,11 @@ export function CaseFiles() {
   return <div className="page-wrap page-content"><div className="page-title-row"><div><Eyebrow>ARCHIVE / INVESTIGATION REPORTS</Eyebrow><h1>Case files.</h1><p>Reports use current source data and retain scientific limitations.</p></div><Link className="button button-primary" to="/wizard">NEW INVESTIGATION<ArrowRight size={15} /></Link></div><CatalogStatus />
     <div className="case-list">{places.map((place,i) => {
       const available = datasets.filter(d => d.location_id === place.id);
-      return <article className="case-row" key={place.id}><div className="case-row-main"><div className="case-card-meta"><span>CASE {String(i + 1).padStart(3,'0')}</span><span className="status-chip">{available.length ? 'SOURCE DATA AVAILABLE' : 'AWAITING DATA'}</span></div><h2>{place.name} investigation</h2><p>{available.length ? `${available.length} monthly datasets; scientifically unreviewed` : 'Dataset collection remains planned.'}</p></div><Link className="case-open" to={`/cases/${place.id}`}>OPEN FILE<ArrowRight size={15} /></Link></article>;
+      return <article className="case-row" key={place.id}><div className="case-row-main"><div className="case-card-meta"><span>CASE {String(i + 1).padStart(3,'0')}</span><span className="status-chip">{available.length ? 'SOURCE DATA AVAILABLE' : 'AWAITING DATA'}</span></div><h2>{place.name} investigation</h2><p>{available.length ? `${available.length} monthly datasets; scientifically unreviewed` : 'No datasets are available for this location.'}</p></div><Link className="case-open" to={`/cases/${place.id}`}>OPEN FILE<ArrowRight size={15} /></Link></article>;
     })}</div>
     <h2 className="archive-heading">Prepared regional cases</h2>
     {casesError && <div className="inline-error" role="alert">{casesError}<button className="button button-secondary" onClick={reload}>RETRY</button></div>}
-    <div className="case-list">{preparedCases.map(prepared => <article className="case-row" key={prepared.id}><div className="case-row-main"><span className="status-chip">{prepared.available ? prepared.validated ? 'REVIEW RECORDED' : 'UNREVIEWED PRECOMPUTE' : 'AWAITING DATA'}</span><h2>{prepared.title}</h2><p>{prepared.message}</p></div><Link className="case-open" to={`/cases/demo/${prepared.id}`}>OPEN PREPARED CASE<ArrowRight size={15} /></Link></article>)}</div><Link className="button button-secondary" to="/compare">COMPARE CITIES<ArrowRight size={15} /></Link>
+    <div className="case-list">{preparedCases.map(prepared => <article className="case-row" key={prepared.id}><div className="case-row-main"><span className="status-chip">{prepared.available ? prepared.validated ? 'REVIEW RECORDED' : 'REVIEW PENDING' : 'REPORT IN PREPARATION'}</span><h2>{prepared.title}</h2><p>{prepared.message}</p></div><>{prepared.available ? <Link className="case-open" to={`/cases/demo/${prepared.id}`}>OPEN REPORT<ArrowRight size={15} /></Link> : <button className="case-open" type="button" disabled>REPORT NOT AVAILABLE</button>}</></article>)}</div><Link className="button button-secondary" to="/compare">COMPARE CITIES<ArrowRight size={15} /></Link>
   </div>;
 }
 export function CaseFileDetails() {
@@ -244,7 +253,7 @@ export function CaseFileDetails() {
   return <div className="page-wrap page-content case-detail"><div className="case-detail-toolbar"><Link className="back-link" to="/cases"><ChevronLeft size={15} />ALL CASE FILES</Link><button className="button button-secondary" disabled={!result} onClick={() => window.print()}><Download size={15} />PRINT / SAVE AS PDF</button></div><div className="case-report-header"><div><Eyebrow>ENVIRONMENTAL INVESTIGATION REPORT</Eyebrow><h1>{location.name} case file</h1><p>{dataset?.name || 'Awaiting dataset'}</p></div><span className="status-chip">SCIENTIFICALLY UNREVIEWED</span></div><CatalogStatus />
     {dataset && <div className="report-selector"><label className="control-field"><span>DATASET</span><div className="select-wrap"><select aria-label="Report dataset" value={dataset.id} onChange={e => setQuery({ dataset:e.target.value })}>{options.map(d => <option key={d.id} value={d.id}>{d.name}</option>)}</select></div></label><span>{start} to {end}</span></div>}
     {loading && <StatusNotice>Calculating this report from the source export…</StatusNotice>}{error && <div role="alert" className="inline-error">{error}<button className="button button-secondary" onClick={run}>RETRY</button></div>}
-    {!dataset && <StatusNotice>{query.get('dataset') ? 'The requested dataset is not registered for this location.' : 'This case remains planned. Its dataset has not been supplied.'}</StatusNotice>}
+    {!dataset && <StatusNotice>{query.get('dataset') ? 'The requested dataset is not registered for this location.' : 'No report data is available for this location.'}</StatusNotice>}
     {result && <><section className="panel"><h2>Question and study period</h2><p className="source-description">How did {dataset.name.toLowerCase()} change in the supplied {location.name} export between {start} and {end}?</p><Provenance dataset={result.dataset} /></section><section className="panel chart-panel"><h2>Monthly source values and fitted trend</h2><TrendChart variableName={dataset.name} unit={dataset.units} analysis={result} /></section><section className="panel"><h2>Geographic context</h2><MapPanel activeLocation={caseId} dataset={result.dataset} paradox={result.paradox} height="260px" /></section><Statistics result={result} /><Summary result={result} /><PendingFeatures result={result} /><section className="panel"><h2>Limitations and source review</h2><Warnings items={result.warnings} />{result.trend && <details><summary>Calculation methods</summary>{Object.entries(result.trend.methods).map(([key,value]) => <Evidence key={key} label={key} value={value} />)}</details>}</section></>}
   </div>;
 }
@@ -284,7 +293,7 @@ export function Compare() {
   const shared = comparison?.available ? { ...comparison.left_dataset, temporal_coverage:[comparison.start,comparison.end] } : null;
   const invalid = selectionError(shared,start,end);
   const placeList = places?.length ? places : locations;
-  return <div className="page-wrap page-content"><div className="page-title-row"><div><Eyebrow>COMPARATIVE INVESTIGATION</Eyebrow><h1>Compare two places.</h1><p>Select any two cities. The backend checks product, version, units and shared coverage before comparison.</p></div><PageArtwork variant="compare" /></div><CatalogStatus />
+  return <div className="page-wrap page-content"><div className="page-title-row"><div><Eyebrow>COMPARATIVE INVESTIGATION</Eyebrow><h1>Compare two places.</h1><p>Select two cities to compare matching measurements over a shared study period.</p></div><PageArtwork variant="compare" /></div><CatalogStatus />
     <div className="comparison-controls">
       <label className="control-field"><span>FIRST PLACE</span><div className="select-wrap"><select aria-label="First comparison place" value={leftLocation} onChange={e => setLeftLocation(e.target.value)}>{placeList.map(place => <option key={place.id} value={place.id} disabled={place.id === rightLocation}>{place.name}</option>)}</select></div></label>
       <label className="control-field"><span>SECOND PLACE</span><div className="select-wrap"><select aria-label="Second comparison place" value={rightLocation} onChange={e => setRightLocation(e.target.value)}>{placeList.map(place => <option key={place.id} value={place.id} disabled={place.id === leftLocation}>{place.name}</option>)}</select></div></label>

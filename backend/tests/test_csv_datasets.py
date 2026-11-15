@@ -12,8 +12,9 @@ SOURCES = Path(__file__).resolve().parents[2] / 'Data' / 'Karachi'
 
 
 @pytest.fixture
-def csv_client(monkeypatch):
+def csv_client(monkeypatch, tmp_path):
     monkeypatch.setenv('CSV_DATA_ROOT', str(SOURCES))
+    monkeypatch.setenv('DATA_ROOT', str(tmp_path / 'no_grids'))
     with TestClient(app) as client:
         yield client
 
@@ -123,6 +124,8 @@ def test_precipitation_conversion_scales_values_trends_and_intervals(csv_client,
     assert normalized['dataset']['unit_conversion']['source_units'] == native['dataset']['units'] == 'inch/day'
     assert normalized['dataset']['units'] == 'mm/hr'
     assert normalized['dataset']['source_sha256'] == native['dataset']['source_sha256']
+    assert normalized['dataset']['latest_record'] == normalized['series'][-1]
+    assert normalized['dataset']['latest_record']['value'] == pytest.approx(native['dataset']['latest_record']['value'] * factor)
     for field in ['series']:
         assert [p['value'] for p in normalized[field]] == pytest.approx([p['value'] * factor for p in native[field]])
     for field in ['slope', 'ci_low', 'ci_high']:

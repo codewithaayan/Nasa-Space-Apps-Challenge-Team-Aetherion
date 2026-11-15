@@ -2,6 +2,10 @@
 
 ## Shared frontend integration
 
+The public prepared-case list retains Sahel and Arctic; Amazon is deferred.
+The western Sahel grid is bundled in Data/Sahel and supports an on-demand cell-trend report. Keep its source evidence and the Arctic point sample intact.
+The Arctic sample represents one location at 70N, 20E, not the whole region.
+
 The root frontend now discovers both CSV and installed NetCDF/Zarr datasets
 through `/api/datasets`. Structured wizard selections, authoritative verdicts,
 comparison readiness/calculations, prepared regional cases and per-feature
@@ -24,7 +28,7 @@ point (70N, 20E), not an Arctic-wide climate finding. The raw NASA response is
 bundled in examples/ so this workflow can be recreated without internet access.
 The build guide was not available in the project; its contents were not assumed.
 
-## Rhido
+## Ridho
 
 From backend/: `python -m scripts.import_power_sample` imports the bundled sample
 into DATA_ROOT (default backend/data). `--download` explicitly refreshes from NASA;
@@ -118,7 +122,7 @@ claim of finer resolution. The importer excludes month 13 annual summaries and
 maps missing flags to NaN. No causal conclusions or validated paradox are claimed.
 See reports/real_pipeline.json for measured slope, interval and sensitivity check.
 
-## Deployment checklist (Rhido)
+## Deployment checklist (Ridho)
 
 - Python 3.11–3.13; install backend/requirements.txt in an isolated environment.
 - Working directory backend; start `python -m uvicorn app.main:app --host 0.0.0.0 --port 8000`.
