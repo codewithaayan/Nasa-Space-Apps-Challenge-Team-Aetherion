@@ -31,7 +31,7 @@ sequenceDiagram
     participant B as Visitor's browser
     participant C as Cloudflare Pages
     participant V as Vercel / FastAPI
-    participant D as Bundled Karachi CSVs
+    participant D as Bundled regional CSVs
     B->>C: Open the website
     C-->>B: HTML, CSS and JavaScript
     B->>V: GET /api/datasets
@@ -55,7 +55,7 @@ when requests arrive. The deployment entrypoint imports that app; it does not
 reimplement statistics. The interface turns the JSON responses into charts,
 maps, explanations and reports.
 
-**Data:** The small read-only Karachi CSVs and manifest ship inside the backend
+**Data:** The small read-only regional CSVs and city manifests ship inside the backend
 package. No database is required for the current app. Source fingerprints and
 scientific limitations remain in the responses.
 
@@ -105,7 +105,7 @@ no uploads or persistent database were provisioned.
 ## Updating the backend
 
 Select and verify the intended source revision first. The packaging helper
-copies only backend modules, real Karachi exports, requirements, Python version
+copies backend modules, supplied regional exports and manifests, requirements, Python version
 and the deployment adapter. Credentials, fixtures, virtual environments and
 dependency folders are excluded.
 
@@ -174,8 +174,9 @@ Repeat the HTTP verification after a deployment:
 npm run verify:deployment -- --frontend https://trend-detective-aetherion.pages.dev --api https://trend-detective-aetherion-api.vercel.app/api
 ```
 
-Software checks do not establish scientific validation. Lahore and real regional
-grids still need data. AI verdict generation and a validated future-significance
+Software checks do not establish scientific validation. Six cities now have CSV
+registrations; per-cell regional grids and cross-city measurement harmonization
+still need work. AI verdict generation and a validated future-significance
 model remain unconfigured and are shown as explicit unavailable states.
 
 ## Vercel agent setup

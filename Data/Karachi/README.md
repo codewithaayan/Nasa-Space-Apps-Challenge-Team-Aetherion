@@ -4,18 +4,21 @@ The original CSV files are preserved. `manifest.json` describes how to read thei
 different layouts and how to label the results. The backend reads them directly;
 the catalog is independent of the existing NetCDF/Zarr integration.
 
-| Topic | Product declared in export | Retained units | Actual coverage |
+| Topic | Product declared in export | Application units | Actual coverage |
 | --- | --- | --- | --- |
 | Air temperature | MERRA-2 M2IMNXASM 5.12.4 | K | January 2006–December 2025 |
 | Aerosol optical thickness | MERRA-2 M2TMNXAER 5.12.4 | dimensionless | January 2006–December 2025 |
-| Precipitation rate | GPM IMERG Final 07 | inch/day | January 2006–January 2025 |
+| Precipitation rate | GPM IMERG Final 07 | mm/hr (source: inch/day) | January 2006–January 2025 |
 | Evapotranspiration rate | GLDAS Noah 2.1 | kg m-2 s-1 | January 2006–December 2025 |
 | Soil moisture content, 0–10 cm | GLDAS Noah 2.1 | kg m-2 | January 2006–December 2025 |
 | Vegetation NDVI | MOD13A3 061 filename identifiers | dimensionless | January 2006–December 2025 |
 
-Units are retained, with no unit conversion, additional NDVI scaling, interpolation
-or artificial spatial replication. Precipitation units follow the embedded export
-request. GLDAS units follow the [NASA GLDAS product documentation](https://docserver.gesdisc.eosdis.nasa.gov/public/project/hydrology/README_GLDAS2.pdf).
+Precipitation source rates are in inch/day according to the embedded export
+request. The application converts them to mm/hr with `25.4 / 24` before calculating
+statistics; the source file remains unchanged. Responses retain `source_units`
+and the explicit `unit_conversion` factor/method. Other variables retain their
+source units. No additional NDVI scaling, interpolation or artificial spatial
+replication is performed. GLDAS units follow the [NASA GLDAS product documentation](https://docserver.gesdisc.eosdis.nasa.gov/public/project/hydrology/README_GLDAS2.pdf).
 MERRA-2 quantities follow its [file specification](https://gmao.gsfc.nasa.gov/pubs/docs/Bosilovich785.pdf).
 The annual significance test uses equal-month annual means. These rate series
 are not annual precipitation or evapotranspiration accumulations.

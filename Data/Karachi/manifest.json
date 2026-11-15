@@ -12,11 +12,11 @@
     {
       "id": "karachi_precipitation", "location_id": "karachi", "topic": "precipitation",
       "file": "Precipitation.2006-2025.csv", "time_column": "time", "value_column": "mean_GPM_3IMERGM_07_precipitation",
-      "name": "Precipitation rate", "units": "inch/day", "dataset_id": "GPM_3IMERGM", "version": "07",
+      "name": "Precipitation rate", "units": "mm/hr", "source_units": "inch/day", "dataset_id": "GPM_3IMERGM", "version": "07",
       "source": "Supplied NASA Giovanni export of IMERG Final satellite-gauge precipitation", "data_kind": "satellite_estimate",
       "documentation_url": "https://gpm.nasa.gov/data/imerg",
       "spatial_support": "Giovanni area-averaged monthly series; individual grid-cell histories are absent.",
-      "limitations": ["Units follow the export request: inches/day. Each monthly row is a rate, not a monthly rainfall total.", "No conversion or annual summation of rates is performed.", "Coverage ends in January 2025; the remainder of 2025 is not supplied."]
+      "limitations": ["The original export uses inch/day. The application converts rates to mm/hr using 25.4 / 24, with the conversion recorded in metadata.", "Each monthly row remains a rate, not an accumulated monthly rainfall total; annual summation of rates is not performed.", "Coverage ends in January 2025; the remainder of 2025 is not supplied."]
     },
     {
       "id": "karachi_evaporation", "location_id": "karachi", "topic": "evaporation",
