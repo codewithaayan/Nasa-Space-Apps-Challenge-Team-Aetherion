@@ -1,4 +1,4 @@
-"""Rhido integration boundary: local, monthly, rectilinear gridded data."""
+"""Ridho integration boundary: local, monthly, rectilinear gridded data."""
 import json
 import os
 from pathlib import Path

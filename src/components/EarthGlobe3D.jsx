@@ -1,25 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { Activity, Clock3, Compass, Database, Droplets, MapPin, Radio, ShieldCheck, Sprout, Sun, Thermometer, Waves } from "lucide-react";
 import { createRealisticEarthTexture, createRealisticCloudTexture } from "./earthTexture";
-
-const plannedCity = (city) => ({
-  ...city,
-  dataAvailable: false,
-  elevation: "AWAITING SOURCE",
-  climateZone: "NOT VERIFIED",
-  temp: "Unavailable",
-  tempTrend: "NO VERIFIED RESULT",
-  precip: "Unavailable",
-  precipSeason: "NO VERIFIED RESULT",
-  veg: "Unavailable",
-  vegType: "NO VERIFIED RESULT",
-  feedSource: "No dataset registered",
-  feedVariable: "Awaiting compatible source",
-  feedStatusText: "No verified dataset connected · analysis unavailable",
-  pointSample: "No source footprint",
-  coverage: "Awaiting dataset",
-});
+import { summarizeCity } from "./globeData";
 
 export const EARTH_CITIES = [
   {
@@ -33,22 +16,8 @@ export const EARTH_CITIES = [
     lon: 67.0011,
     latDms: "24° 51' 36\" N",
     lonDms: "67° 00' 36\" E",
-    elevation: "4 M ASL",
-    climateZone: "SUBTROPICAL ARID",
-    temp: "28.4°C",
-    tempTrend: "+0.08°C / DECADE",
-    precip: "176.4 mm",
-    precipSeason: "SUMMER MONSOON",
-    veg: "0.182 NDVI",
-    vegType: "COASTAL / ARID SCRUB",
-    feedSource: "NASA POWER / MERRA-2",
-    feedVariable: "T2M (2M AIR TEMPERATURE)",
-    feedStatusText: "LOCAL SOURCE VALIDATED · OFFLINE STREAM READY",
-    pointSample: "0.5° × 0.625° POINT SAMPLE",
-    dataAvailable: true,
-    coverage: "2000 – 2019 (240 MONTHS)",
   },
-  plannedCity({
+  {
     id: "lahore",
     name: "Lahore",
     province: "Punjab Province",
@@ -59,8 +28,8 @@ export const EARTH_CITIES = [
     lon: 74.3587,
     latDms: "31° 31' 13\" N",
     lonDms: "74° 21' 31\" E",
-  }),
-  plannedCity({
+  },
+  {
     id: "islamabad",
     name: "Islamabad",
     province: "Islamabad Capital Territory",
@@ -71,8 +40,8 @@ export const EARTH_CITIES = [
     lon: 73.0479,
     latDms: "33° 41' 04\" N",
     lonDms: "73° 02' 52\" E",
-  }),
-  plannedCity({
+  },
+  {
     id: "quetta",
     name: "Quetta",
     province: "Balochistan",
@@ -83,8 +52,8 @@ export const EARTH_CITIES = [
     lon: 66.975,
     latDms: "30° 10' 47\" N",
     lonDms: "66° 58' 30\" E",
-  }),
-  plannedCity({
+  },
+  {
     id: "peshawar",
     name: "Peshawar",
     province: "Khyber Pakhtunkhwa",
@@ -95,8 +64,8 @@ export const EARTH_CITIES = [
     lon: 71.5249,
     latDms: "34° 00' 54\" N",
     lonDms: "71° 31' 30\" E",
-  }),
-  plannedCity({
+  },
+  {
     id: "gilgit",
     name: "Gilgit",
     province: "Gilgit-Baltistan",
@@ -107,16 +76,21 @@ export const EARTH_CITIES = [
     lon: 74.308,
     latDms: "35° 55' 15\" N",
     lonDms: "74° 18' 29\" E",
-  }),
+  },
 ];
 
-export function EarthGlobe3D() {
+export function EarthGlobe3D({ datasets = [], loading = false, error = "" }) {
   const mountRef = useRef(null);
   const [selectedCityId, setSelectedCityId] = useState("karachi");
   const [cityScreen, setCityScreen] = useState({ x: 0, y: 0, visible: false });
-  const [orbitInfo, setOrbitInfo] = useState({ alt: "705 km", speed: "7.5 km/s" });
 
   const currentCity = EARTH_CITIES.find((c) => c.id === selectedCityId) || EARTH_CITIES[0];
+  const summary = useMemo(() => summarizeCity(datasets, currentCity.id), [datasets, currentCity.id]);
+  const dataAvailable = !error && summary.count > 0;
+  const dataStatus = loading ? 'LOADING' : error ? 'SERVICE UNAVAILABLE' : dataAvailable ? 'DATA AVAILABLE' : 'NO RECORDS';
+  const metricValue = reading => loading ? 'Loading…' : reading.value;
+  const metricPeriod = reading => loading ? 'Reading latest month' : reading.period;
+
 
   // Mutable ref so the Three.js loop always tracks current city
   const cityRef = useRef(currentCity);
@@ -629,17 +603,17 @@ export function EarthGlobe3D() {
       <div className="hud-panel hud-top-right">
         <div className="hud-top-bar">
           <span className="live-status-pulse" />
-          <span className="hud-view-label">ORBITAL VIEW 01</span>
-          <span className="hud-live-tag">LIVE</span>
+          <span className="hud-view-label">EARTH REFERENCE</span>
+          <span className="hud-live-tag">3D VIEW</span>
         </div>
         <div className="hud-meta-row">
-          <span>ALTITUDE: <b>705 KM</b></span>
+          <span>DATASETS: <b>{datasets.length}</b></span>
           <span className="hud-meta-dot">·</span>
-          <span>SPEED: <b>7.5 KM/S</b></span>
+          <span>CITIES: <b>{EARTH_CITIES.length}</b></span>
         </div>
         <div className="hud-sensor-row">
           <Radio size={11} className="text-sky-400" />
-          <span>SUN-SYNCHRONOUS SATELLITE TRACK</span>
+          <span>MONTHLY ENVIRONMENTAL RECORDS</span>
         </div>
       </div>
 
@@ -682,8 +656,8 @@ export function EarthGlobe3D() {
           </div>
         </div>
         <div className="hud-location-footer">
-          <span>ELEVATION: <b>{currentCity.elevation}</b></span>
-          <span className="hud-zone-tag">{currentCity.climateZone}</span>
+          <span>CITY REFERENCE COORDINATES</span>
+          <span className="hud-zone-tag">NOT A MEASUREMENT FOOTPRINT</span>
         </div>
       </div>
 
@@ -691,33 +665,33 @@ export function EarthGlobe3D() {
       <div className="hud-panel hud-feed-panel">
         <div className="hud-feed-header">
           <Database size={13} className="text-sky-400" />
-          <span className="hud-feed-title">DATA FEED STATUS</span>
-          <span className={currentCity.dataAvailable ? "hud-stream-active" : "hud-stream-active hud-stream-pending"}>
-            {currentCity.dataAvailable && <span className="hud-signal-dot" />}
-            {currentCity.dataAvailable ? "DATA AVAILABLE" : "AWAITING DATA"}
+          <span className="hud-feed-title">DATASET COVERAGE</span>
+          <span className={dataAvailable ? "hud-stream-active" : "hud-stream-active hud-stream-pending"}>
+            {dataAvailable && <span className="hud-signal-dot" />}
+            {dataStatus}
           </span>
         </div>
         <div className="hud-feed-details">
           <div className="hud-feed-row">
             <span>SOURCE:</span>
-            <b>{currentCity.feedSource}</b>
+            <b>{summary.products}</b>
           </div>
           <div className="hud-feed-row">
-            <span>VARIABLE:</span>
-            <b>{currentCity.feedVariable}</b>
+            <span>RECORDS:</span>
+            <b>{summary.count} monthly datasets</b>
           </div>
           <div className="hud-feed-row">
             <span>COVERAGE:</span>
-            <b>{currentCity.coverage}</b>
+            <b>{summary.coverage}</b>
           </div>
           <div className="hud-feed-row">
-            <span>GRID CELL:</span>
-            <b>{currentCity.pointSample}</b>
+            <span>MAP:</span>
+            <b>City reference</b>
           </div>
         </div>
         <div className="hud-feed-status-bar">
-          {currentCity.dataAvailable ? <ShieldCheck size={12} className="text-emerald-400" /> : <Clock3 size={12} className="text-amber-300" />}
-          <span>{currentCity.feedStatusText}</span>
+          {dataAvailable ? <Database size={12} className="text-emerald-400" /> : <Clock3 size={12} className="text-amber-300" />}
+          <span>{error ? 'Dataset service temporarily unavailable' : dataAvailable ? 'Source exports · Scientific review pending' : loading ? 'Reading source records' : 'No datasets for this location'}</span>
         </div>
       </div>
 
@@ -728,9 +702,9 @@ export function EarthGlobe3D() {
           <Thermometer size={14} />
         </div>
         <div className="metric-content">
-          <span className="metric-label">SURFACE TEMPERATURE</span>
-          <b className="metric-val">{currentCity.temp}</b>
-          <span className="metric-sub text-amber-300">{currentCity.tempTrend}</span>
+          <span className="metric-label">2-M AIR TEMPERATURE</span>
+          <b className="metric-val">{metricValue(summary.temperature)}</b>
+          <span className="metric-sub text-amber-300">{metricPeriod(summary.temperature)}</span>
         </div>
       </div>
 
@@ -740,9 +714,9 @@ export function EarthGlobe3D() {
           <Droplets size={14} />
         </div>
         <div className="metric-content">
-          <span className="metric-label">ANNUAL PRECIPITATION</span>
-          <b className="metric-val">{currentCity.precip}</b>
-          <span className="metric-sub text-sky-300">{currentCity.precipSeason}</span>
+          <span className="metric-label">PRECIPITATION RATE</span>
+          <b className="metric-val">{metricValue(summary.precipitation)}</b>
+          <span className="metric-sub text-sky-300">{metricPeriod(summary.precipitation)}</span>
         </div>
       </div>
 
@@ -752,15 +726,15 @@ export function EarthGlobe3D() {
           <Sprout size={14} />
         </div>
         <div className="metric-content">
-          <span className="metric-label">VEGETATION DENSITY</span>
-          <b className="metric-val">{currentCity.veg}</b>
-          <span className="metric-sub text-emerald-300">{currentCity.vegType}</span>
+          <span className="metric-label">NDVI EXPORT</span>
+          <b className="metric-val">{metricValue(summary.ndvi)}</b>
+          <span className="metric-sub text-emerald-300">{metricPeriod(summary.ndvi)} · location unverified</span>
         </div>
       </div>
 
       {/* Bottom Subtle Observation Note */}
       <div className="hud-bottom-note">
-        INTERACTIVE 3D GLOBE · SELECT CITY TO FOCUS OR DRAG TO ROTATE · REALISTIC PROJECTION & SAT-ORBIT
+        CITY REFERENCE · SELECT A CITY OR DRAG TO ROTATE · VALUES SHOW THE LATEST AVAILABLE MONTH
       </div>
     </div>
   );

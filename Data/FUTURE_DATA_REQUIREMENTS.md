@@ -10,7 +10,10 @@ collection and implementation backlog; they do not remove the associated feature
 | Complete common baseline | Complete intended January 2006–December 2025 coverage, including February–December 2025 Karachi precipitation and October–December 2025 precipitation for the other five cities | Consistent period selection and complete annual calculations |
 | NDVI extraction evidence | Pixel coordinates or extraction polygon, source request, quality flags, scale/fill metadata | Correct location labels and quality filtering |
 | Longer reliable histories | Earlier records where supported; retain product changes and discontinuities | Longer investigations and statistical assessment |
-| Original demonstration regions | Sahel precipitation, Amazon vegetation/moisture and Arctic regional temperature | Backend-documented candidate demonstrations, subject to team case selection and review |
+| Prepared regional cases | The western Sahel grid is bundled in Data/Sahel; prepare and review its regional report. Preserve the Arctic temperature point sample; wider Arctic claims require regional coverage | Retained Sahel and Arctic cases, subject to scientific review |
+
+Amazon vegetation/moisture is deferred until suitable source data is collected;
+it is not advertised in the current prepared-case list.
 
 Keep original source formats and accompanying metadata. For every dataset record
 the product/version, source URL or DOI, download date, extraction request, variable,
@@ -33,7 +36,7 @@ independent validation. AI verdicts must preserve backend statistics and caveats
 Source verification and scientific case review remain necessary even when software
 tests pass. An inconclusive trend or absence of opposing trends is a valid result.
 
-Rhido owns ingestion, catalog, caching, precomputed artifacts and deployment.
+Ridho owns ingestion, catalog, caching, precomputed artifacts and deployment.
 Abdullah maintains API/calculation/geographic contracts; Aayan connects the frontend.
 Waseel owns wizard/verdict/years-to-significance and validation support; Ayesha
 reviews sources and demonstration claims.

@@ -1,6 +1,6 @@
 # Rozenweig-Index deployment fork
 
-This is Rhido's fork of
+This is Ridho's fork of
 [Team Aetherion's application](https://github.com/codewithaayan/Nasa-Space-Apps-Challenge-Team-Aetherion).
 Its name is intentionally **Rozenweig-Index**. The fork retains the original Git history.
 
@@ -114,7 +114,7 @@ provider dashboard is not required.
 - Keep source provenance, native units and honest unavailable features. Software
   tests do not replace scientific validation.
 
-The setup changes only Rhido's fork and the existing hosting projects. The team
+The setup changes only Ridho's fork and the existing hosting projects. The team
 repository's approval policy continues to apply to pushes, merges and PRs there.
 
 ## Setup verification (2026-11-15)

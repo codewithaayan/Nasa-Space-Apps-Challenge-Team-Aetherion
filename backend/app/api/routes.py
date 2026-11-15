@@ -76,8 +76,13 @@ def demo(case: str):
         raise HTTPException(404, 'Unknown demo case')
     path = data_root() / 'demos' / f'{case}.json'
     if not path.exists():
+        messages = {
+            'sahel': 'The prepared Sahel rainfall report is not yet available. The bundled western Sahel grid can be explored as an investigation; scientific review is pending.',
+            'arctic': 'The Arctic temperature report is being prepared. Existing data is a point sample at 70°N, 20°E, not an Arctic-wide study.',
+            'amazon': 'This regional report is not available.',
+        }
         return DemoResponse(case=case, available=False, provenance='unavailable',
-                            message='Validated precomputed case not supplied by Rhido and Ayesha.')
+                            message=messages[case])
     try:
         if not path.resolve().is_relative_to(data_root()) or path.stat().st_size > 5_000_000:
             raise ValueError('Unsafe or oversized prepared demo')

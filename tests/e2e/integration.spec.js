@@ -234,11 +234,60 @@ test('synthetic grids exercise the actual map contract without posing as NASA da
 
 test('prepared cases load from backend artifacts with review status intact',async ({page}) => {
   await page.goto('/cases');
-  await page.getByRole('link',{name:'OPEN PREPARED CASE'}).last().click();
+  await expect(page.getByRole('heading',{name:'Sahel precipitation',exact:true})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Arctic temperature',exact:true})).toBeVisible();
+  await expect(page.getByText('Amazon vegetation and moisture')).toHaveCount(0);
+  await expect(page.getByRole('button',{name:'REPORT NOT AVAILABLE'})).toBeDisabled();
+  await page.getByRole('link',{name:'OPEN REPORT',exact:true}).click();
   await expect(page).toHaveURL(/\/cases\/demo\/arctic/);
   await expect(page.getByText('Synthetic software-test fixture, NOT an Arctic finding. Scientific review has not occurred.')).toBeVisible();
   await expect(page.locator('.js-plotly-plot')).toBeVisible();
   await expect(page.getByRole('button',{name:'PRINT / SAVE AS PDF'})).toBeEnabled();
+});
+
+test('globe readings follow the selected city catalog, units and record dates',async ({page}) => {
+  const catalog = await (await page.request.get('/api/datasets')).json();
+  await page.goto('/');
+  const temperature = page.locator('.float-metric-temp');
+  const precipitation = page.locator('.float-metric-precip');
+  for (const city of ['karachi', 'lahore', 'gilgit']) {
+    if (city !== 'karachi') {
+      await page.locator('.hud-panel-city-switcher').getByRole('button', {name: city === 'lahore' ? 'Lahore' : 'Gilgit', exact: true}).click();
+    }
+    const temp = catalog.find(dataset => dataset.id === `${city}_temperature`);
+    const rain = catalog.find(dataset => dataset.id === `${city}_precipitation`);
+    await expect(temperature.locator('.metric-sub')).toHaveText(temp.latest_record.time);
+    await expect(precipitation.locator('.metric-sub')).toHaveText(rain.latest_record.time);
+    // Windows may use a decimal comma even with an English browser locale.
+    const temperatureValue = parseFloat((await temperature.locator('.metric-val').innerText()).replace(',', '.'));
+    const precipitationValue = parseFloat((await precipitation.locator('.metric-val').innerText()).replace(',', '.'));
+    // Summaries show five significant digits; compare relative rounding error.
+    for (const [displayed, source] of [[temperatureValue, temp.latest_record.value], [precipitationValue, rain.latest_record.value]]) {
+      expect(Math.abs(displayed - source) / Math.max(Math.abs(source), Number.EPSILON)).toBeLessThanOrEqual(5e-5);
+    }
+    await expect(temperature.locator('.metric-val')).toContainText('K');
+    await expect(precipitation.locator('.metric-val')).toContainText('mm/hr');
+    await expect(page.locator('.hud-feed-panel')).toContainText('6 monthly datasets');
+  }
+  await expect(page.locator('.hud-live-tag')).toHaveText('3D VIEW');
+  await expect(page.getByText('LOCAL SOURCE VALIDATED', {exact: false})).toHaveCount(0);
+  await expect(page.getByText('No dataset registered', {exact: true})).toHaveCount(0);
+  await page.locator('.hero-visual').screenshot({path: 'work/e2e/globe-readings.png'});
+});
+
+test('missing globe values stay unavailable rather than falling back to fixed numbers',async ({page}) => {
+  await page.route('**/api/datasets', async route => {
+    const response = await route.fetch();
+    const catalog = await response.json();
+    for (const dataset of catalog) {
+      if (dataset.location_id === 'karachi') dataset.latest_record = {time: '2025-12', value: null};
+    }
+    await route.fulfill({response, json: catalog});
+  });
+  await page.goto('/');
+  await expect(page.locator('.float-metric-temp .metric-val')).toHaveText('Not available');
+  await expect(page.locator('.float-metric-precip .metric-val')).toHaveText('Not available');
+  await expect(page.locator('.float-metric-veg .metric-val')).toHaveText('Not available');
 });
 
 test('server-enforced city comparison becomes usable when compatible fixtures arrive',async ({page}) => {

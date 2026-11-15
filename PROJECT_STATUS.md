@@ -59,7 +59,7 @@ arrays, provenance metadata, bounded immutable analysis cache, regular-grid and
 The Starlette/httpx warning is addressed by declaring supported httpx2.
 Candidate Arctic POINT demo is locally prepared, explicitly scientifically unreviewed.
 Sahel precipitation, Amazon vegetation/moisture and full Arctic grids remain absent.
-Waseel must validate statistical calibration; Rhido must supply production data;
+Waseel must validate statistical calibration; Ridho must supply production data;
 Aayan must connect frontend contracts; Ayesha must review scientific case claims.
 
 Git remote fetch and ls-remote succeeded with no remote refs/history. The feature

@@ -16,12 +16,18 @@ import numpy as np
 import pandas as pd
 
 from app.models.csv_datasets import CsvDataset, UnitConversion
+from app.models.schemas import Point
 from app.services.data import DataUnavailable, NotFound
 
 
 def csv_root() -> Path:
     default = Path(__file__).resolve().parents[3] / 'Data'
     return Path(os.getenv('CSV_DATA_ROOT', str(default))).resolve()
+
+
+def latest_record(series: pd.Series) -> Point:
+    value = series.iloc[-1]
+    return Point(time=str(series.index[-1].to_period('M')), value=float(value) if pd.notna(value) else None)
 
 
 class CsvDataSource:
@@ -71,6 +77,7 @@ class CsvDataSource:
             raise NotFound('No finite values in requested selection')
         meta = meta.model_copy(update={
             'temporal_coverage': [str(series.index[0].date()), str(series.index[-1].date())],
+            'latest_record': latest_record(series),
             'finite_months': int(series.notna().sum()), 'monthly_slots': len(series)})
         return meta, series
 
@@ -149,6 +156,7 @@ class CsvDataSource:
                 source_variable=record['value_column'].removeprefix('mean_'),
                 provenance=record.get('provenance', 'source_export'),
                 temporal_coverage=[str(series.index[0].date()), str(series.index[-1].date())],
+                latest_record=latest_record(series),
                 finite_months=int(series.notna().sum()), monthly_slots=len(series),
                 requested_bbox=[float(v) for v in requested.split(',')] if requested else None,
                 data_bbox=[float(v) for v in data_box.split(',')] if data_box else None,

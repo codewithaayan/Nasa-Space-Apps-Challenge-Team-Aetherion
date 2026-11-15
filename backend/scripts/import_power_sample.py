@@ -1,4 +1,4 @@
-"""Small integration fixture, not Rhido's production ingestion pipeline."""
+"""Small integration fixture, not Ridho's production ingestion pipeline."""
 import argparse
 import hashlib
 import json

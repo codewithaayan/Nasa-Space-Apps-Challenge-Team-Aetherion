@@ -85,9 +85,9 @@ to a separate empty directory before starting; it never silently replaces a cata
 - `examples/`: genuine NASA POWER raw response and runnable API examples.
 - `docs/HANDOFF.md`: teammate contracts, limitations and deployment checklist.
 - `reports/real_pipeline.json`: actual live real-data evidence and measured timings.
-- `data/` (local, ignored): Rhido's datasets/catalog and validated demo files.
+- `data/` (local, ignored): Ridho's datasets/catalog and validated demo files.
 
-## Rhido: data contract
+## Ridho: data contract
 
 Set `DATA_ROOT` to a local directory with `catalog.json`:
 
@@ -110,13 +110,13 @@ ascending or descending latitude, Gregorian datetime coordinates, one sample per
 calendar month, numeric values, NaN missing records, and an explicit `units`
 attribute matching the catalog exactly. Longitudes in [-180,180] or [0,360]
 normalize to [-180,180); duplicate cyclic endpoints are rejected. Curvilinear,
-extra level dimensions and non-Gregorian calendars need preprocessing by Rhido.
+extra level dimensions and non-Gregorian calendars need preprocessing by Ridho.
 
 Subsetting selects cell centers, not fractional polygon intersections. Dateline
 crossing boxes use west > east. Monthly means use cosine-latitude weights on a
 regular latitude/longitude grid; this is not appropriate for irregular cell areas.
 All-missing time slices remain null. Varying finite spatial coverage is disclosed;
-Rhido should supply stable masks. No interpolation or unit conversion is applied.
+Ridho should supply stable masks. No interpolation or unit conversion is applied.
 Annual `mean` is an equal-month mean, suitable for monthly state variables.
 Annual `sum` requires additive monthly amounts (e.g. mm accumulated per month);
 convert rates and daily data upstream. Slash-form rate units are rejected for sums.
@@ -201,13 +201,17 @@ References: [SciPy Theil-Sen](https://docs.scipy.org/doc/scipy/reference/generat
 [pyMannKendall implementation and Hamed-Rao method](https://github.com/mmhs013/pyMannKendall),
 [Benjamini-Yekutieli (2001)](https://doi.org/10.1214/aos/1013699998).
 
-## Rhido / Ayesha: prepared demos
+## Ridho / Ayesha: prepared demos
 
-Provide `DATA_ROOT/demos/{sahel,amazon,arctic}.json` with the DemoResponse schema
+The current public prepared-case selection retains Sahel and Arctic. Provide
+`DATA_ROOT/demos/{sahel,arctic}.json` with the DemoResponse schema
 from `/openapi.json`: `case`, `available:true`, `provenance`, `source`,
 `validated_by`, `message`, and `result` containing a full TrendResponse or
 ParadoxResponse. Result provenance must match the envelope. Scientifically validated
 cases require a validator name; unreviewed precomputes set validated=false.
+Legacy Amazon artifacts remain readable through the existing endpoint, but that
+case is deferred from the public list. Keep the Arctic point-sample limitations
+and the western Sahel subset boundaries explicit.
 Include product/version/citation and case rationale in source
 and message. Files are checked against schemas; no invented case outputs are shipped.
 

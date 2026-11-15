@@ -139,6 +139,7 @@ def test_prepared_cases_are_discoverable_and_readable_offline(client, tmp_path):
     (root / 'demos').mkdir()
     (root / 'demos' / 'arctic.json').write_text(prepared.model_dump_json(), encoding='utf-8')
     cases = {case['id']: case for case in client.get('/api/cases').json()}
+    assert set(cases) == {'sahel', 'arctic'}
     assert cases['arctic']['available'] and not cases['arctic']['validated']
     assert not cases['sahel']['available']
     assert client.get('/api/demo/arctic').json()['provenance'] == 'mock'

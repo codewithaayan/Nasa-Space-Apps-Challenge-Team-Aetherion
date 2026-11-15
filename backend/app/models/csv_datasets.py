@@ -34,6 +34,7 @@ class CsvDataset(ScientificModel):
     scientific_review: Literal['unreviewed'] = 'unreviewed'
     storage_format: Literal['csv', 'netcdf', 'zarr', 'synthetic'] = 'csv'
     temporal_coverage: list[str]
+    latest_record: Point | None = None
     finite_months: int | None = None
     monthly_slots: int
     requested_bbox: list[float] | None = None

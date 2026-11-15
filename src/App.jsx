@@ -7,7 +7,7 @@ import { EarthGlobe3D } from "./components/EarthGlobe3D";
 import { CatalogProvider, useCatalog, Wizard, Lab, CaseFiles, CaseFileDetails, Compare, PreparedCase } from "./features/Investigations";
 
 function Home() {
-  const { datasets } = useCatalog();
+  const { datasets, loading, error } = useCatalog();
   return (
     <div>
       <section className="hero page-wrap">
@@ -15,11 +15,11 @@ function Home() {
           <Eyebrow>EARTH INTELLIGENCE / INVESTIGATION SYSTEM</Eyebrow>
           <h1>Earth is changing.<br /><span>Are you seeing</span><br />the whole story?</h1>
           <p>Investigate environmental trends, uncover local differences, and discover whether the evidence is statistically significant.</p>
-          <div className="hero-actions"><Link to="/wizard" className="button button-primary">OPEN AN INVESTIGATION <ArrowRight size={16} /></Link><Link to="/cases" className="button button-secondary">EXPLORE DEMO CASES</Link></div>
+          <div className="hero-actions"><Link to="/wizard" className="button button-primary">OPEN AN INVESTIGATION <ArrowRight size={16} /></Link><Link to="/cases" className="button button-secondary">EXPLORE CASE FILES</Link></div>
           <div className="hero-proof"><span><b>06</b> CITY LOCATIONS</span><i /><span><b>NASA</b> EARTH SCIENCE</span><i /><span><b>01</b> MISSION: FIND THE TREND</span></div>
         </div>
         <div className="hero-visual" aria-label="Interactive 3D Earth observation visualization">
-          <EarthGlobe3D />
+          <EarthGlobe3D datasets={datasets} loading={loading} error={error} />
         </div>
       </section>
       <section className="page-wrap home-section">
@@ -55,7 +55,7 @@ function CityCard({ location, index }) {
       <div className="city-card-content">
         <div className="city-card-kicker"><span>{location.code}</span><span className="available"><i /> {available ? "SOURCE EXPORTS" : "AWAITING DATA"}</span></div>
         <h3>{location.name}</h3><p>{location.kind} · {location.province}, Pakistan</p>
-        <div className="city-card-bottom"><span>{available ? "EXPLORATORY INVESTIGATION" : "PLANNED CASE"}</span><Link to="/wizard" state={{ locationId: location.id }} aria-label={`Investigate ${location.name}`} className="round-arrow"><ArrowRight size={17} /></Link></div>
+        <div className="city-card-bottom"><span>{available ? "EXPLORATORY INVESTIGATION" : "DATA NOT AVAILABLE"}</span><Link to="/wizard" state={{ locationId: location.id }} aria-label={`Investigate ${location.name}`} className="round-arrow"><ArrowRight size={17} /></Link></div>
       </div>
     </article>
   );
@@ -68,7 +68,7 @@ function FeatureCard({ icon: Icon, number, title, text }) {
 const teamMembers = [
   { name: "Aayan", role: "Frontend development", contribution: "Shapes the interface and makes the investigation tools clear and usable." },
   { name: "Abdullah", role: "Backend & scientific calculations", contribution: "Builds the APIs, data schemas and analysis that support each investigation." },
-  { name: "Rhido", role: "NASA data & platform operations", contribution: "Works on data ingestion, cataloguing, caching and prepared case materials." },
+  { name: "Ridho", role: "NASA data & platform operations", contribution: "Works on data ingestion, cataloguing, caching and prepared case materials." },
   { name: "Waseel", role: "Analysis workflow & validation support", contribution: "Develops the investigation wizard and verdict experience, with scientific validation support." },
   { name: "Ayesha", role: "Research & presentation", contribution: "Leads research and helps communicate the project and its findings through presentation." },
 ];

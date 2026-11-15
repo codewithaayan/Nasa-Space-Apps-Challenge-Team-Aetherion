@@ -10,6 +10,7 @@ export default defineConfig({
   reporter:'list',
   use:{
     baseURL:'http://127.0.0.1:8765',
+    locale:'en-US',
     headless:true,
     ...(process.env.PLAYWRIGHT_CHANNEL ? {channel:process.env.PLAYWRIGHT_CHANNEL} : {}),
     screenshot:'only-on-failure',

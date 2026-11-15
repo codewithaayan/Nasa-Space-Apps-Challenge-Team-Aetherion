@@ -36,6 +36,7 @@ def test_default_catalog_discovers_every_registered_city(regional_client):
             assert dataset['source_variable']
             assert dataset['scientific_review'] == 'unreviewed'
             assert dataset['provenance'] == 'source_export'
+            assert dataset['latest_record']['time'] == dataset['temporal_coverage'][-1][:7]
             assert not dataset['spatial_analysis_available']
             expected_months = (229 if city == 'karachi' else 237) if dataset['topic'] == 'precipitation' else 240
             assert dataset['monthly_slots'] == expected_months
@@ -54,6 +55,7 @@ def test_each_new_export_supports_analysis_and_wizard_without_mutation(regional_
     assert len(analysis['series']) == dataset['monthly_slots'] == months
     assert analysis['trend']['samples'] == dataset['finite_months']
     assert dataset['source_sha256'] == before[dataset['source_file']]
+    assert dataset['latest_record'] == analysis['series'][-1]
     assert dataset['units'] in analysis['trend']['slope_units']
     assert analysis['verdict']['provenance'] == 'source_export'
     assert analysis['warnings'] and not analysis['feature_status']['paradox']['available']
