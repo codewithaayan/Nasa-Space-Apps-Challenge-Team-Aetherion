@@ -23,7 +23,17 @@ set DATA_ROOT to the absolute Data/Sahel directory; never replace team catalogs.
    All 99 centres render, including unsupported/unavailable inference, with
    tooltips giving the cell label, slope and raw p-value.
 5. The Paradox Finder panel retains counts and the map when no opposing trends
-   are supported. City investigations offer an OPEN SAHEL GRID link.
+   are supported. Completing the wizard starts all supported analysis in the lab
+   automatically, including the selected region's cell map. There is no separate
+   grid-opening or second Run step. Editing the selection clears results and
+   requires Run again, so stale results cannot be mistaken for the new selection.
+
+City averages show their mapping limitation as soon as their metadata loads;
+they never display Sahel as a replacement for a city investigation. Western
+Sahel remains selectable as its own region in the normal wizard and lab.
+Years-to-Significance is explicitly labelled Coming soon until a validated
+model exists; no numerical prediction is manufactured. Technical prerequisite
+messages are not presented as an unfinished calculation in the result card.
 
 Open /lab?dataset=grid__sahel_precipitation and click RUN ANALYSIS. The 2001–2024
 sample has 288 months, 36 supported increases, zero supported decreases,
@@ -39,16 +49,22 @@ Sahel hashes first, then bundles its catalog and NetCDFs. No Documents directory
 or Windows-specific data path is required. An explicit DATA_ROOT pointing
 elsewhere will still exclude Sahel; configure it deliberately if necessary.
 
-Publish/redeploy backend and frontend only after approval. Production remains
-unchanged until then. No push, merge, PR or deployment is part of this fix.
+Code publication and production deployment are separate steps. Publish/redeploy
+backend and frontend only after approval, and verify the live catalog and map;
+updating main alone does not prove that the public site has changed.
+
+Programmatic map fitting does not animate, and map zoom transitions are disabled
+inside the investigation panel. This prevents a queued Leaflet zoom callback
+from accessing a removed map when a region changes or a case report opens.
 
 ## Checks
 
 - backend/tests/test_sahel_grid.py: real NASA hashes, default catalog, override
   isolation, all 36 CSVs retained, wizard, real map with paradox=false,
   standalone /api/paradox agreement and city prerequisite behavior.
-- tests/e2e/sahel.spec.js: real-data server on port 8767; city-to-grid link,
-  99 Leaflet markers, tooltip, negative paradox finding and report map. All
+- tests/e2e/sahel.spec.js: real-data server on port 8767; one wizard submission,
+  automatic chart and 99-cell map, tooltip, negative paradox finding, report map,
+  explicit city limitations and readable unfinished-feature status. All
   external browser requests are blocked; basemap tiles aren't required.
 - Existing synthetic-grid tests still cover supported opposing trends and
   single-cell prerequisites without claiming fixtures are NASA measurements.

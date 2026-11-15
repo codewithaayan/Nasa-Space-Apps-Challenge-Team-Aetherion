@@ -89,7 +89,7 @@ export function Wizard() {
       const { data } = await api.submitWizard({ dataset_id: dataset?.id, location: place, topic, ...dateParams(start,end) });
       if (!data.available) { setMessage(data.explanation); return; }
       const selection = data.selection;
-      navigate('/lab?' + new URLSearchParams({ dataset: selection.dataset_id, start: month(selection.start), end: month(selection.end) }).toString());
+      navigate('/lab?' + new URLSearchParams({ dataset: selection.dataset_id, start: month(selection.start), end: month(selection.end) }).toString(), { state: { runInvestigation: true } });
     } catch (e) { setMessage(errorMessage(e)); }
     finally { setSubmitting(false); }
   };
@@ -153,16 +153,19 @@ function Statistics({ result }) {
     ['MONTHLY COVERAGE',result ? `${number(result.dataset.finite_months / result.dataset.monthly_slots * 100)}%` : '—','Within the selected period'],
   ].map(([label,value,note]) => <div className="stat-card" key={label}><span>{label}</span><b>{value}</b><small>{note}</small></div>)}</div><div className="beginner-note">Statistical significance does not establish a cause. An unsupported trend does not prove an absence of change.</div></section>;
 }
-function PendingFeatures({ result }) {
+function PendingFeatures({ result, dataset = result?.dataset, loading = false }) {
   const spatial = result?.paradox;
   const years = result?.years_to_significance;
-  const { datasets } = useCatalog();
-  const grid = datasets.find(dataset => dataset.spatial_analysis_available && dataset.data_kind !== 'synthetic');
+  const supportsMap = dataset?.spatial_analysis_available;
+  const mapStatus = spatial ? 'GRID ANALYSED' : loading && supportsMap ? 'CALCULATING' : !dataset ? 'SELECT A DATASET' : supportsMap ? 'INCLUDED IN INVESTIGATION' : 'UNAVAILABLE FOR THIS DATASET';
+  const mapReason = result?.feature_status?.paradox?.reason || (supportsMap
+    ? 'Local cell trends will be calculated when you run this investigation.'
+    : 'This dataset does not contain multiple grid-cell histories, so a local trend map cannot be calculated.');
   return <div className="lab-feature-grid">
-    <section className="feature-result-panel"><div className="panel-heading"><h2><Layers3 size={17} /> Paradox Finder</h2><span className="status-chip">{spatial ? 'GRID ANALYSED' : 'PREREQUISITE PENDING'}</span></div>
-      {spatial ? <><p>{spatial.opposing_trends ? 'Supported increases and decreases meet the regional screening rule.' : 'No statistically supported opposing trends found. Cell trends are still shown on the map.'}</p><Evidence label="MAPPED CELLS" value={spatial.cells.length} /><Evidence label="TESTABLE CELLS" value={spatial.valid_cells} /><Evidence label="INCREASING SHARE" value={`${number(spatial.increasing_proportion * 100)}%`} /><Evidence label="DECREASING SHARE" value={`${number(spatial.decreasing_proportion * 100)}%`} /><p className="source-description">Map slopes describe annual {spatial.variable.annual_aggregation === 'sum' ? 'totals' : 'means'}; the chart trend describes monthly values. Shares count testable cells, not geographic area. Cell significance includes Benjamini-Yekutieli FDR correction.</p></> : <><p>{result?.feature_status?.paradox?.reason || 'Run an analysis to check whether per-cell monthly histories are available.'}</p>{grid && <Link className="text-link" to={`/lab?${new URLSearchParams({dataset:grid.id})}`}>OPEN {grid.location_id === 'sahel' ? 'SAHEL GRID' : 'REGIONAL GRID'}<ArrowRight size={15} /></Link>}</>}
+    <section className="feature-result-panel"><div className="panel-heading"><h2><Layers3 size={17} /> Paradox Finder</h2><span className="status-chip">{mapStatus}</span></div>
+      {spatial ? <><p>{spatial.opposing_trends ? 'Supported increases and decreases meet the regional screening rule.' : 'No statistically supported opposing trends found. Cell trends are still shown on the map.'}</p><Evidence label="MAPPED CELLS" value={spatial.cells.length} /><Evidence label="TESTABLE CELLS" value={spatial.valid_cells} /><Evidence label="INCREASING SHARE" value={`${number(spatial.increasing_proportion * 100)}%`} /><Evidence label="DECREASING SHARE" value={`${number(spatial.decreasing_proportion * 100)}%`} /><p className="source-description">Map slopes describe annual {spatial.variable.annual_aggregation === 'sum' ? 'totals' : 'means'}; the chart trend describes monthly values. Shares count testable cells, not geographic area. Cell significance includes Benjamini-Yekutieli FDR correction.</p></> : <p>{!dataset ? 'Choose a dataset to see whether local trend mapping is available.' : loading && supportsMap ? 'Calculating local trends for the selected region...' : mapReason}</p>}
     </section>
-    <section className="feature-result-panel"><div className="panel-heading"><h2><Clock3 size={17} /> Years to significance</h2><span className="status-chip">{years?.estimate_years != null ? 'MODEL ESTIMATE' : 'MODEL PENDING'}</span></div><p>{years?.estimate_years != null ? `${number(years.estimate_years)} years under the stated model assumptions.` : result?.feature_status?.years_to_significance?.reason || 'A validated model of future effect and noise is required.'}</p>{years && <><p className="source-description">{years.method}</p><Warnings items={[...years.assumptions,...years.warnings]} /></>}</section>
+    <section className="feature-result-panel"><div className="panel-heading"><h2><Clock3 size={17} /> Years to significance</h2><span className="status-chip">{years?.estimate_years != null ? 'MODEL ESTIMATE' : 'COMING SOON'}</span></div><p>{years?.estimate_years != null ? `${number(years.estimate_years)} years under the stated model assumptions.` : 'Estimates of how much additional data is needed are not available yet.'}</p>{years?.estimate_years != null && <><p className="source-description">{years.method}</p><Warnings items={[...years.assumptions,...years.warnings]} /></>}</section>
   </div>;
 }
 function Summary({ result }) {
@@ -176,6 +179,7 @@ function Provenance({ dataset }) {
 export function Lab() {
   const initial = useLocation().state;
   const [query,setQuery] = useSearchParams();
+  const [initialRunKey] = useState(() => initial?.runInvestigation ? query.toString() : null);
   const { datasets, places, topics } = useCatalog();
   const selectedId = query.get('dataset');
   const selected = datasets.find(d => d.id === selectedId);
@@ -196,7 +200,10 @@ export function Lab() {
     if (dataset) next.set('dataset',dataset.id);
     next.set('start',start); next.set('end',end); next.set(name,value); setQuery(next);
   };
-  const { result,error,loading,run } = useAnalysis(dataset,start,end,false,bbox);
+  // A completed wizard runs its entire selected investigation once. Editing the
+  // selection clears those results and returns control to the Run button.
+  const autoRun = initialRunKey !== null && initialRunKey === query.toString();
+  const { result,error,loading,run } = useAnalysis(dataset,start,end,autoRun,bbox);
   const activeDataset = result?.dataset || dataset;
   const label = dataset?.name || topics.find(v => v.id === topic)?.name;
   const invalid = selectionError(dataset,start,end);
@@ -212,7 +219,7 @@ export function Lab() {
     {error && <div className="inline-error" role="alert">{error}</div>}<div role="status" className="analysis-progress" aria-live="polite">{loading ? 'Calculating seasonal adjustment, trend and uncertainty...' : result ? 'Analysis complete; scientifically unreviewed' : ''}</div>
     <div className="lab-main-grid"><section className="panel"><div className="panel-heading"><h2>Investigation area</h2><span className="status-chip">{result?.paradox ? 'CELL TREND LAYER' : 'LOCATION REFERENCE'}</span></div><MapPanel activeLocation={place} dataset={activeDataset} paradox={result?.paradox} height="320px" /><p className="source-description">{activeDataset?.spatial_support || 'Location reference only. Source coverage has not been supplied.'}</p></section><section className="panel"><div className="panel-heading"><h2>Evidence and source</h2><span className="status-chip">{result ? 'ANALYSED' : 'NOT RUN'}</span></div>{activeDataset ? <Provenance dataset={activeDataset} /> : <StatusNotice>This selection is awaiting a registered dataset.</StatusNotice>}</section></div>
     <section className="panel chart-panel"><div className="panel-heading"><h2>{label} {dataset && <small>({dataset.units})</small>}</h2></div><TrendChart variableName={label} unit={dataset?.units} analysis={result} /></section>
-    <Statistics result={result} /><PendingFeatures result={result} /><Summary result={result} />
+    <Statistics result={result} /><PendingFeatures result={result} dataset={activeDataset} loading={loading} /><Summary result={result} />
     {activeDataset && <section className="panel"><h2>Interpretation and limitations</h2><Warnings items={result?.warnings || dataset.limitations} />{result?.trend && <details><summary>Calculation methods</summary>{Object.entries(result.trend.methods).map(([key,value]) => <Evidence key={key} label={key.toUpperCase()} value={value} />)}</details>}</section>}
     <div className="lab-bottom-actions">{result && <Link className="button button-primary" to={`/cases/${place}?${reportQuery}`}>OPEN CASE REPORT<ArrowRight size={16} /></Link>}<Link className="button button-secondary" to="/compare">COMPARE CITIES</Link></div>
   </div>;

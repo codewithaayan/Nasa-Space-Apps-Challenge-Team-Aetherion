@@ -75,7 +75,6 @@ test('wizard validates real precipitation coverage, plots it and prints a report
   await page.getByRole('button',{name:'CONTINUE'}).click();
   await page.getByRole('button',{name:'BEGIN INVESTIGATION'}).click();
   await expect(page).toHaveURL(/\/lab\?dataset=karachi_precipitation/);
-  await page.getByRole('button',{name:'RUN ANALYSIS'}).click();
   await expect(page.getByRole('status').filter({hasText:'Analysis complete'})).toBeVisible();
   const plot=page.locator('.js-plotly-plot');
   await expect.poll(() => plot.evaluate(node => node.data?.length)).toBe(3);
@@ -149,7 +148,6 @@ test('all six cities are discoverable and a new-city wizard respects its actual 
   await expect(page.getByText('mm/hr',{exact:true}).first()).toBeVisible();
   await page.getByRole('button',{name:'BEGIN INVESTIGATION'}).click();
   await expect(page).toHaveURL(/dataset=gilgit_precipitation/);
-  await page.getByRole('button',{name:'RUN ANALYSIS'}).click();
   await expect(page.getByRole('status').filter({hasText:'Analysis complete'})).toBeVisible();
   expect(await page.locator('.js-plotly-plot').evaluate(node => node.data[0].y.length)).toBe(237);
 });

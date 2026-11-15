@@ -36,7 +36,7 @@ function Home() {
         <SectionHeading label="TOOLS FOR THE CURIOUS" title="Look beyond the line." description="Tools built to make careful environmental investigation easier to understand." />
         <div className="feature-grid">
           <FeatureCard icon={Layers3} number="01" title="Paradox Finder" text="See whether significant rising and falling trends coexist across one region." />
-          <FeatureCard icon={Clock3} number="02" title="Years-to-Significance" text="Explore a cautious estimate of how much additional evidence might be needed." />
+          <FeatureCard icon={Clock3} number="02" title="Years-to-Significance" text="Coming soon. Estimates of how much additional data is needed are not available yet." />
           <FeatureCard icon={ClipboardList} number="03" title="Case File Verdict" text="Read a short, plain-language summary grounded in computed statistics." />
           <FeatureCard icon={Search} number="04" title="Detective Wizard" text="Build a focused investigation by choosing a topic, place and time period." />
         </div>
