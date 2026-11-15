@@ -61,14 +61,18 @@ does not need to trigger a second workflow.
 
 Two repository Actions secrets are required:
 
-- `VERCEL_TOKEN`: dedicated token scoped to this Vercel API project.
+- `VERCEL_TOKEN`: dedicated token for the `ridhofrds-projects` workspace. The
+  dashboard-created token uses team scope; it can access other projects in that
+  workspace. Project-scoped CLI token creation was refused by the CLI sign-in.
 - `CLOUDFLARE_API_TOKEN`: Account / Cloudflare Pages / Edit, restricted to the
   account containing the existing Pages project.
 
-These credentials belong in GitHub's encrypted Actions secrets, never in source
+These credentials are saved in GitHub's encrypted Actions secrets, never in source
 or a frontend `.env`. Project IDs and public URLs can be committed. Rotate tokens
 in the provider dashboard and replace the corresponding GitHub secret if expired
 or revoked. Interactive CLI OAuth credentials are not copied into the workflow.
+The Vercel token currently has no automatic expiry. It remains revocable in the
+Vercel dashboard; account and free-plan restrictions still apply.
 
 The API's existing Vercel environment contains `MOCK_DATA=false`, the stable Pages
 origin in `ALLOWED_ORIGINS`, and the numerical-library thread settings. Provider
@@ -112,3 +116,15 @@ provider dashboard is not required.
 
 The setup changes only Rhido's fork and the existing hosting projects. The team
 repository's approval policy continues to apply to pushes, merges and PRs there.
+
+## Setup verification (2026-11-15)
+
+- Upstream and fork `main` matched `74669c659ab09a58d3456b9fb215e3f406e9ccb7`.
+- [The first release](https://github.com/ridhofrd/Rozenweig-Index/actions/runs/43702205640)
+  passed 78 backend tests, 8 browser tests, both provider deployments and live
+  verification of frontend routes, real source data and CORS.
+- [An unchanged follow-up run](https://github.com/ridhofrd/Rozenweig-Index/actions/runs/43702848174)
+  completed successfully and skipped validation/deployment, confirming that the
+  schedule does not repeatedly publish the same successful source/control pair.
+- Documentation commits advance the control-branch SHA and cause one fresh
+  validation/release at the next check, even when the application is unchanged.
