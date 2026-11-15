@@ -156,8 +156,8 @@ test('all six cities are discoverable and a new-city wizard respects its actual 
 
 test('comparison selectors analyze new cities and reject different evaporation components',async ({page}) => {
   await page.goto('/compare');
-  await page.getByLabel('Left comparison location').selectOption('gilgit');
-  await page.getByLabel('Right comparison location').selectOption('islamabad');
+  await page.getByLabel('First comparison place').selectOption('gilgit');
+  await page.getByLabel('Second comparison place').selectOption('islamabad');
   await expect(page.getByRole('button',{name:'RUN COMPARISON'})).toBeEnabled();
   await page.getByRole('button',{name:'RUN COMPARISON'}).click();
   await expect.poll(() => page.locator('.js-plotly-plot').evaluateAll(nodes => nodes.every(node => node.data?.length === 3))).toBe(true);
@@ -166,8 +166,8 @@ test('comparison selectors analyze new cities and reject different evaporation c
   const first = await page.locator('.js-plotly-plot').evaluateAll(nodes => nodes.map(node => node.data[0].y[0]));
   expect(first[0]).toBeCloseTo(258.963501);
   expect(first[1]).toBeCloseTo(283.368317);
-  await page.getByLabel('Right comparison location').selectOption('quetta');
-  await page.getByLabel('Left comparison location').selectOption('lahore');
+  await page.getByLabel('Second comparison place').selectOption('quetta');
+  await page.getByLabel('First comparison place').selectOption('lahore');
   await page.getByLabel('Comparison variable').selectOption('evaporation');
   await expect(page.getByText(/Comparison needs matching product/)).toBeVisible();
   await expect(page.getByText('Direct evaporation from bare soil (energy flux) · W m-2',{exact:true})).toBeVisible();
@@ -195,12 +195,16 @@ test('comparison selectors submit the selected pair from all six cities',async (
   await page.goto('/compare');
   const firstPlace=page.getByLabel('First comparison place');
   const secondPlace=page.getByLabel('Second comparison place');
-  await expect(firstPlace.locator('option')).toHaveText(['Karachi','Lahore','Islamabad','Quetta','Peshawar','Gilgit']);
+  // Offline grid fixtures may add a source-defined region alongside the six cities.
+  await expect.poll(() => firstPlace.locator('option').allTextContents()).toEqual(
+    expect.arrayContaining(['Karachi','Lahore','Islamabad','Quetta','Peshawar','Gilgit']));
   await firstPlace.selectOption('quetta');
   await secondPlace.selectOption('gilgit');
   await expect.poll(() => comparisonRequests.some(request => request.left_location === 'quetta' && request.right_location === 'gilgit')).toBe(true);
   await expect(page.locator('.compare-city h2')).toHaveText(['Quetta','Gilgit']);
-  await expect(page.getByText('Quetta is awaiting a compatible dataset.')).toBeVisible();
+  await expect(page.getByRole('button',{name:'RUN COMPARISON'})).toBeEnabled();
+  await page.getByRole('button',{name:'RUN COMPARISON'}).click();
+  await expect.poll(() => page.locator('.js-plotly-plot').evaluateAll(nodes => nodes.length === 2 && nodes.every(node => node.data?.length === 3))).toBe(true);
 });
 
 test('city selection is available from the selected location panel without a target bar',async ({page}) => {
@@ -270,6 +274,6 @@ test('mobile investigation and report layouts fit without horizontal scrolling',
   await expect(page.getByRole('button',{name:'PRINT / SAVE AS PDF'})).toBeEnabled();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.goto('/compare');
-  await page.getByLabel('Right comparison location').selectOption('islamabad');
+  await page.getByLabel('Second comparison place').selectOption('islamabad');
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
