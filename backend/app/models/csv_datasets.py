@@ -5,18 +5,28 @@ from pydantic import Field
 from app.models.schemas import Point, ScientificModel, TrendResult, ParadoxResponse
 
 
+class UnitConversion(ScientificModel):
+    source_units: str
+    target_units: str
+    factor: float = Field(gt=0)
+    method: str
+
+
 class CsvDataset(ScientificModel):
     id: str
     location_id: str
     topic: str
     name: str
     units: str
+    source_units: str | None = None
+    unit_conversion: UnitConversion | None = None
     source: str
     source_url: str | None = None
     documentation_url: str | None = None
     source_file: str | None = None
     source_sha256: str | None = None
     source_revision: str | None = None
+    source_variable: str | None = None
     dataset_id: str | None = None
     version: str | None = None
     data_kind: Literal['satellite_estimate', 'reanalysis', 'model', 'observation', 'synthetic'] | None = None

@@ -29,7 +29,9 @@ test('wizard validates real precipitation coverage, plots it and prints a report
   const plot=page.locator('.js-plotly-plot');
   await expect.poll(() => plot.evaluate(node => node.data?.length)).toBe(3);
   expect(await plot.evaluate(node => node.data[0].y.length)).toBe(120);
-  await expect(page.getByText('inch/day',{exact:true}).first()).toBeVisible();
+  await expect(page.getByText('mm/hr',{exact:true}).first()).toBeVisible();
+  await expect(page.getByText('inch/day',{exact:true})).toBeVisible();
+  await expect(page.getByText(/Precipitation rates converted from inch\/day to mm\/hr/)).toBeVisible();
   await page.getByRole('link',{name:'OPEN CASE REPORT'}).click();
   await expect(page.getByRole('button',{name:'PRINT / SAVE AS PDF'})).toBeEnabled();
   await expect(page.locator('.js-plotly-plot')).toBeVisible();
@@ -61,13 +63,77 @@ test('short ranges retain source values, and refresh preserves selections',async
   await expect(page.getByRole('button',{name:'RUN ANALYSIS'})).toBeDisabled();
 });
 
-test('missing Lahore data and regional prerequisites are explicit backend states',async ({page}) => {
-  await page.goto('/lab');
-  await page.getByLabel('Location',{exact:true}).selectOption('lahore');
-  await expect(page.getByRole('button',{name:'RUN ANALYSIS'})).toBeDisabled();
+test('real Lahore data enables analysis and only compatible city comparisons',async ({page}) => {
+  await page.goto('/lab?dataset=lahore_temperature');
+  await page.getByRole('button',{name:'RUN ANALYSIS'}).click();
+  await expect(page.getByRole('status').filter({hasText:'Analysis complete'})).toBeVisible();
+  expect(await page.locator('.js-plotly-plot').evaluate(node => node.data[0].y[0])).toBeCloseTo(285.582916);
+  await expect(page.getByText('No per-cell monthly grid is included; regional trend mapping and Paradox Finder are unavailable.')).toBeVisible();
   await page.goto('/compare');
-  await expect(page.getByText('Lahore is awaiting a compatible dataset.')).toBeVisible();
+  await expect(page.getByRole('button',{name:'RUN COMPARISON'})).toBeEnabled();
+  await page.getByRole('button',{name:'RUN COMPARISON'}).click();
+  await expect.poll(() => page.locator('.js-plotly-plot').evaluateAll(nodes => nodes.every(node => node.data?.length === 3))).toBe(true);
+  await page.getByLabel('Comparison variable').selectOption('soil_moisture');
+  await expect(page.getByText(/Comparison needs matching product/)).toBeVisible();
   await expect(page.getByRole('button',{name:'RUN COMPARISON'})).toHaveCount(0);
+  await page.getByLabel('Comparison variable').selectOption('precipitation');
+  await expect(page.getByRole('button',{name:'RUN COMPARISON'})).toBeEnabled();
+  await expect(page.getByLabel('End month')).toHaveValue('2025-01');
+  await expect(page.getByText('Precipitation rate · mm/hr',{exact:true})).toHaveCount(2);
+});
+
+test('all six cities are discoverable and a new-city wizard respects its actual coverage',async ({page}) => {
+  await page.goto('/');
+  for (const name of ['Karachi','Lahore','Gilgit','Islamabad','Peshawar','Quetta']) {
+    await expect(page.getByRole('link',{name:`Investigate ${name}`,exact:true})).toBeVisible();
+  }
+  await page.getByRole('link',{name:'Investigate Gilgit',exact:true}).click();
+  await page.getByRole('button',{name:/^Precipitation/}).click();
+  await page.getByRole('button',{name:'CONTINUE'}).click();
+  await expect(page.getByRole('button',{name:/^Gilgit/})).toContainText('Source export available');
+  await page.getByRole('button',{name:'CONTINUE'}).click();
+  await expect(page.getByLabel('Start month')).toHaveValue('2006-01');
+  await expect(page.getByLabel('End month')).toHaveValue('2025-09');
+  await page.getByRole('button',{name:'CONTINUE'}).click();
+  await expect(page.getByText('mm/hr',{exact:true}).first()).toBeVisible();
+  await page.getByRole('button',{name:'BEGIN INVESTIGATION'}).click();
+  await expect(page).toHaveURL(/dataset=gilgit_precipitation/);
+  await page.getByRole('button',{name:'RUN ANALYSIS'}).click();
+  await expect(page.getByRole('status').filter({hasText:'Analysis complete'})).toBeVisible();
+  expect(await page.locator('.js-plotly-plot').evaluate(node => node.data[0].y.length)).toBe(237);
+});
+
+test('comparison selectors analyze new cities and reject different evaporation components',async ({page}) => {
+  await page.goto('/compare');
+  await page.getByLabel('Left comparison location').selectOption('gilgit');
+  await page.getByLabel('Right comparison location').selectOption('islamabad');
+  await expect(page.getByRole('button',{name:'RUN COMPARISON'})).toBeEnabled();
+  await page.getByRole('button',{name:'RUN COMPARISON'}).click();
+  await expect.poll(() => page.locator('.js-plotly-plot').evaluateAll(nodes => nodes.every(node => node.data?.length === 3))).toBe(true);
+  await expect(page.getByRole('heading',{name:'Gilgit',exact:true})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Islamabad',exact:true})).toBeVisible();
+  const first = await page.locator('.js-plotly-plot').evaluateAll(nodes => nodes.map(node => node.data[0].y[0]));
+  expect(first[0]).toBeCloseTo(258.963501);
+  expect(first[1]).toBeCloseTo(283.368317);
+  await page.getByLabel('Right comparison location').selectOption('quetta');
+  await page.getByLabel('Left comparison location').selectOption('lahore');
+  await page.getByLabel('Comparison variable').selectOption('evaporation');
+  await expect(page.getByText(/Comparison needs matching product/)).toBeVisible();
+  await expect(page.getByText('Direct evaporation from bare soil (energy flux) · W m-2',{exact:true})).toBeVisible();
+  await expect(page.getByText('Canopy water evaporation (energy flux) · W m-2',{exact:true})).toBeVisible();
+  await expect(page.getByRole('button',{name:'RUN COMPARISON'})).toHaveCount(0);
+});
+
+test('new-city reports retain NDVI geolocation caveats and missing datasets remain explicit',async ({page}) => {
+  await page.goto('/cases/quetta?dataset=quetta_ndvi');
+  await expect(page.getByRole('heading',{name:'Quetta case file'})).toBeVisible();
+  await expect(page.getByRole('button',{name:'PRINT / SAVE AS PDF'})).toBeEnabled();
+  await expect(page.getByText(/Quetta is the supplied folder association/)).toBeVisible();
+  expect(await page.locator('.js-plotly-plot').evaluate(node => node.data[0].y.length)).toBe(240);
+  await expect(page.getByText(/contributing Count between 2352 and 2352/)).toBeVisible();
+  await page.goto('/lab?dataset=unregistered_dataset');
+  await expect(page.getByRole('button',{name:'RUN ANALYSIS'})).toBeDisabled();
+  await expect(page.getByText('This selection is awaiting a registered dataset.')).toBeVisible();
 });
 
 test('synthetic grids exercise the actual map contract without posing as NASA data',async ({page},testInfo) => {
@@ -121,5 +187,8 @@ test('mobile investigation and report layouts fit without horizontal scrolling',
   await page.screenshot({path:testInfo.outputPath('mobile-lab.png'),fullPage:true});
   await page.getByRole('link',{name:'OPEN CASE REPORT'}).click();
   await expect(page.getByRole('button',{name:'PRINT / SAVE AS PDF'})).toBeEnabled();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.goto('/compare');
+  await page.getByLabel('Right comparison location').selectOption('islamabad');
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });

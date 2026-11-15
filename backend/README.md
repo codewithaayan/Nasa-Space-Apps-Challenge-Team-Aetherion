@@ -1,26 +1,34 @@
 # Trend Detective: Case Files backend
 
-## Karachi CSV integration
+## Regional CSV integration
 
 The frontend now uses a shared CSV/grid contract under `/api`. See the
 [complete integration contract](docs/INTEGRATION.md) for wizard, verdict,
 comparison, cell maps, prepared cases, same-origin hosting and browser tests.
 Root-level data routes remain available for existing clients.
 
-Six supplied CSV exports are readable directly from repository `Data/Karachi`.
-Set `CSV_DATA_ROOT` for an alternate directory with a `manifest.json`.
+Thirty-six supplied CSV exports are readable from six city manifests under
+repository `Data/`: Karachi, Lahore, Gilgit, Islamabad, Peshawar and Quetta.
+`CSV_DATA_ROOT` may point to another multi-city root or directly to a collection
+with its own `manifest.json` (including the original `Data/Karachi`).
 `GET /datasets` discovers actual coverage and provenance; optional `location`
 filters the catalog. `GET /datasets/{id}/analysis` accepts optional ISO `start`
 and `end` dates, returning source values, a nullable trend, deterministic summary,
 and warnings. Short selections still return source values. Out-of-coverage or
 reversed dates are invalid. The existing gridded API below remains unchanged.
 
-No CSV is treated as a spatial grid. Units remain native, including precipitation
-rates in inch/day and temperature in K. Source conflicts and unverified NDVI
+No CSV is treated as a spatial grid. Precipitation is served in mm/hr for all
+cities. Karachi source rates are converted from inch/day using 25.4 / 24 before
+analysis; original bytes, source units and conversion metadata are preserved.
+Other quantities retain their source units, including temperature in K.
+Lahore bare-soil and Quetta canopy evaporation are energy fluxes in W m-2.
+`source_variable` identifies the actual exported field; comparison requires it
+to match, preventing different soil layers or evaporation components from being
+compared just because their product and units match. Source conflicts and unverified NDVI
 geolocation remain visible. See [CSV provenance and limitations](../Data/Karachi/README.md)
 and the [future collection backlog](../Data/FUTURE_DATA_REQUIREMENTS.md).
 `python -m scripts.verify_csv_pipeline` checks a running local backend, with an
-optional `--base-url`. Offline tests include all six real source-export pipelines.
+optional `--base-url`. Offline tests cover all 36 real source-export pipelines. See [regional data notes](../Data/README.md).
 
 Python 3.11–3.13 recommended. FastAPI serves synchronous scientific requests;
 Bulk NASA ingestion, AI, frontend and deployment remain teammate-owned.
@@ -213,7 +221,7 @@ validated future effect/noise model remain extension points. Client-provided
 statistics must never override authoritative calculations. Unsupported estimates
 remain null, with assumptions and limitations disclosed.
 
-Further real-data work includes compatible Lahore datasets and monthly spatial
+Further real-data work includes cross-city measurement harmonization and monthly spatial
 grids; source and scientific case review remain necessary.
 
 ## Earlier verification history

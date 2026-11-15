@@ -65,6 +65,7 @@ def _grid_info(meta, array, storage, path):
         topic=meta.topic or meta.id, name=meta.name, units=meta.units,
         source=meta.source, source_url=meta.source_url, dataset_id=meta.dataset_id,
         version=meta.version, source_file=path.name if path else None,
+        source_variable=meta.field or meta.id,
         source_revision=f'{stat.st_mtime_ns}:{stat.st_size}' if stat else 'deterministic-fixture',
         data_kind=meta.data_kind, provenance=meta.provenance, storage_format=storage,
         temporal_coverage=[str(first.start_time.date()), str(last.start_time.date())],

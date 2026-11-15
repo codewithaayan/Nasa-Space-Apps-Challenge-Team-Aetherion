@@ -101,11 +101,16 @@ def comparison(request: ComparisonRequest):
     left = next((d for d in datasets if d.topic == request.topic and d.location_id == request.left_location), None)
     right = next((d for d in datasets if d.topic == request.topic and d.location_id == request.right_location), None)
     base = {'left_dataset': left, 'right_dataset': right}
+    if request.left_location == request.right_location:
+        return ComparisonResponse(available=False, reason='Choose two different locations for comparison.', **base)
     if left is None or right is None:
         missing = request.left_location if left is None else request.right_location
         return ComparisonResponse(available=False, reason=f'{missing.title()} is awaiting a compatible dataset.', **base)
-    if not left.dataset_id or not left.version or (left.units, left.dataset_id, left.version, left.provenance, left.data_kind) != (right.units, right.dataset_id, right.version, right.provenance, right.data_kind):
-        return ComparisonResponse(available=False, reason='Comparison needs matching product, version, variable and units.', **base)
+    fields = ('units', 'dataset_id', 'version', 'source_variable', 'provenance', 'data_kind')
+    if not left.dataset_id or not left.version or not left.source_variable or any(
+            getattr(left, field) != getattr(right, field) for field in fields):
+        return ComparisonResponse(available=False,
+            reason='Comparison needs matching product, version, source variable (including soil depth) and units.', **base)
     first = max(left.temporal_coverage[0], right.temporal_coverage[0])
     last = min(left.temporal_coverage[1], right.temporal_coverage[1])
     if first > last:

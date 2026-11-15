@@ -3,7 +3,8 @@
 A React/Vite frontend and FastAPI backend for investigating environmental trends.
 Live app: [trend-detective-aetherion.pages.dev](https://trend-detective-aetherion.pages.dev).
 API: [health check](https://trend-detective-aetherion-api.vercel.app/api/health).
-The six supplied Karachi CSV exports now support dataset discovery, coverage-aware
+The 36 supplied CSV exports across Karachi, Lahore, Gilgit, Islamabad, Peshawar
+and Quetta support dataset discovery, coverage-aware
 date selection, monthly charts, seasonal adjustment, trend statistics and printable
 case reports. Statistics run in the backend; source files are read without changes.
 Results are exploratory and scientifically unreviewed.
@@ -56,8 +57,10 @@ the proxy. Set an absolute API origin only for separate hosting. The backend's
 `ALLOWED_ORIGINS` must include the actual frontend origin; defaults are
 `http://localhost:5173` and `http://127.0.0.1:5173`.
 
-`CSV_DATA_ROOT` defaults to `Data/Karachi` at the repository root. Its
-`manifest.json` declares source columns, product versions, units and limitations.
+`CSV_DATA_ROOT` defaults to `Data` at the repository root. Each city has a
+`manifest.json` declaring source columns, product versions, units and limitations.
+An explicit root containing its own manifest still exposes only that collection.
+See [regional catalog notes](Data/README.md) for the variable and unit differences.
 No database or conversion into a spatial grid is required. No files are downloaded
 at request time. See [CSV dataset notes](Data/Karachi/README.md).
 
@@ -66,15 +69,15 @@ imports it too; install dependencies at the root for either launch path.
 
 ## Frontend routes
 
-- `/` — project landing page and the Karachi/Lahore entry points
+- `/` — project landing page and six city investigation entry points
 - `/wizard` — topic, location, actual monthly coverage and review steps
 - `/lab` — monthly source values, adjusted values, trend, statistics and provenance
 - `/cases` and `/cases/:caseId` — source-backed, printable reports; dataset and dates can be linked in the URL
-- `/compare` — comparison using matching product/version/units and overlapping dates when both cities have data
+- `/compare` — selectable city pairs using matching product/version/source variable/units and overlapping dates
 - `/about` — plain-language science guide
 
 Maps remain location references. Paradox Finder awaits per-cell monthly grids;
-Lahore awaits compatible data. AI verdict and years-to-significance retain their
+All six cities have registered source exports; some cross-city measurements require harmonization before comparison. AI verdict and years-to-significance retain their
 planned scope and await their implementations and scientific validation. The
 current plain-language summary is deterministic and based on computed statistics.
 No positive trend or statistical significance is guaranteed.
