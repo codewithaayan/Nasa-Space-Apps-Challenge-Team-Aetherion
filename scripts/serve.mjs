@@ -50,6 +50,8 @@ if (process.argv.includes('--dev')) {
   if (!ready || stopping) { shutdown(1); }
   else {
   env.BACKEND_URL = `http://127.0.0.1:${port}`;
+  // dev:all runs both local services even when .env selects the live API.
+  env.VITE_API_BASE_URL = '/api';
   launch(process.execPath, [path.join(root,'node_modules','vite','bin','vite.js'),'--host','127.0.0.1','--port',env.FRONTEND_PORT || '5173','--strictPort'], root);
   }
 }

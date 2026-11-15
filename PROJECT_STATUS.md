@@ -1,4 +1,23 @@
-# Shared frontend and backend integration milestone 2026-11-14
+# Free deployment milestone 2026-11-15
+
+The app is live at https://trend-detective-aetherion.pages.dev using Cloudflare
+Pages and a Vercel Hobby FastAPI backend. Its public API is
+https://trend-detective-aetherion-api.vercel.app/api. Render required payment
+information even for the requested free service; the user chose the Vercel route.
+No card was added, paid plan selected, or Git push/merge/PR performed.
+
+The deployed application source is remote integration revision 40be667, preserving
+the team's newer frontend work. An isolated package includes the unchanged
+backend calculations and six real Karachi CSV exports. Local .env files now
+point to the live API; dev:all and offline tests explicitly select the local API.
+
+Verification: 72 backend tests and 8 browser integration tests passed. Live HTTP
+and browser checks passed for real-data analysis, charts, printable reports,
+mobile layout, source metadata and CORS. Local dev/preview origins were verified.
+Vercel CLI/plugin setup and MCP OAuth are configured; loading the new MCP tools
+requires a Codex reload. Details and a request-flow diagram: docs/DEPLOYMENT.md.
+
+## Shared frontend and backend integration milestone 2026-11-14
 
 The canonical frontend and existing backend now share CSV and NetCDF/Zarr dataset
 contracts under /api. Structured wizard validation, URL-persistent selections,

@@ -1,6 +1,8 @@
 # Trend Detective: Case Files
 
 A React/Vite frontend and FastAPI backend for investigating environmental trends.
+Live app: [trend-detective-aetherion.pages.dev](https://trend-detective-aetherion.pages.dev).
+API: [health check](https://trend-detective-aetherion-api.vercel.app/api/health).
 The six supplied Karachi CSV exports now support dataset discovery, coverage-aware
 date selection, monthly charts, seasonal adjustment, trend statistics and printable
 case reports. Statistics run in the backend; source files are read without changes.
@@ -18,8 +20,12 @@ After the Python environment and root npm dependencies are installed as below,
 run `npm run dev:all` from the repository root. It starts FastAPI on port 8000 and
 Vite on port 5173. `BACKEND_PORT` and `FRONTEND_PORT` select alternate local ports.
 The development proxy forwards `/api` to the backend.
+`dev:all` selects this local API even if `.env` points to the deployed backend.
+To run just the interface against the live API, use `npm run dev` with
+`VITE_API_BASE_URL=https://trend-detective-aetherion-api.vercel.app/api` in `.env`.
 
-For one-origin local production: run `npm run build`, then `npm start`. Open
+For one-origin local production: set `VITE_API_BASE_URL=/api` while running
+`npm run build`, then run `npm start`. Open
 `http://127.0.0.1:8000`. FastAPI serves the built interface, assets, API and direct
 report/case URLs. It does not require a separate static server.
 
@@ -112,6 +118,11 @@ wizard, charts, source units, date persistence, reports/printing, grid maps,
 prepared cases, comparisons, retry behavior and mobile layout.
 
 ## Build
+
+For Cloudflare Pages and Vercel hosting, see the [deployment walkthrough](docs/DEPLOYMENT.md).
+It explains the request flow, service settings, approved branch publication and
+live verification. `npm run build:cloud` requires an explicit deployed HTTPS
+`VITE_API_BASE_URL` ending in `/api`; ordinary local builds keep `/api` by default.
 
 ```sh
 npm run build
