@@ -23,7 +23,15 @@ class SelectionTooLarge(ValueError):
 
 
 def data_root() -> Path:
-    return Path(os.getenv('DATA_ROOT', str(Path(__file__).resolve().parents[2] / 'data'))).resolve()
+    if 'DATA_ROOT' in os.environ:
+        return Path(os.environ['DATA_ROOT']).resolve()
+    backend = Path(__file__).resolve().parents[2]
+    legacy = backend / 'data'
+    # Preserve an installed catalog; fresh checkouts/deployments use the bundled
+    # NASA grid. Explicit DATA_ROOT (including empty test roots) always wins.
+    if (legacy / 'catalog.json').exists():
+        return legacy.resolve()
+    return (backend.parent / 'Data' / 'Sahel').resolve()
 
 
 def local_path(value: str) -> Path:

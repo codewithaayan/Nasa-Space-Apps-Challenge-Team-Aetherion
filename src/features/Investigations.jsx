@@ -36,7 +36,7 @@ export function CatalogProvider({ children }) {
   const places = [...locations];
   const topics = [...variables];
   for (const dataset of datasets) {
-    if (!places.some(p => p.id === dataset.location_id)) places.push({ id: dataset.location_id, name: dataset.location_id === 'region' ? 'Dataset region' : dataset.location_id, province: 'Source-defined region' });
+    if (!places.some(p => p.id === dataset.location_id)) places.push({ id: dataset.location_id, name: dataset.location_id === 'region' ? 'Dataset region' : dataset.location_id === 'sahel' ? 'Western Sahel' : dataset.location_id, province: 'Source-defined region' });
     if (!topics.some(t => t.id === dataset.topic)) topics.push({ id: dataset.topic, name: dataset.name, description: 'A variable from the installed dataset catalog.' });
   }
   return <Catalog.Provider value={{ datasets, places, topics, preparedCases, casesError, loading, error, reload: () => setRevision(x => x + 1) }}>{children}</Catalog.Provider>;
@@ -156,9 +156,11 @@ function Statistics({ result }) {
 function PendingFeatures({ result }) {
   const spatial = result?.paradox;
   const years = result?.years_to_significance;
+  const { datasets } = useCatalog();
+  const grid = datasets.find(dataset => dataset.spatial_analysis_available && dataset.data_kind !== 'synthetic');
   return <div className="lab-feature-grid">
     <section className="feature-result-panel"><div className="panel-heading"><h2><Layers3 size={17} /> Paradox Finder</h2><span className="status-chip">{spatial ? 'GRID ANALYSED' : 'PREREQUISITE PENDING'}</span></div>
-      {spatial ? <><p>{spatial.opposing_trends ? 'Supported increases and decreases meet the regional screening rule.' : 'The opposing-trend screening rule was not met.'}</p><Evidence label="TESTABLE CELLS" value={spatial.valid_cells} /><Evidence label="INCREASING SHARE" value={`${number(spatial.increasing_proportion * 100)}%`} /><Evidence label="DECREASING SHARE" value={`${number(spatial.decreasing_proportion * 100)}%`} /><p className="source-description">Shares count testable cells, not geographic area. Cell significance includes Benjamini-Yekutieli FDR correction.</p></> : <p>{result?.feature_status?.paradox?.reason || 'Run an analysis to check whether per-cell monthly histories are available.'}</p>}
+      {spatial ? <><p>{spatial.opposing_trends ? 'Supported increases and decreases meet the regional screening rule.' : 'No statistically supported opposing trends found. Cell trends are still shown on the map.'}</p><Evidence label="MAPPED CELLS" value={spatial.cells.length} /><Evidence label="TESTABLE CELLS" value={spatial.valid_cells} /><Evidence label="INCREASING SHARE" value={`${number(spatial.increasing_proportion * 100)}%`} /><Evidence label="DECREASING SHARE" value={`${number(spatial.decreasing_proportion * 100)}%`} /><p className="source-description">Map slopes describe annual {spatial.variable.annual_aggregation === 'sum' ? 'totals' : 'means'}; the chart trend describes monthly values. Shares count testable cells, not geographic area. Cell significance includes Benjamini-Yekutieli FDR correction.</p></> : <><p>{result?.feature_status?.paradox?.reason || 'Run an analysis to check whether per-cell monthly histories are available.'}</p>{grid && <Link className="text-link" to={`/lab?${new URLSearchParams({dataset:grid.id})}`}>OPEN {grid.location_id === 'sahel' ? 'SAHEL GRID' : 'REGIONAL GRID'}<ArrowRight size={15} /></Link>}</>}
     </section>
     <section className="feature-result-panel"><div className="panel-heading"><h2><Clock3 size={17} /> Years to significance</h2><span className="status-chip">{years?.estimate_years != null ? 'MODEL ESTIMATE' : 'MODEL PENDING'}</span></div><p>{years?.estimate_years != null ? `${number(years.estimate_years)} years under the stated model assumptions.` : result?.feature_status?.years_to_significance?.reason || 'A validated model of future effect and noise is required.'}</p>{years && <><p className="source-description">{years.method}</p><Warnings items={[...years.assumptions,...years.warnings]} /></>}</section>
   </div>;

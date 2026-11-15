@@ -12,8 +12,9 @@ SOURCES = Path(__file__).resolve().parents[2] / 'Data' / 'Karachi'
 
 
 @pytest.fixture
-def csv_client(monkeypatch):
+def csv_client(monkeypatch, tmp_path):
     monkeypatch.setenv('CSV_DATA_ROOT', str(SOURCES))
+    monkeypatch.setenv('DATA_ROOT', str(tmp_path / 'no_grids'))
     with TestClient(app) as client:
         yield client
 

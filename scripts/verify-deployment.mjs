@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { parseArgs } from 'node:util';
 
-const { values } = parseArgs({ options: { frontend: { type: 'string' }, api: { type: 'string' } } });
+const { values } = parseArgs({ options: { frontend: { type: 'string' }, api: { type: 'string' }, 'require-sahel': { type: 'boolean', default: false } } });
 if (!values.frontend || !values.api) {
   throw new Error('Usage: npm run verify:deployment -- --frontend https://your-site.pages.dev --api https://your-backend.onrender.com/api');
 }
@@ -31,6 +31,15 @@ assert.equal(analysis.series.length, 120);
 assert.equal(analysis.dataset.provenance, 'source_export');
 assert(analysis.trend && analysis.summary && analysis.warnings.length, 'Expected real backend analysis with caveats');
 assert.equal(analysis.feature_status.paradox.available, false, 'City averages must not acquire a fabricated spatial grid');
+if (values['require-sahel']) {
+  const grid = datasets.find(d => d.id === 'grid__sahel_precipitation');
+  assert(grid?.spatial_analysis_available && grid.data_kind === 'reanalysis', 'Deploy the bundled real Sahel grid');
+  const spatial = await json('datasets/grid__sahel_precipitation/analysis');
+  assert.equal(spatial.series.length, 288);
+  assert.equal(spatial.paradox?.cells.length, 99, 'Return cell trends even without an opposing-trend finding');
+  assert.equal(spatial.paradox.opposing_trends, false);
+  assert.equal(spatial.feature_status.paradox.available, true);
+}
 const preflight = await request(new URL('wizard', api), { method: 'OPTIONS', headers: {
   Origin: frontend.origin, 'Access-Control-Request-Method': 'POST', 'Access-Control-Request-Headers': 'content-type',
 } });
