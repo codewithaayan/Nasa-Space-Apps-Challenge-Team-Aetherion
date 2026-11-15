@@ -1,10 +1,5 @@
 # Trend Detective: Case Files
 
-This is Rhido's **Rozenweig-Index** deployment fork. Its default `deployment`
-branch holds the automation; [`main`](https://github.com/ridhofrd/Rozenweig-Index/tree/main)
-mirrors the team's latest application. See [automatic deployment](AUTO_DEPLOYMENT.md)
-for the workflow, service settings and maintenance steps.
-
 A React/Vite frontend and FastAPI backend for investigating environmental trends.
 Live app: [trend-detective-aetherion.pages.dev](https://trend-detective-aetherion.pages.dev).
 API: [health check](https://trend-detective-aetherion-api.vercel.app/api/health).
