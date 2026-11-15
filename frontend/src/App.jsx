@@ -10,7 +10,8 @@ import { demoCases, demoNotice, locations, variables } from "./data";
 import { Layout, Eyebrow, SectionHeading, StatusNotice } from "./components/Layout";
 import { MapPanel } from "./components/MapPanel";
 import { TrendChart } from "./components/TrendChart";
-import { EarthArtwork, LocationArtwork, PageArtwork, TopicArtwork } from "./components/Artwork";
+import { LocationArtwork, PageArtwork, TopicArtwork } from "./components/Artwork";
+import { EarthGlobe3D } from "./components/EarthGlobe3D";
 import { api } from "./api/client";
 
 const topicInfo = {
@@ -31,12 +32,8 @@ function Home() {
           <div className="hero-actions"><Link to="/wizard" className="button button-primary">OPEN AN INVESTIGATION <ArrowRight size={16} /></Link><Link to="/cases" className="button button-secondary">EXPLORE DEMO CASES</Link></div>
           <div className="hero-proof"><span><b>02</b> INITIAL LOCATIONS</span><i /><span><b>NASA</b> EARTH SCIENCE</span><i /><span><b>01</b> MISSION: FIND THE TREND</span></div>
         </div>
-        <div className="hero-visual" aria-label="Illustrative Earth observation visualization">
-          <EarthArtwork />
-          <div className="visual-tag tag-top"><span className="signal" /> ORBITAL VIEW <b>01</b></div>
-          <div className="visual-tag tag-bottom"><span>DATA FEED</span><b>AWAITING SOURCE</b></div>
-          <div className="visual-coordinates">24°51' N<br />67°00' E</div>
-          <div className="visual-note">ILLUSTRATIVE VECTOR · NOT LIVE NASA DATA</div>
+        <div className="hero-visual" aria-label="Interactive 3D Earth observation visualization">
+          <EarthGlobe3D />
         </div>
       </section>
       <section className="page-wrap home-section">
