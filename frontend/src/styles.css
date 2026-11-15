@@ -259,6 +259,92 @@ main { flex: 1; }
   cursor: grabbing;
 }
 
+/* Top-Center Floating City Switcher Bar */
+.hud-city-bar {
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 12;
+  pointer-events: auto;
+}
+
+.hud-city-bar-inner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px 5px 12px;
+  background: rgba(14, 28, 24, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 9999px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), inset 0 0 12px rgba(56, 189, 248, 0.08);
+}
+
+.hud-city-bar-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  color: #7dd3fc;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.hud-city-pills {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.hud-city-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(217, 199, 167, 0.18);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+
+.hud-city-btn:hover {
+  color: var(--cream);
+  background: rgba(56, 189, 248, 0.15);
+  border-color: rgba(56, 189, 248, 0.45);
+  transform: translateY(-1px);
+}
+
+.hud-city-btn.active {
+  color: #ffffff;
+  background: rgba(56, 189, 248, 0.3);
+  border-color: #38bdf8;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.45), inset 0 0 8px rgba(56, 189, 248, 0.2);
+  font-weight: 600;
+}
+
+.city-btn-tag {
+  font-size: 7.5px;
+  padding: 1px 4px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--sand);
+}
+
+.hud-city-btn.active .city-btn-tag {
+  background: rgba(56, 189, 248, 0.4);
+  color: #ffffff;
+}
+
 /* Glassmorphic HUD Panels */
 .hud-panel {
   position: absolute;
@@ -375,6 +461,54 @@ main { flex: 1; }
   font-size: 8.5px;
   letter-spacing: 0.1em;
   color: #7dd3fc;
+}
+
+.hud-case-chip {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 7.5px;
+  letter-spacing: 0.08em;
+  padding: 2px 6px;
+  border-radius: 9999px;
+  background: rgba(56, 189, 248, 0.18);
+  color: #7dd3fc;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.hud-panel-city-switcher {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px;
+  margin-top: 2px;
+  margin-bottom: 4px;
+}
+
+.panel-city-btn {
+  padding: 4px 6px;
+  border-radius: 9999px;
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  background: rgba(8, 20, 16, 0.65);
+  border: 1px solid rgba(56, 189, 248, 0.18);
+  cursor: pointer;
+  transition: all 0.18s ease;
+  text-align: center;
+}
+
+.panel-city-btn:hover {
+  color: var(--cream);
+  border-color: rgba(56, 189, 248, 0.45);
+  background: rgba(56, 189, 248, 0.12);
+}
+
+.panel-city-btn.active {
+  color: #ffffff;
+  background: rgba(56, 189, 248, 0.32);
+  border-color: #38bdf8;
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.35);
+  font-weight: 600;
 }
 
 .hud-location-name {
@@ -907,6 +1041,7 @@ main { flex: 1; }
 .compare-city::after { content: ""; position: absolute; right: -48px; top: 17px; width: 150px; height: 150px; border: 1px solid rgba(106, 154, 107, .15); border-radius: 50%; box-shadow: 0 0 0 15px rgba(106, 154, 107, .03),0 0 0 32px rgba(106, 154, 107, .02); pointer-events: none; }
 .compare-city > * { position: relative; z-index: 1; }
 @media (max-width: 950px) {
+  .hud-city-bar { top: 12px; left: 14px; transform: none; max-width: calc(100% - 28px); }
   .hero-visual { height: 490px; min-height: 490px; }
   .hud-location-panel { top: auto; bottom: 20px; right: 14px; width: 190px; }
   .hud-feed-panel { bottom: 20px; left: 14px; max-width: 240px; }
@@ -917,6 +1052,11 @@ main { flex: 1; }
   .case-report-header .page-art { width: 125px; }
 }
 @media (max-width: 700px) {
+  .hud-city-bar { top: 8px; left: 8px; right: 8px; transform: none; }
+  .hud-city-bar-label { display: none; }
+  .hud-city-pills { width: 100%; justify-content: space-between; }
+  .hud-city-btn { padding: 3px 7px; font-size: 8px; }
+  .city-btn-tag { display: none; }
   .earth-svg { inset: -8px 0 0; height: calc(100% + 8px); }
   .hero-visual { height: 440px; min-height: 440px; }
   .hud-location-panel { display: none; }
