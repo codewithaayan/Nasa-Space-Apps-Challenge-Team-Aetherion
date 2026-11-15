@@ -225,7 +225,7 @@ export function CaseFiles() {
     })}</div>
     <h2 className="archive-heading">Prepared regional cases</h2>
     {casesError && <div className="inline-error" role="alert">{casesError}<button className="button button-secondary" onClick={reload}>RETRY</button></div>}
-    <div className="case-list">{preparedCases.map(prepared => <article className="case-row" key={prepared.id}><div className="case-row-main"><span className="status-chip">{prepared.available ? prepared.validated ? 'REVIEW RECORDED' : 'UNREVIEWED PRECOMPUTE' : 'AWAITING DATA'}</span><h2>{prepared.title}</h2><p>{prepared.message}</p></div><Link className="case-open" to={`/cases/demo/${prepared.id}`}>OPEN PREPARED CASE<ArrowRight size={15} /></Link></article>)}</div><Link className="button button-secondary" to="/compare">KARACHI VS LAHORE<ArrowRight size={15} /></Link>
+    <div className="case-list">{preparedCases.map(prepared => <article className="case-row" key={prepared.id}><div className="case-row-main"><span className="status-chip">{prepared.available ? prepared.validated ? 'REVIEW RECORDED' : 'UNREVIEWED PRECOMPUTE' : 'AWAITING DATA'}</span><h2>{prepared.title}</h2><p>{prepared.message}</p></div><Link className="case-open" to={`/cases/demo/${prepared.id}`}>OPEN PREPARED CASE<ArrowRight size={15} /></Link></article>)}</div><Link className="button button-secondary" to="/compare">COMPARE CITIES<ArrowRight size={15} /></Link>
   </div>;
 }
 export function CaseFileDetails() {
@@ -283,17 +283,18 @@ export function Compare() {
   };
   const shared = comparison?.available ? { ...comparison.left_dataset, temporal_coverage:[comparison.start,comparison.end] } : null;
   const invalid = selectionError(shared,start,end);
-  return <div className="page-wrap page-content"><div className="page-title-row"><div><Eyebrow>COMPARATIVE INVESTIGATION</Eyebrow><h1>City vs city.</h1><p>The backend checks product, version, units and shared coverage before comparison.</p></div><PageArtwork variant="compare" /></div><CatalogStatus />
-    <label className="control-field"><span>VARIABLE</span><div className="select-wrap"><select aria-label="Comparison variable" value={topic} onChange={e => setTopic(e.target.value)}>{topics.map(v => <option key={v.id} value={v.id}>{v.name}</option>)}</select></div></label>
-    <div className="date-fields">
-      <label className="control-field"><span>LEFT LOCATION</span><div className="select-wrap"><select aria-label="Left comparison location" value={leftLocation} onChange={e => setLeftLocation(e.target.value)}>{places.map(place => <option key={place.id} value={place.id} disabled={place.id === rightLocation}>{place.name}</option>)}</select></div></label>
-      <label className="control-field"><span>RIGHT LOCATION</span><div className="select-wrap"><select aria-label="Right comparison location" value={rightLocation} onChange={e => setRightLocation(e.target.value)}>{places.map(place => <option key={place.id} value={place.id} disabled={place.id === leftLocation}>{place.name}</option>)}</select></div></label>
+  const placeList = places?.length ? places : locations;
+  return <div className="page-wrap page-content"><div className="page-title-row"><div><Eyebrow>COMPARATIVE INVESTIGATION</Eyebrow><h1>Compare two places.</h1><p>Select any two cities. The backend checks product, version, units and shared coverage before comparison.</p></div><PageArtwork variant="compare" /></div><CatalogStatus />
+    <div className="comparison-controls">
+      <label className="control-field"><span>FIRST PLACE</span><div className="select-wrap"><select aria-label="First comparison place" value={leftLocation} onChange={e => setLeftLocation(e.target.value)}>{placeList.map(place => <option key={place.id} value={place.id} disabled={place.id === rightLocation}>{place.name}</option>)}</select></div></label>
+      <label className="control-field"><span>SECOND PLACE</span><div className="select-wrap"><select aria-label="Second comparison place" value={rightLocation} onChange={e => setRightLocation(e.target.value)}>{placeList.map(place => <option key={place.id} value={place.id} disabled={place.id === leftLocation}>{place.name}</option>)}</select></div></label>
+      <label className="control-field"><span>VARIABLE</span><div className="select-wrap"><select aria-label="Comparison variable" value={topic} onChange={e => setTopic(e.target.value)}>{topics.map(v => <option key={v.id} value={v.id}>{v.name}</option>)}</select></div></label>
     </div>
-    {loading && <StatusNotice>Checking comparable sources and calculating requested results?</StatusNotice>}
+    {loading && <StatusNotice>Checking comparable sources and calculating requested results…</StatusNotice>}
     {error && <div className="inline-error" role="alert">{error}<button className="button button-secondary" onClick={() => setRetry(r => r + 1)}>RETRY</button></div>}
     {comparison && !comparison.available && <StatusNotice>{comparison.reason}</StatusNotice>}
     {shared && <div className="period-actions"><DateFields dataset={shared} start={start} end={end} onStart={value => { setStart(value); setComparison(c => ({...c,left:null,right:null})); }} onEnd={value => { setEnd(value); setComparison(c => ({...c,left:null,right:null})); }} /><button className="button button-primary" disabled={loading || !!invalid} onClick={run}>RUN COMPARISON</button>{invalid && <div role="alert">{invalid}</div>}</div>}
-    <div className="compare-grid">{[{location:leftLocation,dataset:comparison?.left_dataset,result:comparison?.left},{location:rightLocation,dataset:comparison?.right_dataset,result:comparison?.right}].map(item => <section className="panel compare-city" key={item.location}><h2>{places.find(place => place.id === item.location)?.name || item.location}</h2><p className="source-description">{item.dataset ? `${item.dataset.name} · ${item.dataset.units}` : 'Awaiting dataset'}</p><TrendChart variableName={item.dataset?.name} unit={item.dataset?.units} analysis={item.result} />{item.result && <><p className="source-description">{item.result.summary}</p><Provenance dataset={item.result.dataset} /><Warnings items={item.result.warnings} /></>}</section>)}</div>
+    <div className="compare-grid">{[{location:leftLocation,dataset:comparison?.left_dataset,result:comparison?.left},{location:rightLocation,dataset:comparison?.right_dataset,result:comparison?.right}].map(item => <section className="panel compare-city" key={item.location}><h2>{placeList.find(place => place.id === item.location)?.name || item.location}</h2><p className="source-description">{item.dataset ? `${item.dataset.name} · ${item.dataset.units}` : 'Awaiting dataset'}</p><TrendChart variableName={item.dataset?.name} unit={item.dataset?.units} analysis={item.result} />{item.result && <><p className="source-description">{item.result.summary}</p><Provenance dataset={item.result.dataset} /><Warnings items={item.result.warnings} /></>}</section>)}</div>
   </div>;
 }
 

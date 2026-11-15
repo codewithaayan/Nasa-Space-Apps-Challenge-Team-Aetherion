@@ -1,4 +1,4 @@
-# Trend Detective: Case Files backend
+# Rosenzweig Index backend
 
 ## Regional CSV integration
 

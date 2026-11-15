@@ -9,6 +9,53 @@ test.beforeEach(async ({page}) => {
   });
 });
 
+test('team branding, favicon and city-specific photography load across the homepage',async ({page}) => {
+  await page.goto('/');
+  await expect(page).toHaveTitle('Rosenzweig Index — Team Aetherion');
+  await expect(page.getByText('ROSENZWEIG',{exact:false}).first()).toBeVisible();
+  await expect(page.getByText('TEAM AETHERION PROJECT | NASA SPACE APPS CHALLENGE 2026')).toBeVisible();
+  await expect(page.locator('link[rel="icon"]')).toHaveAttribute('href','/favicon.png');
+  await expect(page.locator('img:not([alt]), img[alt=""]')).toHaveCount(0);
+  const logos=page.locator('.brand-mark img, .footer-brand img');
+  await expect(logos).toHaveCount(2);
+  for (const logo of await logos.all()) {
+    await expect.poll(() => logo.evaluate(image => image.complete && image.naturalWidth >= 500)).toBe(true);
+  }
+  await expect(page.locator('.brand-mark svg')).toHaveCount(0);
+  const photos=page.locator('.city-location-art');
+  await expect(photos).toHaveCount(6);
+  const names=['Karachi','Lahore','Islamabad','Quetta','Peshawar','Gilgit'];
+  const photoInfo=await photos.evaluateAll(images => Promise.all(images.map(async image => {
+    image.loading='eager';
+    await image.decode();
+    return { alt:image.alt,width:image.naturalWidth };
+  })));
+  expect(photoInfo.map(photo => photo.alt)).toEqual(names.map(name => `Photograph of ${name}, Pakistan`));
+  expect(photoInfo.every(photo => photo.width >= 800)).toBe(true);
+  await page.goto('about:blank');
+});
+
+test('About tab introduces the team and keeps the science guide under How It Works',async ({page}) => {
+  await page.goto('/about');
+  await expect(page.getByRole('heading',{name:'Making Earth’s changing patterns easier to understand.'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Ayesha'})).toBeVisible();
+  await expect(page.getByText('Research & presentation')).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Why “Rosenzweig Index”?' })).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Cynthia E. Rosenzweig'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Michael L. Rosenzweig'})).toBeVisible();
+  await expect(page.getByText('not a published or standardized index created by either scientist', {exact:false})).toBeVisible();
+  await expect(page.getByRole('link',{name:'Columbia Climate School profile'})).toHaveAttribute('href','https://people.climate.columbia.edu/users/profile/cynthia-ropes-rosenzweig');
+  await expect(page.getByRole('link',{name:'University of Arizona research profile'})).toHaveAttribute('href','https://experts.arizona.edu/en/publications/reconciliation-ecology-and-the-future-of-species-diversity/');
+  await expect(page.locator('.demo-badge, .about-hero-note, .about-orbit-tag, .about-member-number')).toHaveCount(0);
+  await page.getByRole('link',{name:'How It Works'}).click();
+  await expect(page).toHaveURL(/\/science$/);
+  await expect(page.getByRole('heading',{name:'About the science.'})).toBeVisible();
+  await page.getByRole('link',{name:'About',exact:true}).click();
+  await expect(page).toHaveURL(/\/about$/);
+  await page.setViewportSize({width:375,height:812});
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});
+
 test('wizard validates real precipitation coverage, plots it and prints a report',async ({page},testInfo) => {
   const errors=[]; page.on('pageerror',error => errors.push(error.message));
   await page.goto('/wizard');
@@ -134,6 +181,36 @@ test('new-city reports retain NDVI geolocation caveats and missing datasets rema
   await page.goto('/lab?dataset=unregistered_dataset');
   await expect(page.getByRole('button',{name:'RUN ANALYSIS'})).toBeDisabled();
   await expect(page.getByText('This selection is awaiting a registered dataset.')).toBeVisible();
+});
+
+test('comparison selectors submit the selected pair from all six cities',async ({page}) => {
+  const comparisonRequests=[];
+  page.on('request',request => {
+    if (request.url().endsWith('/api/comparison') && request.postData()) comparisonRequests.push(JSON.parse(request.postData()));
+  });
+  await page.goto('/compare');
+  const firstPlace=page.getByLabel('First comparison place');
+  const secondPlace=page.getByLabel('Second comparison place');
+  await expect(firstPlace.locator('option')).toHaveText(['Karachi','Lahore','Islamabad','Quetta','Peshawar','Gilgit']);
+  await firstPlace.selectOption('quetta');
+  await secondPlace.selectOption('gilgit');
+  await expect.poll(() => comparisonRequests.some(request => request.left_location === 'quetta' && request.right_location === 'gilgit')).toBe(true);
+  await expect(page.locator('.compare-city h2')).toHaveText(['Quetta','Gilgit']);
+  await expect(page.getByText('Quetta is awaiting a compatible dataset.')).toBeVisible();
+});
+
+test('city selection is available from the selected location panel without a target bar',async ({page}) => {
+  await page.setViewportSize({width:1280,height:900});
+  await page.goto('/');
+  await expect(page.locator('.hud-city-bar')).toHaveCount(0);
+  const locationSwitcher=page.locator('.hud-location-panel .hud-panel-city-switcher');
+  await expect(locationSwitcher.locator('button')).toHaveCount(6);
+  await locationSwitcher.getByRole('button',{name:'Gilgit'}).click();
+  await expect(page.locator('.hud-location-name')).toHaveText('Gilgit');
+  await page.setViewportSize({width:320,height:760});
+  await expect(page.locator('.hud-city-bar')).toHaveCount(0);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.goto('about:blank');
 });
 
 test('synthetic grids exercise the actual map contract without posing as NASA data',async ({page},testInfo) => {

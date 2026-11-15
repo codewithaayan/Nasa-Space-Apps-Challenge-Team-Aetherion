@@ -1,4 +1,4 @@
-# Trend Detective: Case Files
+# Rosenzweig Index
 
 A React/Vite frontend and FastAPI backend for investigating environmental trends.
 Live app: [trend-detective-aetherion.pages.dev](https://trend-detective-aetherion.pages.dev).
@@ -69,7 +69,7 @@ imports it too; install dependencies at the root for either launch path.
 
 ## Frontend routes
 
-- `/` — project landing page and six city investigation entry points
+- `/` — project landing page, six Pakistan city locations and the interactive 3D globe
 - `/wizard` — topic, location, actual monthly coverage and review steps
 - `/lab` — monthly source values, adjusted values, trend, statistics and provenance
 - `/cases` and `/cases/:caseId` — source-backed, printable reports; dataset and dates can be linked in the URL

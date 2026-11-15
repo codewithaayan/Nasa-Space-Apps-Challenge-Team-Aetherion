@@ -1,12 +1,13 @@
 import { Link, NavLink } from "react-router-dom";
-import { Activity, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import teamLogo from "../assets/team-logo.png";
 
 const navItems = [
   ["Home", "/"],
   ["Investigate", "/wizard"],
   ["Case Files", "/cases"],
-  ["How It Works", "/about"],
+  ["How It Works", "/science"],
   ["About", "/about"],
 ];
 
@@ -15,9 +16,9 @@ export function Layout({ children }) {
   return (
     <div className="app-shell">
       <header className="topbar">
-        <Link to="/" className="brand" aria-label="Trend Detective home" onClick={() => setMenuOpen(false)}>
-          <span className="brand-mark"><Activity size={19} /></span>
-          <span className="brand-name">TREND <b>DETECTIVE</b><small>CASE FILES</small></span>
+        <Link to="/" className="brand" aria-label="Rosenzweig Index home" onClick={() => setMenuOpen(false)}>
+          <span className="brand-mark"><img src={teamLogo} alt="Team Aetherion logo" /></span>
+          <span className="brand-name">ROSENZWEIG <b>INDEX</b><small>EARTH INSIGHTS</small></span>
         </Link>
         <button className="mobile-menu icon-button" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? "Close navigation" : "Open navigation"}>
           {menuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -28,13 +29,16 @@ export function Layout({ children }) {
           ))}
           <Link className="nav-compare" to="/compare" onClick={() => setMenuOpen(false)}>City comparison <span>↗</span></Link>
         </nav>
-        <div className="demo-badge"><span /> EXPLORATORY</div>
       </header>
       <main>{children}</main>
       <footer className="site-footer">
-        <Link to="/" className="footer-brand">TREND DETECTIVE <span>·</span> CASE FILES</Link>
-        <span>Source data · Exploratory analysis · Scientific review pending</span>
-        <Link to="/about">About the science <span>↗</span></Link>
+        <Link to="/" className="footer-brand" aria-label="Rosenzweig Index home">
+          <img src={teamLogo} alt="Team Aetherion logo" />
+          <span className="footer-brand-name">ROSENZWEIG INDEX</span>
+        </Link>
+        <span className="footer-project">TEAM AETHERION PROJECT | NASA SPACE APPS CHALLENGE 2026</span>
+        <span className="footer-data-note">Source data · Exploratory analysis · Scientific review pending</span>
+        <Link to="/science">How the science works <span>↗</span></Link>
       </footer>
     </div>
   );

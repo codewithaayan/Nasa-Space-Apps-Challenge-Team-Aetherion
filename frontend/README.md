@@ -1,4 +1,4 @@
-# Trend Detective frontend entry point
+# Rosenzweig Index frontend entry point
 
 The canonical application lives in repository-root src/. This older entry point
 imports the same application, including CSV dataset discovery, date selection,
@@ -22,6 +22,7 @@ After installing root dependencies, this directory's npm run dev and npm run bui
 commands remain supported too. Its Vite configuration permits the shared source
 outside this directory. New interface changes belong in the root src/ directory.
 
-Karachi exports support exploratory time-series analysis. Grid maps, prepared cases and comparison contracts are connected; real Lahore
-data and spatial grids remain collection tasks. An AI provider and a validated
+Six Pakistan cities are available for map targeting and investigations. Karachi
+exports support exploratory time-series analysis; other cities await compatible
+datasets. Grid maps, prepared cases and comparison contracts are connected. An AI provider and a validated
 years-to-significance model remain unconfigured. Scientific review is separate from software verification.

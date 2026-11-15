@@ -1,4 +1,18 @@
-import { useId } from "react";
+import karachiPhoto from "../assets/cities/karachi.jpg";
+import lahorePhoto from "../assets/cities/lahore.jpg";
+import islamabadPhoto from "../assets/cities/islamabad.jpg";
+import quettaPhoto from "../assets/cities/quetta.jpg";
+import peshawarPhoto from "../assets/cities/peshawar.jpg";
+import gilgitPhoto from "../assets/cities/gilgit.jpg";
+
+const cityPhotos = {
+  karachi: karachiPhoto,
+  lahore: lahorePhoto,
+  islamabad: islamabadPhoto,
+  quetta: quettaPhoto,
+  peshawar: peshawarPhoto,
+  gilgit: gilgitPhoto,
+};
 
 const topicAccents = {
   precipitation: "water",
@@ -101,46 +115,9 @@ export function TopicArtwork({ variable }) {
 }
 
 export function LocationArtwork({ locationId = "karachi", className = "" }) {
-  const coastal = locationId === "karachi";
-  const instanceId = useId().replace(/:/g, "");
-  return (
-    <svg className={`location-art ${className}`} viewBox="0 0 360 220" role="img"
-      aria-label={`Schematic ${coastal ? "coastal" : "inland"} city illustration; not a geographic map or scientific data`}>
-      <defs>
-        <linearGradient id={`city-wash-${instanceId}`} x1="0" y1="0" x2="1" y2="1">
-          <stop stopColor={coastal ? "#2A5240" : "#264838"} stopOpacity=".75" />
-          <stop offset="1" stopColor="#14261D" stopOpacity=".25" />
-        </linearGradient>
-        <pattern id={`city-grid-${instanceId}`} width="27" height="27" patternUnits="userSpaceOnUse" patternTransform={coastal ? "rotate(-12)" : "rotate(9)"}>
-          <path d="M27 0H0v27" fill="none" stroke="#7DA88B" strokeOpacity=".18" strokeWidth="1" />
-        </pattern>
-      </defs>
-      <rect width="360" height="220" fill={`url(#city-wash-${instanceId})`} />
-      <rect width="360" height="220" fill={`url(#city-grid-${instanceId})`} />
-      <g fill="none" stroke="#859D8B" strokeOpacity=".25">
-        <path d="M-20 27c54 27 89-28 145 0s91 22 130-4 73-25 125 3" />
-        <path d="M-20 39c54 27 89-28 145 0s91 22 130-4 73-25 125 3" />
-        <path d="M-20 185c63-30 96 24 151-2s83-17 127 4 66 13 119-8" />
-      </g>
-      {coastal ? <>
-        <path d="M0 133c39-6 59 0 80 15 20 15 30 35 58 38 25 3 38-12 65-10 23 2 42 17 74 13 32-4 49-20 83-16v47H0Z" fill="#1A3B2D" fillOpacity=".6" />
-        <path d="M0 132c39-6 59 0 80 15 20 15 30 35 58 38 25 3 38-12 65-10 23 2 42 17 74 13 32-4 49-20 83-16" fill="none" stroke="#6A9A6B" strokeOpacity=".72" strokeWidth="2" />
-        <path d="M10 166c29-5 48 2 63 14m-54-3c22-4 35 0 47 8m130-3c19-7 34-5 48 3m45-1c20-5 36-3 51 3" fill="none" stroke="#6A9A6B" strokeOpacity=".4" />
-      </> : <>
-        <g fill="#D9C7A7" fillOpacity=".16" stroke="#D9C7A7" strokeOpacity=".34">
-          <path d="M23 69h72v37H23zm88 0h48v37h-48zm64 0h70v37h-70zm85 0h68v37h-68z" />
-          <path d="M40 118h53v35H40zm68 0h67v35h-67zm82 0h51v35h-51zm67 0h63v35h-63z" />
-        </g>
-        <path d="M18 162h325M18 58h325M12 111h335" fill="none" stroke="#D9C7A7" strokeOpacity=".45" strokeDasharray="4 7" />
-      </>}
-      <g transform="translate(180 102)">
-        <circle r="19" fill="#D9C7A7" fillOpacity=".12" stroke="#D9C7A7" strokeOpacity=".5" />
-        <circle r="9" fill="#6A9A6B" fillOpacity=".4" stroke="#D9C7A7" />
-        <circle r="3.5" fill="#D9C7A7" />
-      </g>
-      <text x="15" y="204" fill="#B8C8BD" fillOpacity=".7" fontFamily="monospace" fontSize="8" letterSpacing="1.7">SCHEMATIC / NOT TO SCALE</text>
-    </svg>
-  );
+  const image = cityPhotos[locationId] || karachiPhoto;
+  const cityName = locationId.charAt(0).toUpperCase() + locationId.slice(1);
+  return <img className={`location-art city-photo city-photo-${locationId} ${className}`} src={image} alt={`Photograph of ${cityName}, Pakistan`} loading="lazy" decoding="async" />;
 }
 
 const pageArtLabels = {

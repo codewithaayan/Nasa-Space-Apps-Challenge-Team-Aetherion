@@ -3,6 +3,24 @@ import * as THREE from "three";
 import { Activity, Clock3, Compass, Database, Droplets, MapPin, Radio, ShieldCheck, Sprout, Sun, Thermometer, Waves } from "lucide-react";
 import { createRealisticEarthTexture, createRealisticCloudTexture } from "./earthTexture";
 
+const plannedCity = (city) => ({
+  ...city,
+  dataAvailable: false,
+  elevation: "AWAITING SOURCE",
+  climateZone: "NOT VERIFIED",
+  temp: "Unavailable",
+  tempTrend: "NO VERIFIED RESULT",
+  precip: "Unavailable",
+  precipSeason: "NO VERIFIED RESULT",
+  veg: "Unavailable",
+  vegType: "NO VERIFIED RESULT",
+  feedSource: "No dataset registered",
+  feedVariable: "Awaiting compatible source",
+  feedStatusText: "No verified dataset connected · analysis unavailable",
+  pointSample: "No source footprint",
+  coverage: "Awaiting dataset",
+});
+
 export const EARTH_CITIES = [
   {
     id: "karachi",
@@ -27,8 +45,10 @@ export const EARTH_CITIES = [
     feedVariable: "T2M (2M AIR TEMPERATURE)",
     feedStatusText: "LOCAL SOURCE VALIDATED · OFFLINE STREAM READY",
     pointSample: "0.5° × 0.625° POINT SAMPLE",
+    dataAvailable: true,
+    coverage: "2000 – 2019 (240 MONTHS)",
   },
-  {
+  plannedCity({
     id: "lahore",
     name: "Lahore",
     province: "Punjab Province",
@@ -39,67 +59,55 @@ export const EARTH_CITIES = [
     lon: 74.3587,
     latDms: "31° 31' 13\" N",
     lonDms: "74° 21' 31\" E",
-    elevation: "217 M ASL",
-    climateZone: "SEMI-ARID CONTINENTAL",
-    temp: "24.9°C",
-    tempTrend: "+0.14°C / DECADE",
-    precip: "628.8 mm",
-    precipSeason: "MONSOON & WESTERN DISTURBANCE",
-    veg: "0.345 NDVI",
-    vegType: "ALLUVIAL / AGRICULTURAL",
-    feedSource: "NASA POWER / MERRA-2",
-    feedVariable: "T2M + PRECTOTCORR",
-    feedStatusText: "NASA POWER VERIFIED · REANALYSIS POINT",
-    pointSample: "0.5° × 0.625° POINT SAMPLE",
-  },
-  {
+  }),
+  plannedCity({
     id: "islamabad",
     name: "Islamabad",
-    province: "Federal Capital",
+    province: "Islamabad Capital Territory",
     country: "Pakistan",
     caseCode: "CASE 003",
-    kind: "Sub-Himalayan Foothills",
+    kind: "Capital City Investigation",
     lat: 33.6844,
     lon: 73.0479,
     latDms: "33° 41' 04\" N",
     lonDms: "73° 02' 52\" E",
-    elevation: "540 M ASL",
-    climateZone: "HUMID SUBTROPICAL",
-    temp: "21.3°C",
-    tempTrend: "+0.11°C / DECADE",
-    precip: "1,142.1 mm",
-    precipSeason: "HEAVY MONSOON / FOOTHILLS",
-    veg: "0.488 NDVI",
-    vegType: "SUB-HIMALAYAN FOREST",
-    feedSource: "NASA POWER / MERRA-2",
-    feedVariable: "T2M / NDVI SATELLITE",
-    feedStatusText: "NASA MERRA-2 STREAM · FOOTHILL SAMPLE",
-    pointSample: "0.5° × 0.625° POINT SAMPLE",
-  },
-  {
-    id: "gwadar",
-    name: "Gwadar",
+  }),
+  plannedCity({
+    id: "quetta",
+    name: "Quetta",
     province: "Balochistan",
     country: "Pakistan",
     caseCode: "CASE 004",
-    kind: "Arabian Sea Deepwater Port",
-    lat: 25.1264,
-    lon: 62.3225,
-    latDms: "25° 07' 35\" N",
-    lonDms: "62° 19' 21\" E",
-    elevation: "8 M ASL",
-    climateZone: "HYPER-ARID MARITIME",
-    temp: "26.8°C",
-    tempTrend: "+0.07°C / DECADE",
-    precip: "102.5 mm",
-    precipSeason: "WINTER RAINFALL SPIKES",
-    veg: "0.094 NDVI",
-    vegType: "COASTAL DESERT / MANGROVES",
-    feedSource: "NASA POWER / MERRA-2",
-    feedVariable: "T2M + SST / WINDS",
-    feedStatusText: "NASA POWER COASTAL POINT · REANALYSIS",
-    pointSample: "0.5° × 0.625° POINT SAMPLE",
-  },
+    kind: "Highland City Investigation",
+    lat: 30.1798,
+    lon: 66.975,
+    latDms: "30° 10' 47\" N",
+    lonDms: "66° 58' 30\" E",
+  }),
+  plannedCity({
+    id: "peshawar",
+    name: "Peshawar",
+    province: "Khyber Pakhtunkhwa",
+    country: "Pakistan",
+    caseCode: "CASE 005",
+    kind: "Northwestern City Investigation",
+    lat: 34.0151,
+    lon: 71.5249,
+    latDms: "34° 00' 54\" N",
+    lonDms: "71° 31' 30\" E",
+  }),
+  plannedCity({
+    id: "gilgit",
+    name: "Gilgit",
+    province: "Gilgit-Baltistan",
+    country: "Pakistan",
+    caseCode: "CASE 006",
+    kind: "Mountain City Investigation",
+    lat: 35.9208,
+    lon: 74.308,
+    latDms: "35° 55' 15\" N",
+    lonDms: "74° 18' 29\" E",
+  }),
 ];
 
 export function EarthGlobe3D() {
@@ -591,33 +599,6 @@ export function EarthGlobe3D() {
       {/* Light-blue atmospheric ambient back-glow */}
       <div className="earth-ambient-glow" />
 
-      {/* TOP-CENTER FLOATING CITY SWITCHER BAR */}
-      <div className="hud-city-bar">
-        <div className="hud-city-bar-inner">
-          <span className="hud-city-bar-label">
-            <MapPin size={11} className="text-sky-400" />
-            <span>CITY TARGET:</span>
-          </span>
-          <div className="hud-city-pills">
-            {EARTH_CITIES.map((city) => {
-              const isSelected = city.id === selectedCityId;
-              return (
-                <button
-                  key={city.id}
-                  type="button"
-                  className={`hud-city-btn ${isSelected ? "active" : ""}`}
-                  onClick={() => handleSelectCity(city.id)}
-                  title={`Focus 3D Earth on ${city.name} (${city.caseCode})`}
-                >
-                  <span className="city-btn-name">{city.name}</span>
-                  <span className="city-btn-tag">{city.caseCode.replace("CASE ", "")}</span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-
       {/* Dynamic Screen-Space Target for Selected City */}
       {cityScreen.visible && (
         <div
@@ -662,7 +643,7 @@ export function EarthGlobe3D() {
         </div>
       </div>
 
-      {/* RIGHT SIDE: Selected Location, Latitude & Longitude Panel + City Switcher */}
+      {/* RIGHT SIDE: Selected Location, Latitude & Longitude Panel */}
       <div className="hud-panel hud-location-panel">
         <div className="hud-card-header">
           <Compass size={13} className="text-sky-400" />
@@ -711,14 +692,15 @@ export function EarthGlobe3D() {
         <div className="hud-feed-header">
           <Database size={13} className="text-sky-400" />
           <span className="hud-feed-title">DATA FEED STATUS</span>
-          <span className="hud-stream-active">
-            <span className="hud-signal-dot" /> STREAM ACTIVE
+          <span className={currentCity.dataAvailable ? "hud-stream-active" : "hud-stream-active hud-stream-pending"}>
+            {currentCity.dataAvailable && <span className="hud-signal-dot" />}
+            {currentCity.dataAvailable ? "DATA AVAILABLE" : "AWAITING DATA"}
           </span>
         </div>
         <div className="hud-feed-details">
           <div className="hud-feed-row">
             <span>SOURCE:</span>
-            <b>{currentCity.feedSource} REANALYSIS</b>
+            <b>{currentCity.feedSource}</b>
           </div>
           <div className="hud-feed-row">
             <span>VARIABLE:</span>
@@ -726,7 +708,7 @@ export function EarthGlobe3D() {
           </div>
           <div className="hud-feed-row">
             <span>COVERAGE:</span>
-            <b>2000 – 2019 (240 MONTHS)</b>
+            <b>{currentCity.coverage}</b>
           </div>
           <div className="hud-feed-row">
             <span>GRID CELL:</span>
@@ -734,7 +716,7 @@ export function EarthGlobe3D() {
           </div>
         </div>
         <div className="hud-feed-status-bar">
-          <ShieldCheck size={12} className="text-emerald-400" />
+          {currentCity.dataAvailable ? <ShieldCheck size={12} className="text-emerald-400" /> : <Clock3 size={12} className="text-amber-300" />}
           <span>{currentCity.feedStatusText}</span>
         </div>
       </div>
