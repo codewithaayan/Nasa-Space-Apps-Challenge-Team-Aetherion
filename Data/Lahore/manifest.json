@@ -1,0 +1,127 @@
+{
+  "datasets": [
+    {
+      "id": "lahore_temperature",
+      "location_id": "lahore",
+      "topic": "temperature",
+      "file": "Air_Temp_Lahore.csv",
+      "time_column": "time",
+      "value_column": "mean_M2IMNXASM_5_12_4_T2M",
+      "name": "2-metre air temperature",
+      "units": "K",
+      "dataset_id": "M2IMNXASM",
+      "version": "5.12.4",
+      "source": "Supplied NASA Giovanni export of MERRA-2 monthly air temperature",
+      "data_kind": "reanalysis",
+      "documentation_url": "https://gmao.gsfc.nasa.gov/pubs/docs/Bosilovich785.pdf",
+      "spatial_support": "Giovanni area-average export; contributing centre is 31.5N, 74.375E (one native cell).",
+      "limitations": [
+        "Temperature is retained in kelvin, without conversion to Celsius.",
+        "Reanalysis is not a direct satellite temperature measurement."
+      ]
+    },
+    {
+      "id": "lahore_precipitation",
+      "location_id": "lahore",
+      "topic": "precipitation",
+      "file": "Precipitation_Lahore.csv",
+      "time_column": "time",
+      "value_column": "mean_GPM_3IMERGM_07_precipitation",
+      "name": "Precipitation rate",
+      "units": "mm/hr",
+      "dataset_id": "GPM_3IMERGM",
+      "version": "07",
+      "source": "Supplied NASA Giovanni export of IMERG Final satellite-gauge precipitation",
+      "data_kind": "satellite_estimate",
+      "documentation_url": "https://gpm.nasa.gov/sites/default/files/2023-07/IMERG_TechnicalDocumentation_final_230713.pdf",
+      "spatial_support": "Giovanni area-averaged monthly series. Source Data Bounding Box records contributing cell centres; individual grid-cell histories are absent.",
+      "limitations": [
+        "The export request specifies the native IMERG precipitation field without a unit override. Units are interpreted as mm/hr from the product documentation; confirm the original request during scientific review.",
+        "Each monthly row is a precipitation rate, not a monthly rainfall total. No conversion or annual summation of rates is performed.",
+        "Actual supplied coverage ends in September 2025 although the request ends in December 2025; October-December values are not supplied.",
+        "The application also converts the original Karachi inch/day export to mm/hr, recording that conversion explicitly; these source values require no conversion."
+      ]
+    },
+    {
+      "id": "lahore_evaporation",
+      "location_id": "lahore",
+      "topic": "evaporation",
+      "file": "Evaporation_Lahore.csv",
+      "time_column": "time",
+      "value_column": "mean_GLDAS_NOAH025_M_2_1_ESoil_tavg",
+      "name": "Direct evaporation from bare soil (energy flux)",
+      "units": "W m-2",
+      "dataset_id": "GLDAS_NOAH025_M",
+      "version": "2.1",
+      "source": "Supplied NASA Giovanni export of GLDAS Noah monthly direct evaporation from bare soil",
+      "data_kind": "model",
+      "documentation_url": "https://hydro1.gesdisc.eosdis.nasa.gov/data/GLDAS/README_GLDAS2.pdf",
+      "spatial_support": "Giovanni area-averaged monthly series. Source Data Bounding Box records contributing cell centres; individual grid-cell histories are absent.",
+      "limitations": [
+        "ESoil_tavg is a modelled bare-soil evaporation energy flux in W m-2; it is not total evapotranspiration or a water-depth rate.",
+        "No energy-to-water conversion is performed. Compare only matching source variables and units."
+      ]
+    },
+    {
+      "id": "lahore_soil_moisture",
+      "location_id": "lahore",
+      "topic": "soil_moisture",
+      "file": "Soil_Mositure_Lahore.csv",
+      "time_column": "time",
+      "value_column": "mean_GLDAS_NOAH025_M_2_1_SoilMoi10_40cm_inst",
+      "name": "Soil moisture content (10–40 cm)",
+      "units": "kg m-2",
+      "dataset_id": "GLDAS_NOAH025_M",
+      "version": "2.1",
+      "source": "Supplied NASA Giovanni export of GLDAS Noah monthly soil moisture",
+      "data_kind": "model",
+      "documentation_url": "https://hydro1.gesdisc.eosdis.nasa.gov/data/GLDAS/README_GLDAS2.pdf",
+      "spatial_support": "Giovanni area-averaged monthly series. Source Data Bounding Box records contributing cell centres; individual grid-cell histories are absent.",
+      "limitations": [
+        "Model-derived mass of water per unit area in the 10–40 cm soil layer; not volumetric m3/m3.",
+        "Karachi supplies the 0–10 cm layer. Matching units do not make different soil layers directly comparable."
+      ]
+    },
+    {
+      "id": "lahore_ndvi",
+      "location_id": "lahore",
+      "topic": "ndvi",
+      "file": "Vegetation_NDVI_Lahore-Statistics.csv",
+      "time_column": "Date",
+      "value_column": "Mean",
+      "name": "Vegetation greenness (NDVI)",
+      "units": "dimensionless",
+      "dataset_id": "MOD13A3",
+      "version": "061",
+      "source": "Supplied MOD13A3 monthly NDVI statistics export, grouped in the Lahore source folder",
+      "data_kind": "satellite_estimate",
+      "documentation_url": "https://modis.gsfc.nasa.gov/data/dataprod/mod13.php",
+      "spatial_support": "Statistics export with contributing Count between 2304 and 2304 per month; pixel coordinates and extraction geometry are not included.",
+      "limitations": [
+        "Lahore is the supplied folder association; extraction geolocation is unverified. Do not interpret this as a verified city-wide NDVI result.",
+        "Quality flags, extraction polygon and scale/fill metadata are not supplied.",
+        "Exported decimal NDVI values are retained without additional scaling."
+      ]
+    },
+    {
+      "id": "lahore_aerosols",
+      "location_id": "lahore",
+      "topic": "aerosols",
+      "file": "Aerosol_Lahore.csv",
+      "time_column": "time",
+      "value_column": "mean_M2TMNXAER_5_12_4_TOTEXTTAU",
+      "name": "Aerosol optical thickness (550 nm)",
+      "units": "dimensionless",
+      "dataset_id": "M2TMNXAER",
+      "version": "5.12.4",
+      "source": "Supplied NASA Giovanni export of MERRA-2 total aerosol extinction optical thickness",
+      "data_kind": "reanalysis",
+      "documentation_url": "https://gmao.gsfc.nasa.gov/pubs/docs/Bosilovich785.pdf",
+      "spatial_support": "Giovanni area-average export; contributing centre is 31.5N, 74.375E (one native cell).",
+      "limitations": [
+        "Optical thickness is not ground-level PM2.5 concentration or an air quality index.",
+        "MERRA-2 aerosol reanalysis is not a direct measurement of local exposure."
+      ]
+    }
+  ]
+}
