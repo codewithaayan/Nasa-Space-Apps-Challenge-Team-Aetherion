@@ -19,7 +19,11 @@ const commit = execFileSync('git', ['-C',source,'rev-parse','HEAD'], {encoding:'
 mkdirSync(output, {recursive:true});
 const filter = file => !['__pycache__','.venv','node_modules'].includes(path.basename(file)) && !file.endsWith('.pyc');
 cpSync(path.join(source,'backend','app'), path.join(output,'backend','app'), {recursive:true,filter});
-cpSync(path.join(source,'Data','Karachi'), path.join(output,'Data','Karachi'), {recursive:true,filter});
+// Preserve supplied data for future catalog integrations; never copy local E2E fixtures.
+cpSync(path.join(source,'Data'), path.join(output,'Data'), {recursive:true,filter});
+if (existsSync(path.join(source,'backend','config'))) {
+  cpSync(path.join(source,'backend','config'), path.join(output,'backend','config'), {recursive:true,filter});
+}
 cpSync(path.join(source,'backend','requirements.txt'),path.join(output,'requirements.txt'));
 for (const file of ['main.py','vercel.json','.vercelignore']) cpSync(path.join(root,'deploy','vercel',file),path.join(output,file));
 writeFileSync(path.join(output,'.python-version'),'3.12\n');

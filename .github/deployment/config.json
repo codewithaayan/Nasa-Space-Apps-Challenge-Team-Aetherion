@@ -1,0 +1,13 @@
+{
+  "upstream": "codewithaayan/Nasa-Space-Apps-Challenge-Team-Aetherion",
+  "forkName": "Rozenweig-Index",
+  "sourceBranch": "main",
+  "controlBranch": "deployment",
+  "frontend": "https://trend-detective-aetherion.pages.dev",
+  "api": "https://trend-detective-aetherion-api.vercel.app/api",
+  "cloudflareAccount": "53446170a5465fa9e5ed3271b2c0f02c",
+  "cloudflareProject": "trend-detective-aetherion",
+  "cloudflareProductionBranch": "integration",
+  "vercelOrg": "team_qsN1AFaMSYL0BvDKU5xch5aL",
+  "vercelProject": "prj_MlCRHXqy2iYQxbXpZCxiFnFVerWC"
+}
